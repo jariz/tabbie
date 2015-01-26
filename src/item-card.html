@@ -1,0 +1,23 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<polymer-element name="item-card" attributes="description">
+    <template>
+        <style>
+            :host {
+                width: 300px;
+                height: 100px;
+                border-radius: 2px;
+                box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+                background-color: rgb(255, 255, 255);
+                display:block;
+            }
+        </style>
+        <h1>{{title}}</h1>
+        <p>{{description}}</p>
+    </template>
+    <script>
+        Polymer({
+            title: 'Title placeholder',
+            description: 'Description placeholder'
+        });
+    </script>
+</polymer-element>
