@@ -31,11 +31,13 @@ class Main
           card.title = item.title
           card.description = "by #{item.by}, #{item.score} points"
 
+          if(card.style.display != "block") #not visible? do animation
+            card.animate([{ opacity: 0 }, { opacity: 1 }], {
+              duration: 500,
+              direction: "alternate"
+            });
+
           card.style.display = "block"
-          card.animate([{ opacity: 0 }, { opacity: 1 }], {
-            duration: 500,
-            direction: "alternate"
-          });
 
           if !loaderHidden
             loaderHidden = true
