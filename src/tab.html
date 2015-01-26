@@ -3,12 +3,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Jari's NewTab</title>
 
+    <!-- FB -->
+    <script src="../bower_components/firebase/firebase.js"></script>
+
     <!-- POLYMER -->
     <script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
     <link rel="import" href="../bower_components/polymer/polymer.html">
 
     <!-- 1STPARTY -->
-    <link rel="stylesheet" href="css/screen.css">
+    <script src="../dist/js/main.js"></script>
+    <link rel="stylesheet" href="../dist/css/screen.css">
     <link rel="import" href="item-card.html">
 
     <!-- PAPER -->
@@ -19,7 +23,7 @@
 
 <paper-spinner class="loader" active></paper-spinner>
 
-<div class="cards">
+<div class="cards" layout vertical>
 </div>
 
 </body>

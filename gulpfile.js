@@ -15,22 +15,32 @@ gulp.task('vulcanize', function () {
             dest: "dist",
             strip: true,
             csp: true, // chrome does not approve of inline scripts
-            verbose: true
+            //verbose: true
         }))
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('coffee', function() {
+    gulp.src('src/coffee/*.coffee')
+        .pipe(plumber())
+        .pipe(coffee({bare: true}))
+        .pipe(gulp.dest('dist/js'))
 });
 
 gulp.task("compass", function() {
    gulp.src("src/sass/*.scss")
        .pipe(plumber())
        .pipe(compass({
-           project: path.join(__dirname, "src")
+           project: path.join(__dirname, "src"),
+           css: path.join(__dirname, "dist/css")
        }))
        .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('watch', function () {
-    gulp.watch("src/**/*.scss", {}, "compass");
+    gulp.watch("src/**/*.scss", ["compass"]);
 
-    gulp.watch("src/**/*.html", {}, "vulcanize");
+    gulp.watch("src/**/*.html", ["vulcanize"]);
+
+    gulp.watch("src/coffee/*.coffee", ["coffee"]);
 });
