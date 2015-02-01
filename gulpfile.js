@@ -13,7 +13,7 @@ gulp.task('vulcanize', function () {
         .pipe(plumber())
         .pipe(vulcanize({
             dest: "dist",
-            strip: true,
+            strip: false,
             csp: true, // chrome does not approve of inline scripts
             //verbose: true
         }))
@@ -43,5 +43,5 @@ gulp.task('watch', function () {
 
     gulp.watch("src/**/*.html", ["vulcanize"]);
 
-    gulp.watch("src/coffee/*.coffee", ["coffee"]);
+    gulp.watch("src/coffee/**/*.coffee", ["coffee"]);
 });

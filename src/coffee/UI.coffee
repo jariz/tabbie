@@ -14,6 +14,11 @@ class UI
       columnchooser.columns = @columns
       dialog.toggle()
 
+      dialog.addEventListener "column-chosen", (e) =>
+        console.log(e.detail)
+        dialog.toggle()
+
+
   columns: []
   columnNames: [
     "HackerNews",

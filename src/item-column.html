@@ -1,17 +1,21 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<polymer-element name="item-column" attributes="description">
+<polymer-element name="item-column" attributes="column">
     <template>
         <style>
             :host {
                 width:25%;
-
             }
 
         </style>
 
+        <h1>{{column.name}}</h1>
+
     </template>
     <script>
         Polymer({
+            column: {
+                name: "Plchldr"
+            }
         });
     </script>
 </polymer-element>

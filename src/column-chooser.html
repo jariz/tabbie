@@ -13,11 +13,11 @@
             }
         </style>
         <div horizontal layout wrap>
-            <template repeat="{{columns}}">
+            <template repeat="{{column in columns}}">
                 <paper-shadow z="1" class="column">
-                    <img src="../src/img/{{thumb}}">
-                    <h3>{{name}}</h3>
-                    <paper-button class="primary" raised>add</paper-button>
+                    <img src="../src/img/{{column.thumb}}">
+                    <h3>{{column.name}}</h3>
+                    <paper-button class="primary" on-click="{{onSelected}}" raised>add</paper-button>
                 </paper-shadow>
             </template>
         </div>
@@ -25,7 +25,10 @@
     </template>
     <script>
         Polymer({
-            columns: []
+            columns: [],
+            onSelected: function(e) {
+                this.fire("column-chosen", e.target.templateInstance.model.column)
+            }
         });
     </script>
 </polymer-element>
