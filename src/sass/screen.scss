@@ -11,6 +11,7 @@
 body {
     font-family: Roboto, sans-serif;
     font-size:14px;
+    background: #eeeeee;
 }
 
 * {
@@ -28,7 +29,19 @@ body {
     position: relative;
 }
 
-.cards {
-    padding:20px;
-    width:100%;
+#addcolumn {
+    position: absolute;
+    right:20px;
+    bottom:20px;
+}
+
+html /deep/ {
+    #column_chooser {
+        width:565px; height:500px;
+    }
+
+    paper-button.primary {
+        background: #4285f4;
+        color: #fff;
+    }
 }

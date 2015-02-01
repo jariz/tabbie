@@ -2,8 +2,8 @@ var gulp = require('gulp'),
     vulcanize = require('gulp-vulcanize'),
     compass = require('gulp-compass'),
     plumber = require('gulp-plumber'),
-    path = require("" +
-    "path"),
+    path = require("path"),
+    concat = require("gulp-concat")
     coffee = require("gulp-coffee");
 
 gulp.task('default', ['vulcanize', 'compass'])
@@ -21,9 +21,10 @@ gulp.task('vulcanize', function () {
 });
 
 gulp.task('coffee', function() {
-    gulp.src('src/coffee/*.coffee')
+    gulp.src('src/coffee/**/*.coffee')
         .pipe(plumber())
         .pipe(coffee({bare: true}))
+        .pipe(concat("main.js"))
         .pipe(gulp.dest('dist/js'))
 });
 

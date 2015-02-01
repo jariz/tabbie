@@ -1,0 +1,31 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
+<polymer-element name="column-chooser" attributes="columns">
+    <template>
+        <style>
+            .column {
+                text-align: center;
+                width: 200px;
+                padding: 20px;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+        </style>
+        <div horizontal layout wrap>
+            <template repeat="{{columns}}">
+                <paper-shadow z="1" class="column">
+                    <img src="../src/img/{{thumb}}">
+                    <h3>{{name}}</h3>
+                    <paper-button class="primary" raised>add</paper-button>
+                </paper-shadow>
+            </template>
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            columns: []
+        });
+    </script>
+</polymer-element>
