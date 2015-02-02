@@ -1,6 +1,5 @@
 class Main
   ui: null
-  constructor: () ->
-    this.ui = new UI;
+  constructor: () -> @ui = new UI;
 
 main = new Main()
