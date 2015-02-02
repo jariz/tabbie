@@ -21,6 +21,13 @@
     <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
     <link rel="import" href="../bower_components/paper-button/paper-button.html">
     <link rel="import" href="../bower_components/core-transition/core-transition.html">
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/paper-input/paper-input-decorator.html">
+
+    <link href="../bower_components/core-menu/core-menu.html" rel="import">
+    <link href="../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
+    <link href="../bower_components/paper-item/paper-item.html" rel="import">
+    <link href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
 
 </head>
 <body unresolved>
@@ -33,6 +40,29 @@
 
 <paper-dialog id="column_chooser" transition="core-transition-center">
     <column-chooser></column-chooser>
+</paper-dialog>
+
+<paper-dialog id="reddit_dialog" heading="Reddit column settings" transition="core-transition-center" style="width:400px; height:300px;">
+
+
+    <paper-dropdown-menu label="Listing">
+        <paper-dropdown class="dropdown">
+            <core-menu class="menu" selected="0">
+                <paper-item>Hot</paper-item>
+                <paper-item>New</paper-item>
+                <paper-item>Top</paper-item>
+            </core-menu>
+        </paper-dropdown>
+
+    </paper-dropdown-menu>
+    <paper-input-decorator label="subreddit name" floatingLabel error="Subreddit name is required!" autoValidate>
+        <input is="core-input" required>
+    </paper-input-decorator>
+
+    <div>
+        <paper-button style="float:right" affirmative default>Add</paper-button>
+    </div>
+
 </paper-dialog>
 
 <paper-dialog id="hn_dialog" heading="HackerNews column settings" transition="core-transition-center">

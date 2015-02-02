@@ -15,8 +15,15 @@ class UI
       dialog.toggle()
 
       dialog.addEventListener "column-chosen", (e) =>
-        console.log(e.detail)
+        column = e.detail
         dialog.toggle()
+        if column.dialog
+          cdialog = document.getElementById column.dialog
+          cdialog.toggle()
+          cdialog.querySelector("paper-button[affirmative]").addEventListener "click", ->
+            cdialog.toggle()
+        else
+          #add it
 
 
   columns: []
