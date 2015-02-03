@@ -12,6 +12,7 @@ body {
     font-family: Roboto, sans-serif;
     font-size:14px;
     background: #eeeeee;
+    overflow:hidden;
 }
 
 * {
@@ -33,6 +34,7 @@ body {
     position: absolute;
     right:20px;
     bottom:20px;
+    z-index: 100;
 }
 
 html /deep/ {
@@ -45,3 +47,19 @@ html /deep/ {
         color: #fff;
     }
 }
+
+
+#reddit_dialog {
+    width:400px;
+    height:300px;
+}
+
+.ghost {
+    background:#eee;
+}
+
+.column-holder {
+    height:200px;
+}
+
+.grid-sizer { width: 25%; }

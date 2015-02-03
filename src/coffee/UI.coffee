@@ -6,6 +6,8 @@ class UI
     @addColumn column, true for column in @usedColumns
 
   addColumn: (column, dontsave) ->
+    if not column.id then column.id = Math.round Math.random() * 1000000
+
     if not dontsave
       buffer = @usedColumns
       buffer.push column.toJSON()
@@ -14,7 +16,48 @@ class UI
     columnEl = document.createElement "item-column"
     columnEl.column = column
     holder = document.querySelector ".column-holder"
-    holder.appendChild columnEl
+
+    holder.appendChild(columnEl)
+    @packery.addItems [ columnEl ]
+
+    columnEl.style.width = (25 * column.width)+"%"
+    columnEl.style.height = document.documentElement.clientHeight / 2
+    column.render columnEl
+
+    draggie = new Draggabilly columnEl,
+      handle: "html /deep/ core-toolbar",
+
+    @packery.bindDraggabillyEvents(draggie)
+
+    if column.config.position
+      pItem = item for item in @packery.items when item.element is columnEl
+      pItem.goTo(column.config.position.x, column.config.position.y)
+
+    #bind column events
+    columnEl.addEventListener "column-delete", =>
+      @packery.remove(columnEl)
+      @usedColumns = @usedColumns.filter (c) -> c.id isnt column.id
+    columnEl.addEventListener "column-refresh", => column.refresh(columnEl)
+    columnEl.addEventListener "column-settings", => column.settings()
+
+    columnEl.animate [
+      opacity: 0
+    ,
+      opacity: 1
+    ]
+    ,
+      direction: 'alternate',
+      duration: 500
+
+  layoutChanged: () =>
+    for columnEl in document.querySelectorAll("item-column")
+      item = @packery.getItem(columnEl);
+      position = item.position
+      column = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column
+      column.config.position = position;
+      @usedColumns = @usedColumns.map (c) ->
+        if c.id is column.id then c = column
+        c
 
   render: =>
     #this turns usedColumn into a object that gets synced with localStorage.
@@ -32,6 +75,18 @@ class UI
     for column in @columnNames
       @columns.push new window[column];
 
+    #load packery (layout manager)
+    @packery = new Packery document.querySelector ".column-holder",
+      columnWidth: document.querySelector ".grid-sizer",
+      rowHeight: document.querySelector ".grid-sizer",
+      isInitLayout: false,
+      isHorizontal: true
+
+    @packery.on "dragItemPositioned", @layoutChanged
+    @packery.on "layoutComplete", @layoutChanged
+    @packery.on "removeComplete", =>
+      @packery.layout()
+
     #render loaded columns
     @renderColumns();
 
@@ -46,21 +101,15 @@ class UI
       dialog.addEventListener "column-chosen", (e) =>
         column = e.detail
         dialog.toggle()
-        if column.dialog
-          cdialog = document.getElementById column.dialog
-          cdialog.toggle()
-          cdialog.querySelector("paper-button[affirmative]").addEventListener "click", =>
-            cdialog.toggle()
-            @addColumn column
-        else
-          @addColumn column
+        column.settings =>
+          @addColumn(column)
+          @packery.layout()
 
-
+  packery: null
   columns: []
   columnNames: [
     "HackerNews",
     "Reddit",
-    "Column",
-    "Column"
+    "Dribbble"
   ],
   usedColumns: []

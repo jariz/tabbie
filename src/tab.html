@@ -6,6 +6,9 @@
     <!-- 3RD PARTY -->
     <link rel="import" href="../bower_components/polymer/polymer.html">
     <script src="../bower_components/store.js/store.min.js"></script>
+    <script src="../bower_components/color-thief/src/color-thief.js"></script>
+    <script src="../bower_components/packery/dist/packery.pkgd.js"></script>
+    <script src="../bower_components/draggabilly/dist/draggabilly.pkgd.js"></script>
 
     <!-- 1STPARTY -->
     <script src="../dist/js/main.js"></script>
@@ -33,47 +36,49 @@
 
 <paper-fab icon="add" id="addcolumn"></paper-fab>
 
-<div class="column-holder" layout horizontal>
+<div class="column-holder">
 
 </div>
+<div class="grid-sizer"></div>
 
 <paper-dialog id="column_chooser" transition="core-transition-center">
     <column-chooser></column-chooser>
 </paper-dialog>
 
-<paper-dialog id="reddit_dialog" heading="Reddit column settings" transition="core-transition-center" style="width:400px; height:300px;">
+<template is="auto-binding" id="reddit_dialog_wrapper">
+    <paper-dialog id="reddit_dialog" heading="Reddit column settings" transition="core-transition-center">
+        <paper-dropdown-menu label="Listing">
+            <paper-dropdown class="dropdown">
+                <core-menu class="menu" selected="{{config.listing}}">
+                    <paper-item>Hot</paper-item>
+                    <paper-item>New</paper-item>
+                    <paper-item>Top</paper-item>
+                </core-menu>
+            </paper-dropdown>
+        </paper-dropdown-menu>
 
+        <paper-input-decorator label="subreddit name" floatingLabel error="Subreddit name is required!" autoValidate>
+            <input is="core-input" required value="{{config.subreddit}}">
+        </paper-input-decorator>
 
-    <paper-dropdown-menu label="Listing">
-        <paper-dropdown class="dropdown">
-            <core-menu class="menu" selected="0">
-                <paper-item>Hot</paper-item>
-                <paper-item>New</paper-item>
-                <paper-item>Top</paper-item>
-            </core-menu>
-        </paper-dropdown>
+        <div>
+            <paper-button style="float:right" affirmative default>Add</paper-button>
+        </div>
 
-    </paper-dropdown-menu>
-    <paper-input-decorator label="subreddit name" floatingLabel error="Subreddit name is required!" autoValidate>
-        <input is="core-input" required>
-    </paper-input-decorator>
+    </paper-dialog>
+</template>
 
-    <div>
-        <paper-button style="float:right" affirmative default>Add</paper-button>
-    </div>
+<template is="auto-binding" id="hn_dialog_wrapper">
+    <paper-dialog id="hn_dialog" heading="HackerNews column settings" transition="core-transition-center">
 
-</paper-dialog>
+        <core-selector selected="1" id="core_menu">
+            <paper-item>New</paper-item>
+            <paper-item>Top</paper-item>
+        </core-selector>
 
-<paper-dialog id="hn_dialog" heading="HackerNews column settings" transition="core-transition-center">
-
-    <core-selector selected="1" id="core_menu">
-        <paper-item>New</paper-item>
-        <paper-item>Top</paper-item>
-    </core-selector>
-
-    <paper-button dismissive>Cancel</paper-button>
-    <paper-button affirmative default>OK</paper-button>
-</paper-dialog>
-
+        <paper-button dismissive>Cancel</paper-button>
+        <paper-button affirmative default>OK</paper-button>
+    </paper-dialog>
+</template>
 </body>
 </html>

@@ -1,11 +1,15 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
 <link rel="import" href="../bower_components/core-transition/core-transition.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
 <polymer-element name="item-column" attributes="column">
     <template>
         <style>
             :host {
-                width:25%;
+                display:block;
+                /*width: {{25 * column.width}}%;*/
             }
 
             .card {
@@ -15,19 +19,64 @@
                 margin: 10px;
                 height: 97%;
                 box-sizing: border-box;
+                position: relative;
+            }
+
+            #core_toolbar {
+                position: absolute;
+                width: 100%;
+                top: 0;
+                left: 0;
+                color: #f1f1f1;
+            }
+
+            paper-icon-button {
+                background-size: cover;
+            }
+
+            paper-spinner {
+                top: 50%;
+                left: 50%;
+                position: absolute;
+            }
+
+            paper-spinner::shadow .circle {
+                border-color: rgb({{column.color[0]}}, {{column.color[1]}}, {{column.color[2]}});
+            }
+
+            core-toolbar {
+                background-color: rgb({{column.color[0]}}, {{column.color[1]}}, {{column.color[2]}});
+                cursor: move;
+                cursor: -webkit-grabbing;
             }
         </style>
 
         <paper-shadow class="card" z="1" transition="core-transition-fade">
-            <h1>{{column.name}}</h1>
+            <core-toolbar id="core_toolbar" class="{{column.className}}">
+                <paper-icon-button on-click="{{settings}}" style="background-image: url(../src/img/{{column.thumb}})"></paper-icon-button>
+                <div id="div" flex>{{column.name}}</div>
+                <paper-icon-button on-click="{{_delete}}" icon="delete"></paper-icon-button>
+                <template if="{{column.dialog}}">
+                    <paper-icon-button on-click="{{settings}}" icon="settings"></paper-icon-button>
+                </template>
+                <paper-icon-button on-click="{{refresh}}" icon="refresh"></paper-icon-button>
+            </core-toolbar>
+
+            <paper-spinner class="{{column.className}}" active></paper-spinner>
         </paper-shadow>
 
 
     </template>
     <script>
         Polymer({
-            column: {
-                name: "Plchldr"
+            _delete: function(e) {
+                this.fire("column-delete", e.target.templateInstance.model.column);
+            },
+            settings: function(e) {
+                this.fire("column-settings", e.target.templateInstance.model.column);
+            },
+            refresh: function(e) {
+                this.fire("column-refresh", e.target.templateInstance.model.column);
             }
         });
     </script>
