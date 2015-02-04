@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Jari's NewTab</title>
+    <title>Tabbie</title>
 
     <!-- 3RD PARTY -->
     <link rel="import" href="../bower_components/polymer/polymer.html">
@@ -30,9 +30,21 @@
     <link href="../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
     <link href="../bower_components/paper-item/paper-item.html" rel="import">
     <link href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
+    <link href="../bower_components/core-toolbar/core-toolbar.html" rel="import">
+    <link href="../bower_components/paper-toast/paper-toast.html" rel="import">
 
 </head>
 <body unresolved>
+
+<div class="no-columns">
+    <h1>Welcome to Tabbie!</h1>
+    <p>You have not added any columns yet :(<br>
+    Add one by clicking on the plus button at the bottom-right.</p>
+</div>
+
+<!--<core-toolbar class="top-bar">-->
+    <!--<div id="div" flex>Tabbie</div>-->
+<!--</core-toolbar>-->
 
 <paper-fab icon="add" id="addcolumn"></paper-fab>
 
@@ -79,6 +91,12 @@
         <paper-button dismissive>Cancel</paper-button>
         <paper-button affirmative default>OK</paper-button>
     </paper-dialog>
+</template>
+
+<template is="auto-binding" duration="5000" id="removed_toast_wrapper">
+    <paper-toast id="removed_toast" text="Column {{column.name}} was removed.">
+        <div style="color: #eeff41;" on-click="{{restore}}">Undo</div>
+    </paper-toast>
 </template>
 </body>
 </html>

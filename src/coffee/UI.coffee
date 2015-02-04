@@ -17,7 +17,7 @@ class UI
     columnEl.column = column
     holder = document.querySelector ".column-holder"
 
-    holder.appendChild(columnEl)
+    holder.appendChild columnEl
     @packery.addItems [ columnEl ]
 
     columnEl.style.width = (25 * column.width)+"%"
@@ -27,17 +27,23 @@ class UI
     draggie = new Draggabilly columnEl,
       handle: "html /deep/ core-toolbar",
 
-    @packery.bindDraggabillyEvents(draggie)
+    @packery.bindDraggabillyEvents draggie
 
     if column.config.position
       pItem = item for item in @packery.items when item.element is columnEl
-      pItem.goTo(column.config.position.x, column.config.position.y)
+      pItem.goTo column.config.position.x, column.config.position.y
 
     #bind column events
     columnEl.addEventListener "column-delete", =>
-      @packery.remove(columnEl)
+      toast = document.getElementById "removed_toast_wrapper"
+      toast.column = column
+      toast.restore = =>
+        @addColumn column
+        @packery.layout()
+      document.getElementById("removed_toast").show()
+      @packery.remove columnEl
       @usedColumns = @usedColumns.filter (c) -> c.id isnt column.id
-    columnEl.addEventListener "column-refresh", => column.refresh(columnEl)
+    columnEl.addEventListener "column-refresh", => column.refresh columnEl
     columnEl.addEventListener "column-settings", => column.settings()
 
     columnEl.animate [
@@ -49,15 +55,21 @@ class UI
       direction: 'alternate',
       duration: 500
 
+  noColumnsCheck: =>
+    if @packery.items.length > 0 then op = 0 else op = 1
+    document.querySelector(".no-columns").style.opacity = op
+    console.log op
+
   layoutChanged: () =>
-    for columnEl in document.querySelectorAll("item-column")
-      item = @packery.getItem(columnEl);
-      position = item.position
-      column = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column
-      column.config.position = position;
-      @usedColumns = @usedColumns.map (c) ->
-        if c.id is column.id then c = column
-        c
+      @noColumnsCheck()
+      for columnEl in document.querySelectorAll("item-column")
+        item = @packery.getItem(columnEl);
+        position = item.position
+        column = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column
+        column.config.position = position;
+        @usedColumns = @usedColumns.map (c) ->
+          if c.id is column.id then c = column
+          c
 
   render: =>
     #this turns usedColumn into a object that gets synced with localStorage.
@@ -88,7 +100,8 @@ class UI
       @packery.layout()
 
     #render loaded columns
-    @renderColumns();
+    @renderColumns()
+    @noColumnsCheck();
 
     #bind fab
     fab = document.getElementById "addcolumn"

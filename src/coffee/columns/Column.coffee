@@ -1,11 +1,14 @@
 class Column
   constructor: ->
     @className = @constructor.name
+
     thmb = document.createElement "img"
     thmb.addEventListener "load", =>
       ct = new ColorThief thmb
       @color = ct.getColor(thmb)
     thmb.src = "../src/img/" + @thumb
+
+
     this
 
   settings: (cb) ->
@@ -23,19 +26,39 @@ class Column
 
   refresh: (columnElement) ->
 
+  render: (columnElement) ->
+    spinner = columnElement.querySelector "html /deep/ paper-spinner"
+    Object.defineProperty @, "loading",
+      get: -> spinner.active
+      set: (val) -> spinner.active = val
 
-  className: "" #Internally used for restoring/saving columns
-  color: "" #automatically generated based on thumb image
+  #Internally used for restoring/saving columns (don't touch)
+  className: ""
 
-  name: "Empty column" #Dialog name
-  width: 1 #Dialog grid width (width * 20%)
-  dialog: null #Configuration dialog ID
+  #Automatically generated based on thumb image (don't touch)
+  color: ""
+
+  #Dialog name
+  name: "Empty column"
+
+  #Dialog grid width (width * 25%)
+  width: 1
+
+  #Configuration dialog ID
+  dialog: null
+
+  #Thumbnail image path
   thumb: "column-unknown.png"
+
+  #Configurations trough dialogs etc get saved in here
   config: {},
+
+  #Cache is a helper property that you can use or not.
+  cache: []
+
+  loading: true
 
   toJSON: ->
     result = {}
     result[key] = @[key] for key of @ when typeof @[key] isnt 'function'
     result
-
-  render: (columnElement) ->

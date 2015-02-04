@@ -4,7 +4,24 @@ class Reddit extends Column
   dialog: "reddit_dialog"
   thumb: "column-reddit.png"
 
+  draw: (data) ->
+
+    @loading = false
+
+  refresh: (columnElement) ->
+
+
   render: (columnElement) ->
+    super columnElement
+
+    if @cache then @draw(@cache)
+    else @refresh()
+
+
+#    if @cache.length > 0
+#      @draw()
+#
+#    @draw()
 #    h1 = document.createElement "h1"
 #    h1.textContent = "Hi, I'm dynamically added by my column class"
 #    h1.style.position = "absolute"
