@@ -5,9 +5,8 @@ class Column
     thmb = document.createElement "img"
     thmb.addEventListener "load", =>
       ct = new ColorThief thmb
-      @color = ct.getColor(thmb)
+      @color = ct.getColor thmb
     thmb.src = "../src/img/" + @thumb
-
 
     this
 
@@ -19,18 +18,50 @@ class Column
       cdialog.toggle()
       cdialog.querySelector("paper-button[affirmative]").addEventListener "click", =>
         @config = wrap.config
+        ui.sync @
         console.info @config
         cdialog.toggle()
         if typeof cb is 'function' then cb(cdialog)
     else if typeof cb is 'function' then cb(cdialog)
 
-  refresh: (columnElement) ->
+  refresh: (columnElement, holderElement) ->
 
-  render: (columnElement) ->
+  render: (columnElement, holderElement) ->
     spinner = columnElement.querySelector "html /deep/ paper-spinner"
-    Object.defineProperty @, "loading",
-      get: -> spinner.active
-      set: (val) -> spinner.active = val
+    progress = columnElement.querySelector "html /deep/ paper-progress"
+
+    try
+      Object.defineProperty @, "loading",
+        get: -> spinner.active
+        set: (val) -> spinner.active = val
+
+      timeout = false
+      Object.defineProperty @, "refreshing",
+        get: -> progress.indeterminate
+        set: (val) ->
+          if val
+            progress.style.opacity = 1
+          else
+            if timeout then clearTimeout timeout
+            timeout = setTimeout ->
+              progress.style.opacity = 0
+            , 700
+#  autoSync = (propName) =>
+#    try
+#      Object.defineProperty @, propName,
+#        get: =>
+#          ui.sync @
+#          @["_" + propName]
+#        set: (val) =>
+#          console.log "sync", propName, @
+#          ui.sync @
+#          @["_" + propName] = val
+    catch e
+      console.warn(e)
+#
+#  autoSync "config"
+#  autoSync "cache"
+
 
   #Internally used for restoring/saving columns (don't touch)
   className: ""
@@ -51,10 +82,12 @@ class Column
   thumb: "column-unknown.png"
 
   #Configurations trough dialogs etc get saved in here
-  config: {},
+  config: {}
+#  _config: {}
 
-  #Cache is a helper property that you can use or not.
+  #Cache
   cache: []
+#  _cache:[]
 
   loading: true
 

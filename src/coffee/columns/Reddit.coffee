@@ -4,28 +4,42 @@ class Reddit extends Column
   dialog: "reddit_dialog"
   thumb: "column-reddit.png"
 
-  draw: (data) ->
-
+  draw: (data, holderElement) ->
     @loading = false
 
-  refresh: (columnElement) ->
+    for child in data.data.children
+      card = document.createElement "reddit-item"
+      card.item = child.data
+      holderElement.appendChild card
 
+  refresh: (columnElement, holderElement) ->
+    switch @config.listing
+      when 0 then listing = "hot"
+      when 1 then listing = "new"
+      when 2 then listing = "top"
 
-  render: (columnElement) ->
+    @refreshing = true
+
+    fetch("https://www.reddit.com/r/"+@config.subreddit+"/"+listing+".json")
+      .then (response) =>
+        if response.status is 200
+          Promise.resolve response.json()
+        else Promise.reject new Error response.statusText
+      .then (json) =>
+        @refreshing = false
+        @cache = json
+        ui.sync @
+        holderElement.innerHTML = ""
+        @draw @cache, holderElement
+      .catch (error) ->
+        @refreshing = false
+        #todo something on error
+
+  render: (columnElement, holderElement) ->
     super columnElement
 
-    if @cache then @draw(@cache)
-    else @refresh()
-
-
-#    if @cache.length > 0
-#      @draw()
-#
-#    @draw()
-#    h1 = document.createElement "h1"
-#    h1.textContent = "Hi, I'm dynamically added by my column class"
-#    h1.style.position = "absolute"
-#    h1.style.top = "50%"
-#    columnElement.querySelector("html /deep/ paper-shadow").appendChild h1
-#    spinner = columnElement.querySelector "html /deep/ paper-spinner"
-#    spinner.active = false
+#    Polymer.import ['reddit-item.html'], =>
+    if Object.keys(@cache).length
+      @draw @cache, holderElement
+      @refresh columnElement, holderElement
+    else @refresh columnElement, holderElement

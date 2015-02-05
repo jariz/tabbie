@@ -22,7 +22,8 @@ class UI
 
     columnEl.style.width = (25 * column.width)+"%"
     columnEl.style.height = document.documentElement.clientHeight / 2
-    column.render columnEl
+    holderEl = columnEl.querySelector("html /deep/ paper-shadow .holder")
+    column.render columnEl, holderEl
 
     draggie = new Draggabilly columnEl,
       handle: "html /deep/ core-toolbar",
@@ -43,7 +44,7 @@ class UI
       document.getElementById("removed_toast").show()
       @packery.remove columnEl
       @usedColumns = @usedColumns.filter (c) -> c.id isnt column.id
-    columnEl.addEventListener "column-refresh", => column.refresh columnEl
+    columnEl.addEventListener "column-refresh", => column.refresh columnEl, holderEl
     columnEl.addEventListener "column-settings", => column.settings()
 
     columnEl.animate [
@@ -67,9 +68,12 @@ class UI
         position = item.position
         column = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column
         column.config.position = position;
-        @usedColumns = @usedColumns.map (c) ->
-          if c.id is column.id then c = column
-          c
+        @sync column
+
+  sync: (column) =>
+    @usedColumns = @usedColumns.map (c) ->
+      if c.id is column.id then c = column
+      c
 
   render: =>
     #this turns usedColumn into a object that gets synced with localStorage.
@@ -77,7 +81,7 @@ class UI
       get: ->
         if not cols = store.get "usedColumns" then [] else
           for col, i in cols
-            newcol = new window[col.className]
+            newcol = new window[col.className](@)
             newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
             cols[i] = newcol
           cols
@@ -85,7 +89,7 @@ class UI
 
     #load column definitions
     for column in @columnNames
-      @columns.push new window[column];
+      @columns.push new window[column](UI)
 
     #load packery (layout manager)
     @packery = new Packery document.querySelector ".column-holder",
@@ -126,3 +130,5 @@ class UI
     "Dribbble"
   ],
   usedColumns: []
+
+ui = new UI

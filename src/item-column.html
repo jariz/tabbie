@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
 <polymer-element name="item-column" attributes="column">
     <template>
         <style>
@@ -13,13 +14,13 @@
             }
 
             .card {
-                padding: 20px;
                 background: #fff;
                 border-radius: 3px;
                 margin: 10px;
                 height: 97%;
                 box-sizing: border-box;
                 position: relative;
+                padding-top:64px;
             }
 
             #core_toolbar {
@@ -44,10 +45,63 @@
                 border-color: rgb({{column.color[0]}}, {{column.color[1]}}, {{column.color[2]}});
             }
 
-            core-toolbar {
+            paper-progress::shadow #activeProgress, core-toolbar  {
                 background-color: rgb({{column.color[0]}}, {{column.color[1]}}, {{column.color[2]}});
+            }
+
+            paper-progress {
+                position:absolute;
+                top:64px;
+                width:100%;
+                opacity: 0;
+                transition:500ms opacity;
+            }
+
+            core-toolbar {
                 cursor: move;
                 cursor: -webkit-grabbing;
+            }
+
+            .holder {
+                height:100%;
+                width:100%;
+                padding: 0px 10px 0px 0px;
+                box-sizing: border-box;
+                overflow-y:auto;
+            }
+
+            /* For the "inset" look only */
+            html {
+                overflow: auto;
+            }
+            body {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                bottom: 20px;
+                right: 20px;
+                padding: 30px;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+
+            /* Let's get this party started */
+            ::-webkit-scrollbar {
+                width: 12px;
+            }
+
+            /* Track */
+            ::-webkit-scrollbar-track {
+                background:#eee;
+            }
+
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                background: rgba(210, 210, 210, 0.80);
+            }
+            ::-webkit-scrollbar-thumb:window-inactive {
+                background: rgba(210, 210, 210, 0.40);
             }
         </style>
 
@@ -62,7 +116,13 @@
                 <paper-icon-button on-click="{{refresh}}" icon="refresh"></paper-icon-button>
             </core-toolbar>
 
+            <paper-progress indeterminate></paper-progress>
+
             <paper-spinner class="{{column.className}}" active></paper-spinner>
+
+            <div class="holder">
+
+            </div>
         </paper-shadow>
 
     </template>

@@ -7,5 +7,5 @@
     "newtab": "dist/tab.html"
   },
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.firebaseio.com/; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.reddit.com/; object-src 'self'"
 }

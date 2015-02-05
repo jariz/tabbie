@@ -1,0 +1,51 @@
+<!--
+    by brunoziie/time-ago-element, but he didn't add a bower file .... -.-
+    also edited to use epochs cuz idgaf
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<polymer-element name="time-ago" attributes="datetime refresh delay">
+    <template>
+        <span id="timeago"></span>
+    </template>
+
+    <script>
+        var Timeago = {
+                    getTimeAgoText: function (datetime) {
+                        return moment.unix(datetime).fromNow();
+                    },
+
+                    refresh: function (element, datetime) {
+                        element.innerHTML = this.getTimeAgoText(datetime);
+                    }
+                },
+                interval;
+
+        Polymer({
+            setup: function () {
+                var datetime = this.datetime,
+                        element = this.$.timeago;
+
+                element.innerHTML = Timeago.getTimeAgoText(this.datetime);
+
+                if (this.refresh === true) {
+                    if (typeof interval !== 'undefined') {
+                        clearInterval(interval);
+                    }
+
+                    interval = setInterval(function () {
+                        Timeago.refresh(element, datetime);
+                    }, this.delay);
+                }
+            },
+            ready: function() {
+                this.setup();
+            },
+            attributeChanged: function () {
+                this.setup();
+            },
+            datetime: 0,
+            refresh: true,
+            delay: 60000
+        });
+    </script>
+</polymer-element>
