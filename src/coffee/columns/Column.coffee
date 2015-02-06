@@ -26,7 +26,10 @@ class Column
 
   refresh: (columnElement, holderElement) ->
 
+
   render: (columnElement, holderElement) ->
+    if @flex then holderElement.className = "flex holder"
+
     spinner = columnElement.querySelector "html /deep/ paper-spinner"
     progress = columnElement.querySelector "html /deep/ paper-progress"
 
@@ -90,6 +93,9 @@ class Column
 #  _cache:[]
 
   loading: true
+
+  #If set to true, this will cause the holder to be a flexbox
+  flex: false
 
   toJSON: ->
     result = {}

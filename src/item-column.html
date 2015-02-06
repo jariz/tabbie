@@ -10,7 +10,7 @@
         <style>
             :host {
                 display:block;
-                /*width: {{25 * column.width}}%;*/
+                min-width:320px;
             }
 
             .card {
@@ -70,6 +70,17 @@
                 overflow-y:auto;
             }
 
+            .holder.flex {
+                display:flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+            }
+
+            .holder .hack {
+                height: 0;
+                border: none;
+            }
+
             /* For the "inset" look only */
             html {
                 overflow: auto;
@@ -121,7 +132,6 @@
             <paper-spinner class="{{column.className}}" active></paper-spinner>
 
             <div class="holder">
-
             </div>
         </paper-shadow>
 

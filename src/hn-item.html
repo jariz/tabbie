@@ -1,19 +1,17 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="time-ago.html">
 
-<polymer-element name="reddit-item" attributes="item">
+<polymer-element name="hn-item" attributes="item">
     <template>
         <style>
             :host {
                 width: 100%;
-                padding: 0 0 0 90px;
+                padding: 0 0 0 10px;
                 margin-bottom:10px;
                 border-bottom: 1px solid #d2d2d2;
                 display:block;
                 font-size:10px;
                 color:black;
-                position: relative;
-                box-sizing: border-box;
             }
 
             h1 {
@@ -22,7 +20,7 @@
             }
 
             a {
-                color: rgba(0, 0, 0, 0.78);
+                color: rgba(0, 0, 0, 0.87);
                 text-decoration: none;
             }
 
@@ -31,9 +29,8 @@
                 width:50px;
                 height:50px;
 
-                left:20px;
-                top:10px;
-                position: absolute;
+                margin-top:0px;
+                margin-right:10px;
             }
 
             .img {
@@ -41,17 +38,17 @@
                 display:block;
             }
 
+            div {
+                display:block;
+            }
         </style>
-        <template if="{{item.thumbnail && item.thumbnail != 'self'}}">
-            <a class="img" target="_blank" href="{{item.url}}"><img src="{{item.thumbnail}}"></a>
-        </template>
         <div>
-            <h1><a href="{{item.url}}" target="_blank" >{{item.title}}</a></h1>
+            <h1><a href="{{item.url.target}}" target="_blank" >{{item.title}}</a></h1>
             <p>
-                submitted by <a target="_blank" href="http://www.reddit.com/u/{{item.author}}">{{item.author}}</a> <time-ago swag="hi" datetime="{{item.created}}"></time-ago>
+                submitted by <a target="_blank" href="{{item.source.authorUrl}}">{{item.source.username}}</a> <time-ago datetime="{{item.source.createdAt}}" epoch="false"></time-ago>
             </p>
             <p>
-                <a target="_blank" href="https://reddit.com{{item.permalink}}">{{item.num_comments}} comments</a>, {{item.score}} points
+                <a target="_blank" href="{{item.absoluteUrl}}">{{item.source.commentsCount}} comments</a>, {{item.source.likesCount}} points
             </p>
         </div>
     </template>

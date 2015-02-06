@@ -31,12 +31,13 @@ class Reddit extends Column
         ui.sync @
         holderElement.innerHTML = ""
         @draw @cache, holderElement
-      .catch (error) ->
+      .catch (error) =>
         @refreshing = false
+
         #todo something on error
 
   render: (columnElement, holderElement) ->
-    super columnElement
+    super columnElement, holderElement
 
 #    Polymer.import ['reddit-item.html'], =>
     if Object.keys(@cache).length

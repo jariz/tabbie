@@ -1,0 +1,41 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!--<link rel="import" href="time-ago.html">-->
+
+<polymer-element name="dribbble-item" attributes="item">
+    <template>
+        <style>
+            :host {
+                font-size:10px;
+                color:black;
+                display:inline-block;
+                padding: 10px 0 0 10px;
+                flex: 1 0 200px;
+            }
+
+            h1 {
+                font-size:14px;
+            }
+
+            img {
+                width:100%
+            }
+
+            a {
+                color: rgba(0, 0, 0, 0.87);
+                text-decoration: none;
+            }
+
+        </style>
+
+        <template if="{{item.images.hidpi}}">
+            <img src="{{item.images.hidpi}}">
+        </template>
+        <template if="{{!item.images.hidpi && item.images.normal}}">
+            <img src="{{item.images.normal}}">
+        </template>
+
+    </template>
+    <script>
+        Polymer({});
+    </script>
+</polymer-element>

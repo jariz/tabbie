@@ -3,15 +3,17 @@
     also edited to use epochs cuz idgaf
 -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<polymer-element name="time-ago" attributes="datetime refresh delay">
+<polymer-element name="time-ago" attributes="datetime refresh delay epoch">
     <template>
         <span id="timeago"></span>
     </template>
 
     <script>
         var Timeago = {
-                    getTimeAgoText: function (datetime) {
-                        return moment.unix(datetime).fromNow();
+                    getTimeAgoText: function (datetime, epoch) {
+                        if(epoch)
+                            return moment.unix(datetime).fromNow();
+                        else return new moment(datetime).fromNow();
                     },
 
                     refresh: function (element, datetime) {
@@ -25,7 +27,7 @@
                 var datetime = this.datetime,
                         element = this.$.timeago;
 
-                element.innerHTML = Timeago.getTimeAgoText(this.datetime);
+                element.innerHTML = Timeago.getTimeAgoText(this.datetime, this.epoch);
 
                 if (this.refresh === true) {
                     if (typeof interval !== 'undefined') {
@@ -40,9 +42,10 @@
             ready: function() {
                 this.setup();
             },
-            attributeChanged: function () {
+            datetimeChanged: function () {
                 this.setup();
             },
+            epoch: true,
             datetime: 0,
             refresh: true,
             delay: 60000

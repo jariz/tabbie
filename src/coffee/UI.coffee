@@ -58,7 +58,7 @@ class UI
 
   noColumnsCheck: =>
     if @packery.items.length > 0 then op = 0 else op = 1
-    document.querySelector(".no-columns").style.opacity = op
+    document.querySelector(".no-columns-container").style.opacity = op
     console.log op
 
   layoutChanged: () =>
@@ -85,7 +85,15 @@ class UI
             newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
             cols[i] = newcol
           cols
-      set: (val) -> store.set "usedColumns", val
+      set: (val) ->
+        store.set "usedColumns", val
+        store.set "lastRes", [
+          document.body.clientHeight,
+          document.body.clientWidth
+        ]
+
+    #get meta from dom
+    @meta = document.getElementById "meta"
 
     #load column definitions
     for column in @columnNames
@@ -107,8 +115,37 @@ class UI
     @renderColumns()
     @noColumnsCheck();
 
-    #bind fab
-    fab = document.getElementById "addcolumn"
+    # check if resolution has changed since last save,
+    # else we're gonna have to force a relayout because the positions may not be correct anymore
+    # (each column has a percentage width relative to the body's width...)
+    res = store.get("lastRes", false)
+    if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth)
+      @packery.layout()
+
+    #fab stuff
+    fabs = document.querySelector ".fabs"
+    fab = document.querySelector ".fab-add"
+    fab2 = document.querySelector ".fab-edit"
+    trans = @meta.byId "core-transition-center"
+    trans.setup fab2
+
+    mouseHasEntered = false
+    fabs.addEventListener "mouseenter", ->
+      mouseHasEntered = true
+      trans.go fab2,
+        opened: true
+
+    timeout = -1
+    fabs.addEventListener "mouseleave", ->
+      if mouseHasEntered
+        mouseHasEntered = false
+        return
+      if timeout then clearTimeout timeout
+      timeout = setTimeout ->
+        trans.go fab2,
+          opened: false
+      , 1000
+
     fab.addEventListener "click", =>
       dialog = document.getElementById "column_chooser"
       columnchooser = dialog.querySelector "column-chooser"
