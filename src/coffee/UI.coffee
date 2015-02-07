@@ -9,9 +9,8 @@ class UI
     if not column.id then column.id = Math.round Math.random() * 1000000
 
     if not dontsave
-      buffer = @usedColumns
-      buffer.push column.toJSON()
-      @usedColumns = buffer
+      @usedColumns.push column
+      @syncAll()
 
     columnEl = document.createElement "item-column"
     columnEl.column = column
@@ -25,10 +24,11 @@ class UI
     holderEl = columnEl.querySelector("html /deep/ paper-shadow .holder")
     column.render columnEl, holderEl
 
-    draggie = new Draggabilly columnEl,
+    column.draggie = new Draggabilly columnEl,
       handle: "html /deep/ core-toolbar",
+    column.draggie.disable()
 
-    @packery.bindDraggabillyEvents draggie
+    @packery.bindDraggabillyEvents column.draggie
 
     if column.config.position
       pItem = item for item in @packery.items when item.element is columnEl
@@ -44,6 +44,7 @@ class UI
       document.getElementById("removed_toast").show()
       @packery.remove columnEl
       @usedColumns = @usedColumns.filter (c) -> c.id isnt column.id
+      @syncAll()
     columnEl.addEventListener "column-refresh", => column.refresh columnEl, holderEl
     columnEl.addEventListener "column-settings", => column.settings()
 
@@ -74,23 +75,28 @@ class UI
     @usedColumns = @usedColumns.map (c) ->
       if c.id is column.id then c = column
       c
+    @syncAll()
+
+  syncAll: () =>
+    used = []
+    for column in @usedColumns
+      used.push column.toJSON()
+    store.set "usedColumns", used
+    console.log "syncAll", used
+
+    store.set "lastRes", [
+      document.body.clientHeight,
+      document.body.clientWidth
+    ]
 
   render: =>
-    #this turns usedColumn into a object that gets synced with localStorage.
-    Object.defineProperty @, "usedColumns",
-      get: ->
-        if not cols = store.get "usedColumns" then [] else
-          for col, i in cols
-            newcol = new window[col.className](@)
-            newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
-            cols[i] = newcol
-          cols
-      set: (val) ->
-        store.set "usedColumns", val
-        store.set "lastRes", [
-          document.body.clientHeight,
-          document.body.clientWidth
-        ]
+    #load all columns
+    if not cols = store.get "usedColumns" then @usedColumns = [] else
+      for col, i in cols
+        newcol = new window[col.className](@)
+        newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
+        cols[i] = newcol
+      @usedColumns = cols
 
     #get meta from dom
     @meta = document.getElementById "meta"
@@ -106,6 +112,7 @@ class UI
       isInitLayout: false,
       isHorizontal: true
 
+    #packery bindings
     @packery.on "dragItemPositioned", @layoutChanged
     @packery.on "layoutComplete", @layoutChanged
     @packery.on "removeComplete", =>
@@ -129,22 +136,22 @@ class UI
     trans = @meta.byId "core-transition-center"
     trans.setup fab2
 
-    mouseHasEntered = false
     fabs.addEventListener "mouseenter", ->
-      mouseHasEntered = true
+      if fab2.hasAttribute "hidden" then fab2.removeAttribute "hidden"
       trans.go fab2,
         opened: true
 
-    timeout = -1
     fabs.addEventListener "mouseleave", ->
-      if mouseHasEntered
-        mouseHasEntered = false
-        return
-      if timeout then clearTimeout timeout
-      timeout = setTimeout ->
-        trans.go fab2,
-          opened: false
-      , 1000
+      trans.go fab2,
+        opened: false
+
+    fab2.addEventListener "click", =>
+      if active = fab2.classList.contains "active"
+        fab2.classList.remove "active"
+      else
+        fab2.classList.add "active"
+
+      column.editMode not active for column in @usedColumns
 
     fab.addEventListener "click", =>
       dialog = document.getElementById "column_chooser"
@@ -152,19 +159,22 @@ class UI
       columnchooser.columns = @columns
       dialog.toggle()
 
-      dialog.addEventListener "column-chosen", (e) =>
-        column = e.detail
-        dialog.toggle()
-        column.settings =>
-          @addColumn(column)
-          @packery.layout()
+      if(!@columnChosenBound)
+        @columnChosenBound = true
+        dialog.addEventListener "column-chosen", (e) =>
+          column = e.detail
+          dialog.toggle()
+          column.settings =>
+            @addColumn(column)
+            @packery.layout()
 
   packery: null
   columns: []
   columnNames: [
     "HackerNews",
     "Reddit",
-    "Dribbble"
+    "Dribbble",
+    "GitHub"
   ],
   usedColumns: []
 

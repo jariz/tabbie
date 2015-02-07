@@ -23,14 +23,6 @@
                 padding-top:64px;
             }
 
-            #core_toolbar {
-                position: absolute;
-                width: 100%;
-                top: 0;
-                left: 0;
-                color: #f1f1f1;
-            }
-
             paper-icon-button {
                 background-size: cover;
             }
@@ -58,6 +50,14 @@
             }
 
             core-toolbar {
+                position: absolute;
+                width: 100%;
+                top: 0;
+                left: 0;
+                color: #f1f1f1;
+            }
+
+            core-toolbar.draggable {
                 cursor: move;
                 cursor: -webkit-grabbing;
             }
@@ -81,7 +81,6 @@
                 border: none;
             }
 
-            /* For the "inset" look only */
             html {
                 overflow: auto;
             }
@@ -118,11 +117,11 @@
 
         <paper-shadow class="card" z="1" transition="core-transition-fade">
             <core-toolbar id="core_toolbar" class="{{column.className}}">
-                <paper-icon-button on-click="{{settings}}" style="background-image: url(../src/img/{{column.thumb}})"></paper-icon-button>
+                <paper-icon-button on-click="{{settings}}" style="background-image: url(../src/img/{{column.thumb}})" class="logo"></paper-icon-button>
                 <div id="div" flex>{{column.name}}</div>
-                <paper-icon-button on-click="{{_delete}}" icon="delete"></paper-icon-button>
+                <paper-icon-button on-click="{{_delete}}" icon="delete" class="editable" hidden></paper-icon-button>
                 <template if="{{column.dialog}}">
-                    <paper-icon-button on-click="{{settings}}" icon="settings"></paper-icon-button>
+                    <paper-icon-button on-click="{{settings}}" icon="settings" class="editable" hidden></paper-icon-button>
                 </template>
                 <paper-icon-button on-click="{{refresh}}" icon="refresh"></paper-icon-button>
             </core-toolbar>

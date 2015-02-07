@@ -1,7 +1,7 @@
 class Reddit extends Column
   name: "Reddit"
   width: 1
-  dialog: "reddit_dialog"
+  dialog: "reddit-dialog"
   thumb: "column-reddit.png"
 
   draw: (data, holderElement) ->
@@ -32,6 +32,7 @@ class Reddit extends Column
         holderElement.innerHTML = ""
         @draw @cache, holderElement
       .catch (error) =>
+        console.error error
         @refreshing = false
 
         #todo something on error

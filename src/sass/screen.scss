@@ -10,7 +10,7 @@
 
 body {
     font-family: Roboto, sans-serif;
-    font-size:14px;
+    font-size:16px;
     background: #eeeeee;
     overflow:hidden;
 }
@@ -33,13 +33,30 @@ body {
         z-index: 100;
     }
 
-    .fab-edit {
+    .fab-edit-wrapper {
         position: absolute;
         z-index: 100;
-        background-color: #8BC34A;
         right: 29px;
         bottom: 94px;
+
+        .fab-edit {
+            background-color: #8BC34A;
+            &.active {
+                //ignore transitions
+                opacity:1 !important;
+                transform:translateZ(0) !important;
+                background-color: #558B2F;
+            }
+        }
     }
+}
+
+html .fab-edit /deep/ core-icon {
+    transition:transform 250ms;
+}
+
+html .fab-edit.active /deep/ core-icon {
+    transform:rotate(360deg);
 }
 
 html /deep/ {
@@ -51,12 +68,6 @@ html /deep/ {
         background: #4285f4;
         color: #fff;
     }
-}
-
-
-#reddit_dialog {
-    width:400px;
-    height:300px;
 }
 
 .ghost {
@@ -76,13 +87,13 @@ html /deep/ {
     height:100%;
     position:absolute;
     top:0;
-    let:0;
+    left:0;
+    opacity:0;
 
     div {
         margin:auto;
         color: #757575;
         text-align: center;
-        opacity:0;
         width: 554px;
         padding-top:140px;
         height: 355px;

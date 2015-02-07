@@ -1,0 +1,31 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-input-decorator.html">
+<link href="../bower_components/core-menu/core-menu.html" rel="import">
+<link href="../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
+<link href="../bower_components/paper-item/paper-item.html" rel="import">
+<link href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
+
+<polymer-element name="reddit-dialog" attributes="config">
+    <template>
+        <tabbie-dialog>
+            <paper-dropdown-menu label="Listing">
+                <paper-dropdown class="dropdown">
+                    <core-menu class="menu" selected="{{config.listing}}">
+                        <paper-item>Hot</paper-item>
+                        <paper-item>New</paper-item>
+                        <paper-item>Top</paper-item>
+                    </core-menu>
+                </paper-dropdown>
+            </paper-dropdown-menu>
+            <p>{{config.subreddit}}</p>
+            <paper-input-decorator label="subreddit name" floatingLabel error="Subreddit name is required!" autoValidate>
+                <input is="core-input" required value="{{config.subreddit}}">
+            </paper-input-decorator>
+        </tabbie-dialog>
+    </template>
+    <script>
+        Polymer({
+        });
+    </script>
+</polymer-element>

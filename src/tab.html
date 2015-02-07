@@ -20,14 +20,14 @@
     <link rel="import" href="item-card.html">
     <link rel="import" href="column-chooser.html">
     <link rel="import" href="reddit-item.html">
+    <link rel="import" href="reddit-dialog.html">
+    <link rel="import" href="tabbie-dialog.html">
     <link rel="import" href="dribbble-item.html">
     <link rel="import" href="hn-item.html">
+    <link rel="import" href="github-item.html">
 
     <!-- ELEMENTS -->
     <link rel="import" href="../bower_components/core-icons/core-icons.html">
-    <link rel="import" href="../bower_components/core-icons/av-icons.html">
-    <link rel="import" href="../bower_components/core-icons/image-icons.html">
-    <link rel="import" href="../bower_components/core-icons/editor-icons.html">
     <link rel="import" href="../bower_components/core-meta/core-meta.html">
     <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
     <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
@@ -41,6 +41,7 @@
     <link href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
     <link href="../bower_components/core-toolbar/core-toolbar.html" rel="import">
     <link href="../bower_components/paper-toast/paper-toast.html" rel="import">
+    <link href="../bower_components/core-tooltip/core-tooltip.html" rel="import">
 
 </head>
 <body unresolved>
@@ -53,47 +54,21 @@
     </div>
 </div>
 
-<!--<core-toolbar class="top-bar">-->
-    <!--<div id="div" flex>Tabbie</div>-->
-<!--</core-toolbar>-->
-
 <div class="fabs">
+    <core-tooltip label='Enable edit mode which allows you to drag columns around.' position="left" class="fab-edit-wrapper">
+        <paper-fab mini icon="create" class="fab-edit" ></paper-fab>
+    </core-tooltip>
     <paper-fab icon="add" class="fab-add"></paper-fab>
-    <paper-fab mini icon="reorder" class="fab-edit" ></paper-fab>
 </div>
 <core-meta type="transition" id="meta"></core-meta>
 
-<div class="column-holder">
-
-</div>
+<div class="column-holder"></div>
 <div class="grid-sizer"></div>
 
 <paper-dialog id="column_chooser" transition="core-transition-center">
     <column-chooser></column-chooser>
 </paper-dialog>
 
-<template is="auto-binding" id="reddit_dialog_wrapper">
-    <paper-dialog id="reddit_dialog" heading="Reddit column settings" transition="core-transition-center">
-        <paper-dropdown-menu label="Listing">
-            <paper-dropdown class="dropdown">
-                <core-menu class="menu" selected="{{config.listing}}">
-                    <paper-item>Hot</paper-item>
-                    <paper-item>New</paper-item>
-                    <paper-item>Top</paper-item>
-                </core-menu>
-            </paper-dropdown>
-        </paper-dropdown-menu>
-
-        <paper-input-decorator label="subreddit name" floatingLabel error="Subreddit name is required!" autoValidate>
-            <input is="core-input" required value="{{config.subreddit}}">
-        </paper-input-decorator>
-
-        <div>
-            <paper-button style="float:right" affirmative default>Add</paper-button>
-        </div>
-
-    </paper-dialog>
-</template>
 
 <template is="auto-binding" id="hn_dialog_wrapper">
     <paper-dialog id="hn_dialog" heading="HackerNews column settings" transition="core-transition-center">
@@ -108,10 +83,12 @@
     </paper-dialog>
 </template>
 
-<template is="auto-binding" duration="5000" id="removed_toast_wrapper">
-    <paper-toast id="removed_toast" text="Column {{column.name}} was removed.">
+<template is="auto-binding" id="removed_toast_wrapper">
+    <paper-toast id="removed_toast" duration="5000" text="Column {{column.name}} was removed.">
         <div style="color: #eeff41;" on-click="{{restore}}">Undo</div>
     </paper-toast>
 </template>
+
+<paper-toast id="edit_toast" duration="5000" text=""></paper-toast>
 </body>
 </html>

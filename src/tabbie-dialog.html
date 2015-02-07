@@ -1,0 +1,37 @@
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/core-transition/core-transition.html">
+<link rel="import" href="tabbie-dialog.html">
+<polymer-element name="tabbie-dialog" attributes="config">
+    <style>
+        paper-dialog {
+            width:400px;
+            height:300px;
+        }
+    </style>
+    <template>
+        <paper-dialog heading="Column settings" transition="core-transition-center">
+
+            <div>
+                <content></content>
+            </div>
+
+            <div>
+                <paper-button on-click="{{confirm}}" style="float:right; color:#3F51B5;" affirmative default on-click="">OK</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+    <script>
+        Polymer({
+            attached: function() {
+                //shadowroot hell....
+                var dialog = document.querySelector("html /deep/ tabbie-dialog")
+                dialog = dialog.shadowRoot.querySelector("paper-dialog");
+                dialog.toggle()
+            },
+            confirm: function() {
+                this.fire("dialog-ok", this.config)
+            }
+        });
+    </script>
+</polymer-element>
