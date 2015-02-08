@@ -1,4 +1,5 @@
-class Column
+window.Columns = window.Columns || {}
+window.Columns.Column = class Column
   constructor: ->
     @className = @constructor.name
 
@@ -8,32 +9,28 @@ class Column
       @color = ct.getColor thmb
     thmb.src = "../src/img/" + @thumb
 
-    this
+    @config = {}
+    @cache = []
+    @refreshing = false
+    @reloading = true
 
-  @cb: false
-  @okBound: false
   settings: (cb) ->
     if @dialog
       dialog = document.createElement @dialog
       dialog.config = @config
       document.body.appendChild dialog
-      if typeof @cb is 'function' then @cb(@_dialog)
-    else if typeof cb is 'function' then cb(@_dialog)
-#      wrap = document.getElementById @dialog
-#      if not ui.dialogs[@dialog]
-#        ui.dialogs[@dialog] = wrap.nextElementSibling
-#
-#      wrap.config = @config
-#      @_dialog.toggle()
-#      ok = @_dialog.querySelector("paper-button[affirmative]")
-#      @cb = cb
-#      if not @okBound
-#        @okBound = true
-#        ok.addEventListener "click", =>
-#          @config = wrap.config
-#          ui.sync @
-#          console.info @config
-#          @_dialog.toggle()
+      #warning, nasty code ahead
+      _d = null
+      dialog.toggle = ->
+        if not _d then _d = this.shadowRoot.querySelector "tabbie-dialog"
+        _d.toggle()
+      dialog.toggle()
+      dialog.shadowRoot.querySelector("tabbie-dialog").shadowRoot.querySelector("paper-button.ok").addEventListener "click", ->
+        @config = dialog.config
+        ui.sync @
+        dialog.toggle()
+        if typeof cb is 'function' then cb dialog
+    else if typeof cb is 'function' then cb dialog
 
   refresh: (columnElement, holderElement) ->
 
@@ -126,6 +123,7 @@ class Column
   cache: []
 
   loading: true
+  refreshing: false
 
   #If set to true, this will cause the holder to be a flexbox
   flex: false

@@ -1,4 +1,4 @@
-class HackerNews extends Column
+class Columns.HackerNews extends Columns.Column
   name: "HackerNews"
   width: 1
   thumb: "column-hackernews.png"

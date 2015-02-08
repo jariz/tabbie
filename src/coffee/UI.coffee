@@ -93,7 +93,7 @@ class UI
     #load all columns
     if not cols = store.get "usedColumns" then @usedColumns = [] else
       for col, i in cols
-        newcol = new window[col.className](@)
+        newcol = new Columns[col.className](@)
         newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
         cols[i] = newcol
       @usedColumns = cols
@@ -103,7 +103,7 @@ class UI
 
     #load column definitions
     for column in @columnNames
-      @columns.push new window[column](UI)
+      @columns.push new Columns[column](UI)
 
     #load packery (layout manager)
     @packery = new Packery document.querySelector ".column-holder",
@@ -162,7 +162,7 @@ class UI
       if(!@columnChosenBound)
         @columnChosenBound = true
         dialog.addEventListener "column-chosen", (e) =>
-          column = e.detail
+          column = new Columns[e.detail.className]
           dialog.toggle()
           column.settings =>
             @addColumn(column)

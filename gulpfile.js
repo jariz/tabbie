@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     coffee = require("gulp-coffee"),
     sourcemaps = require("gulp-sourcemaps");
 
-gulp.task('default', ['vulcanize', 'compass'])
+gulp.task('default', ['vulcanize', 'compass', 'coffee'])
 
 gulp.task('vulcanize', function () {
     gulp.src('src/*.html')

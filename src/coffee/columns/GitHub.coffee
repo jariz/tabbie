@@ -1,4 +1,4 @@
-class GitHub extends Column
+class Columns.GitHub extends Columns.Column
   name: "GitHub"
   width: 1
   thumb: "column-github.png"

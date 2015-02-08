@@ -1,4 +1,4 @@
-class Reddit extends Column
+class Columns.Reddit extends Columns.Column
   name: "Reddit"
   width: 1
   dialog: "reddit-dialog"

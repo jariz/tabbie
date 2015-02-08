@@ -1,37 +1,48 @@
-<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog-base.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/core-transition/core-transition.html">
-<link rel="import" href="tabbie-dialog.html">
-<polymer-element name="tabbie-dialog" attributes="config">
-    <style>
-        paper-dialog {
-            width:400px;
-            height:300px;
-        }
-    </style>
+<link href="../bower_components/paper-shadow/paper-shadow.html" rel="import">
+
+<polymer-element name="tabbie-dialog" attributes="config" extends="paper-dialog-base" role="dialog" layout vertical>
     <template>
-        <paper-dialog heading="Column settings" transition="core-transition-center">
+        <style>
+            :host {
+                background: #fff;
+                color: rgba(0, 0, 0, 0.87);
+                margin: 32px;
+                overflow: visible !important;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            #scroller {
+                overflow: auto;
+                box-sizing: border-box;
+                padding: 24px;
+            }
+        </style>
+
+        <paper-shadow z="3" fit></paper-shadow>
+
+        <!-- need this because the host needs to be overflow: visible -->
+        <div id="scroller" relative flex auto>
+            <template if="{{heading}}">
+                <h1>{{heading}}</h1>
+            </template>
+
+            <content></content>
 
             <div>
-                <content></content>
+                <paper-button class="ok" style="float:right; color:#3F51B5;" affirmative default>OK</paper-button>
             </div>
-
-            <div>
-                <paper-button on-click="{{confirm}}" style="float:right; color:#3F51B5;" affirmative default on-click="">OK</paper-button>
-            </div>
-        </paper-dialog>
+        </div>
     </template>
     <script>
+        var dialog;
         Polymer({
-            attached: function() {
-                //shadowroot hell....
-                var dialog = document.querySelector("html /deep/ tabbie-dialog")
-                dialog = dialog.shadowRoot.querySelector("paper-dialog");
-                dialog.toggle()
-            },
-            confirm: function() {
-                this.fire("dialog-ok", this.config)
-            }
+            heading: "Column settings",
+            transition: "core-transition-center",
         });
     </script>
 </polymer-element>

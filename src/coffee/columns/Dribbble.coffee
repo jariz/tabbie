@@ -1,4 +1,4 @@
-class Dribbble extends Column
+class Columns.Dribbble extends Columns.Column
   name: "Dribbble"
   width: 2
   dialog: null
