@@ -20,7 +20,7 @@ class UI
     @packery.addItems [ columnEl ]
 
     columnEl.style.width = (25 * column.width)+"%"
-    columnEl.style.height = document.documentElement.clientHeight / 2
+    columnEl.style.height = (document.documentElement.clientHeight / 2) - 10
     holderEl = columnEl.querySelector("html /deep/ paper-shadow .holder")
     column.render columnEl, holderEl
 
@@ -46,7 +46,8 @@ class UI
       @usedColumns = @usedColumns.filter (c) -> c.id isnt column.id
       @syncAll()
     columnEl.addEventListener "column-refresh", => column.refresh columnEl, holderEl
-    columnEl.addEventListener "column-settings", => column.settings()
+    columnEl.addEventListener "column-settings", =>
+      column.settings -> column.refresh columnEl holderEl
 
     columnEl.animate [
       opacity: 0

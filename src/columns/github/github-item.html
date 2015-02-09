@@ -1,6 +1,6 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/core-icon/core-icon.html">
-<link rel="import" href="time-ago.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../time-ago.html">
 
 <polymer-element name="github-item" attributes="item">
     <template>
@@ -49,7 +49,7 @@
             }
         </style>
         <div>
-            <h1><a href="{{item.url}}" target="_blank" >{{item.full_name}}</a></h1>
+            <h1><a href="{{item.html_url}}" target="_blank" >{{item.full_name}}</a></h1>
             <p>{{item.description}}</p>
             <p>
                 <div class="spacing">

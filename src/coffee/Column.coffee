@@ -37,6 +37,7 @@ window.Columns.Column = class Column
   editMode: (enable) ->
     toolbar = @columnElement.querySelector "html /deep/ core-toolbar"
     trans = ui.meta.byId "core-transition-center"
+    debugger
 
     if enable
       @draggie.enable()

@@ -37,3 +37,4 @@ class Columns.GitHub extends Columns.Column
       @draw @cache, holderElement
       @refresh columnElement, holderElement
     else @refresh columnElement, holderElement
+
