@@ -61,7 +61,6 @@ class Tabbie
   noColumnsCheck: =>
     if @packery.items.length > 0 then op = 0 else op = 1
     document.querySelector(".no-columns-container").style.opacity = op
-    console.log op
 
   layoutChanged: () =>
       @noColumnsCheck()
@@ -83,7 +82,6 @@ class Tabbie
     for column in @usedColumns
       used.push column.toJSON()
     store.set "usedColumns", used
-    console.log "syncAll", used
 
     store.set "lastRes", [
       document.body.clientHeight,
