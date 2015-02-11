@@ -5,24 +5,38 @@ var gulp = require('gulp'),
     path = require("path"),
     concat = require("gulp-concat"),
     coffee = require("gulp-coffee"),
-    sourcemaps = require("gulp-sourcemaps");
+    sourcemaps = require("gulp-sourcemaps"),
+    runSequence = require('run-sequence'),
+    del = require("del")
 
-gulp.task('default', ['vulcanize', 'compass', 'coffee'])
+gulp.task('default', ['html', 'compass', 'coffee'])
+
+gulp.task("html", function() {
+    runSequence('columns', 'vulcanize', function() {
+        del("src/columns/compiled")
+    });
+})
+
+gulp.task("columns", function() {
+    return gulp.src("src/columns/**/*.html")
+        .pipe(plumber())
+        .pipe(concat("columns.html"))
+        .pipe(gulp.dest("src/columns/compiled"))
+})
 
 gulp.task('vulcanize', function () {
-    gulp.src('src/*.html')
+    return gulp.src('src/**.html')
         .pipe(plumber())
         .pipe(vulcanize({
             dest: "dist",
             strip: false,
             csp: true, // chrome does not approve of inline scripts
-            //verbose: true
         }))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest("dist"))
 });
 
 gulp.task('coffee', function() {
-    gulp.src('src/coffee/**/*.coffee')
+    gulp.src('src/**/*.coffee')
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(coffee({
@@ -47,7 +61,7 @@ gulp.task("compass", function() {
 gulp.task('watch', function () {
     gulp.watch("src/**/*.scss", ["compass"]);
 
-    gulp.watch("src/**/*.html", ["vulcanize"]);
+    gulp.watch("src/**/*.html", ["html"]);
 
-    gulp.watch("src/coffee/**/*.coffee", ["coffee"]);
+    gulp.watch("src/**/*.coffee", ["coffee"]);
 });

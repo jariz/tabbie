@@ -24,7 +24,7 @@ class Columns.GitHub extends Columns.Column
     .then (json) =>
       @refreshing = false
       @cache = json
-      ui.sync @
+      tabbie.sync @
       holderElement.innerHTML = ""
       @draw @cache, holderElement
     .catch (error) =>
@@ -38,3 +38,4 @@ class Columns.GitHub extends Columns.Column
       @refresh columnElement, holderElement
     else @refresh columnElement, holderElement
 
+tabbie.register "GitHub"

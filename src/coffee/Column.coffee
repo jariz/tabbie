@@ -27,7 +27,7 @@ window.Columns.Column = class Column
       dialog.toggle()
       dialog.shadowRoot.querySelector("tabbie-dialog").shadowRoot.querySelector("paper-button.ok").addEventListener "click", ->
         @config = dialog.config
-        ui.sync @
+        tabbie.sync @
         dialog.toggle()
         if typeof cb is 'function' then cb dialog
     else if typeof cb is 'function' then cb dialog
@@ -36,8 +36,7 @@ window.Columns.Column = class Column
 
   editMode: (enable) ->
     toolbar = @columnElement.querySelector "html /deep/ core-toolbar"
-    trans = ui.meta.byId "core-transition-center"
-    debugger
+    trans = tabbie.meta.byId "core-transition-center"
 
     if enable
       @draggie.enable()
@@ -58,7 +57,7 @@ window.Columns.Column = class Column
 
     @columnElement = columnElement
 
-    trans = ui.meta.byId "core-transition-center"
+    trans = tabbie.meta.byId "core-transition-center"
     for editable in @columnElement.querySelectorAll "html /deep/ .editable"
       trans.setup editable
       @editables.push editable

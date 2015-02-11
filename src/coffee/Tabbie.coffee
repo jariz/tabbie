@@ -1,6 +1,6 @@
-class UI
+class Tabbie
   constructor: ->
-    window.addEventListener 'polymer-ready', this.render #when polymer is ready to go, ♫ bind the UI ♫
+    window.addEventListener 'polymer-ready', @render
 
   renderColumns: ->
     @addColumn column, true for column in @usedColumns
@@ -104,7 +104,7 @@ class UI
 
     #load column definitions
     for column in @columnNames
-      @columns.push new Columns[column](UI)
+      @columns.push new Columns[column]
 
     #load packery (layout manager)
     @packery = new Packery document.querySelector ".column-holder",
@@ -169,14 +169,12 @@ class UI
             @addColumn(column)
             @packery.layout()
 
+  register: (columnName, dir) =>
+    @columnNames.push columnName
+
   packery: null
   columns: []
-  columnNames: [
-    "HackerNews",
-    "Reddit",
-    "Dribbble",
-    "GitHub"
-  ],
+  columnNames: [],
   usedColumns: []
 
-ui = new UI
+tabbie = new Tabbie

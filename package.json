@@ -4,13 +4,15 @@
   "description": "",
   "main": "tab.html",
   "dependencies": {
+    "del": "^1.1.1",
     "gulp": "^3.8.10",
     "gulp-coffee": "^2.2.0",
     "gulp-compass": "^2.0.3",
     "gulp-concat": "^2.4.3",
     "gulp-plumber": "^0.6.6",
     "gulp-sourcemaps": "^1.3.0",
-    "gulp-vulcanize": "^5.0.0"
+    "gulp-vulcanize": "^5.0.0",
+    "run-sequence": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {

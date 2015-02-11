@@ -28,7 +28,7 @@ class Columns.Reddit extends Columns.Column
       .then (json) =>
         @refreshing = false
         @cache = json
-        ui.sync @
+        tabbie.sync @
         holderElement.innerHTML = ""
         @draw @cache, holderElement
       .catch (error) =>
@@ -45,3 +45,5 @@ class Columns.Reddit extends Columns.Column
       @draw @cache, holderElement
       @refresh columnElement, holderElement
     else @refresh columnElement, holderElement
+
+tabbie.register "Reddit"

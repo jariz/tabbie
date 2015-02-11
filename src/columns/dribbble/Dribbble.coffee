@@ -32,7 +32,7 @@ class Columns.Dribbble extends Columns.Column
     .then (json) =>
       @refreshing = false
       @cache = json
-      ui.sync @
+      tabbie.sync @
       holderElement.innerHTML = ""
       @draw @cache, holderElement
     .catch (error) =>
@@ -41,9 +41,9 @@ class Columns.Dribbble extends Columns.Column
   render: (columnElement, holderElement) ->
     super columnElement, holderElement
 
-    holderElement.addEventListener "scroll", =>
-
     if Object.keys(@cache).length
       @draw @cache, holderElement
       @refresh columnElement, holderElement
     else @refresh columnElement, holderElement
+
+tabbie.register "Dribbble"
