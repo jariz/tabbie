@@ -11,6 +11,9 @@ class Columns.FeedColumn extends Columns.Column
   # API endpoint
   url: false
 
+  # Response type (json, xml)
+  responseType: 'json'
+
   # Path inside returned JSON object that has the array we'll loop trough.
   # Example: data.children when returned obj from server is { data: { children: [] } }
   # Leave null for no path (i.e. when server directly returns array)
@@ -28,6 +31,19 @@ class Columns.FeedColumn extends Columns.Column
 
     if @dataPath then data = eval "data." + @dataPath
 
+    if @responseType is 'xml'
+      parser = new DOMParser
+      xmlDoc = parser.parseFromString data, 'text/xml'
+      items = xmlDoc.getElementsByTagName 'item'
+      data = []
+
+      for item in items
+        converted = {}
+        nodes = item.childNodes
+        for el in nodes
+          converted[el.nodeName] = el.textContent
+        data.push converted
+
     for child in data
       card = document.createElement @element
       if @childPath then child = eval "child." + @childPath
@@ -44,16 +60,18 @@ class Columns.FeedColumn extends Columns.Column
     fetch(@url)
     .then (response) =>
       if response.status is 200
-        Promise.resolve response.json()
+        dataType = 'json'
+        dataType = 'text' if @responseType is 'xml'
+        Promise.resolve response[dataType]()
       else Promise.reject new Error response.statusText
-    .then (json) =>
+    .then (data) =>
       @refreshing = false
-      @cache = json
+      @cache = data
       tabbie.sync @
       holderElement.innerHTML = ""
       @draw @cache, holderElement
     .catch (error) =>
-      console.error error
+      console.error error.stack
       @refreshing = false
 
   render: (columnElement, holderElement) ->
