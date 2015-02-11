@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     concat = require("gulp-concat"),
     coffee = require("gulp-coffee"),
     sourcemaps = require("gulp-sourcemaps"),
-    runSequence = require('run-sequence'),
+    runSequence = require('run-sequence').use(gulp),
+    browserSync = require('browser-sync'),
     del = require("del")
 
 gulp.task('default', ['html', 'compass', 'coffee'])
@@ -58,10 +59,24 @@ gulp.task("compass", function() {
        .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('watch', function () {
-    gulp.watch("src/**/*.scss", ["compass"]);
+gulp.task('serve', ['default'], function () {
+    browserSync({
+        server: {
+            baseDir: '.'
+        },
+        startPath: 'dist/tab.html',
+        reloadDelay: 1500
+    });
+});
 
-    gulp.watch("src/**/*.html", ["html"]);
+gulp.task('reload', function () {
+    return browserSync.reload();
+});
 
-    gulp.watch("src/**/*.coffee", ["coffee"]);
+gulp.task('watch', ['serve'], function () {
+    gulp.watch("src/**/*.scss", ["compass", 'reload']);
+
+    gulp.watch("src/**/*.html", ["html", 'reload']);
+
+    gulp.watch("src/**/*.coffee", ["coffee", 'reload']);
 });
