@@ -1,16 +1,12 @@
-class Columns.Reddit extends Columns.Column
+class Columns.Reddit extends Columns.FeedColumn
   name: "Reddit"
   width: 1
   dialog: "reddit-dialog"
   thumb: "column-reddit.png"
 
-  draw: (data, holderElement) ->
-    @loading = false
-
-    for child in data.data.children
-      card = document.createElement "reddit-item"
-      card.item = child.data
-      holderElement.appendChild card
+  element: "reddit-item"
+  dataPath: "data.children"
+  childPath: "data"
 
   refresh: (columnElement, holderElement) ->
     switch @config.listing
@@ -18,32 +14,8 @@ class Columns.Reddit extends Columns.Column
       when 1 then listing = "new"
       when 2 then listing = "top"
 
-    @refreshing = true
+    @url = "https://www.reddit.com/r/"+@config.subreddit+"/"+listing+".json"
 
-    fetch("https://www.reddit.com/r/"+@config.subreddit+"/"+listing+".json")
-      .then (response) =>
-        if response.status is 200
-          Promise.resolve response.json()
-        else Promise.reject new Error response.statusText
-      .then (json) =>
-        @refreshing = false
-        @cache = json
-        tabbie.sync @
-        holderElement.innerHTML = ""
-        @draw @cache, holderElement
-      .catch (error) =>
-        console.error error
-        @refreshing = false
-
-        #todo something on error
-
-  render: (columnElement, holderElement) ->
     super columnElement, holderElement
-
-#    Polymer.import ['reddit-item.html'], =>
-    if Object.keys(@cache).length
-      @draw @cache, holderElement
-      @refresh columnElement, holderElement
-    else @refresh columnElement, holderElement
 
 tabbie.register "Reddit"
