@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     concat = require("gulp-concat"),
     coffee = require("gulp-coffee"),
     sourcemaps = require("gulp-sourcemaps"),
-    runSequence = require('run-sequence').use(gulp),
+    runSequence = require('run-sequence'),
     browserSync = require('browser-sync'),
     del = require("del")
 
