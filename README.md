@@ -13,7 +13,7 @@ It is extremely simple to contribute to Tabbie! You won't even need to install t
 sudo npm install -g gulp bower #ignore if you already have gulp & bower installed
 npm install
 bower install
-gulp serve
+gulp watch
 ```
 Tabbie will now open and you can start hacking :)  
 

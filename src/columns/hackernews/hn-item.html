@@ -5,7 +5,7 @@
     <template>
         <link rel="stylesheet" href="../../../dist/css/feeditem.css">
         <div>
-            <h1><a href="{{item.url.target}}" target="_blank" >{{item.title}}</a></h1>
+            <h1><a href="{{item.url.target}}" target="_blank" >{{item.title}} <span class="domain">{{item.hostname}}</span> </a></h1>
             <p>
                 submitted by <a target="_blank" href="{{item.source.authorUrl}}">{{item.source.username}}</a> <time-ago datetime="{{item.source.createdAt}}" epoch="false"></time-ago>
             </p>
@@ -15,6 +15,11 @@
         </div>
     </template>
     <script>
-        Polymer({});
+        Polymer({
+            attached: function() {
+                var match = this.item.url.target.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+                if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) this.item.hostname = match[2]
+            }
+        });
     </script>
 </polymer-element>
