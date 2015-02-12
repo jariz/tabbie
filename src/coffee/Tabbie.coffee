@@ -3,7 +3,7 @@ class Tabbie
     window.addEventListener 'polymer-ready', @render
 
   renderColumns: ->
-    @addColumn column, true for column in @usedColumns
+    @addColumn column, true for column in @usedColumns when typeof column isnt 'undefined'
 
   addColumn: (column, dontsave) ->
     if not column.id then column.id = Math.round Math.random() * 1000000
@@ -92,6 +92,9 @@ class Tabbie
     #load all columns
     if not cols = store.get "usedColumns" then @usedColumns = [] else
       for col, i in cols
+        if typeof Columns[col.className] is 'undefined'
+          delete cols[i]
+          continue
         newcol = new Columns[col.className](@)
         newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
         cols[i] = newcol
@@ -102,6 +105,7 @@ class Tabbie
 
     #load column definitions
     for column in @columnNames
+      continue if typeof Columns[column] is 'undefined'
       @columns.push new Columns[column]
 
     #load packery (layout manager)
