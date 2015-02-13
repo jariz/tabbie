@@ -22,9 +22,10 @@
 
             h1 {
                 font-size:14px;
+                font-family: 'Roboto Slab', 'Roboto', sans-serif;
             }
 
-            img {
+            .img {
                 width:100%;
                 transition: transform 250ms;
             }
@@ -56,7 +57,7 @@
                 opacity:1;
             }
 
-            a:hover > img {
+            a:hover > .img {
                 transform: scale(1.2)
             }
 
@@ -74,6 +75,24 @@
             .minigrid div core-icon {
                 width:15px;
                 height:15px;
+            }
+
+            .author {
+                position: absolute;
+                bottom: 25px;
+            }
+
+            .author img {
+                width:25px;
+                height:25px;
+                border-radius:50%;
+                float:left;
+                margin-right:10px;
+            }
+
+            .author span {
+                display:inline-block;
+                padding-top:7px;
             }
 
         </style>
@@ -97,8 +116,11 @@
                                 <span>{{item.views_count}}</span>
                             </div>
                         </div>
+                        <div class="author">
+                            <img src="{{item.user.avatar_url}}"> <span>{{item.user.name}}</span>
+                        </div>
                     </div>
-                    <img src="{{item.image}}">
+                    <img src="{{item.image}}" class="img">
                 </a>
         </template>
 
