@@ -22,6 +22,10 @@ class Columns.FeedColumn extends Columns.Column
   # Same as dataPath, but for items in the array itself
   childPath: null
 
+  baseUrl: false
+  infiniteScroll: false
+  page: 1
+
   draw: (data, holderElement) ->
     @loading = false
 
@@ -50,12 +54,22 @@ class Columns.FeedColumn extends Columns.Column
       card.item = child
       holderElement.appendChild card
 
-  refresh: (columnElement, holderElement) ->
+    #needed for proper flex
+    for num in [0..10] when @flex
+      hack = document.createElement @element
+      hack.className = "hack"
+      holderElement.appendChild hack
+
+  refresh: (columnElement, holderElement, adding) ->
     @refreshing = true
 
     if not @url
       console.warn "Please define the 'url' property on your column class!"
       return
+
+    if @infiniteScroll
+      @baseUrl = @url if not @baseUrl
+      @url = @baseUrl.replace "{PAGENUM}", @page
 
     fetch(@url)
     .then (response) =>
@@ -68,7 +82,8 @@ class Columns.FeedColumn extends Columns.Column
       @refreshing = false
       @cache = data
       tabbie.sync @
-      holderElement.innerHTML = ""
+      holderElement.innerHTML = "" if not adding
+      hack.remove() for hack in holderElement.querySelectorAll ".hack" when @flex
       @draw @cache, holderElement
     .catch (error) =>
       console.error error.stack
@@ -76,6 +91,11 @@ class Columns.FeedColumn extends Columns.Column
 
   render: (columnElement, holderElement) ->
     super columnElement, holderElement
+
+    if @infiniteScroll then holderElement.addEventListener "scroll", =>
+      if not @refreshing and holderElement.scrollTop + holderElement.clientHeight >= holderElement.scrollHeight - 100
+        @page++
+        @refresh columnElement, holderElement, true
 
     if Object.keys(@cache).length
       @draw @cache, holderElement

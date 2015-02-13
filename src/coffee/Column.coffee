@@ -13,6 +13,7 @@ window.Columns.Column = class Column
     @cache = []
     @refreshing = false
     @reloading = true
+    @_refreshing = false
 
   settings: (cb) ->
     if @dialog
@@ -73,8 +74,9 @@ window.Columns.Column = class Column
 
       timeout = false
       Object.defineProperty @, "refreshing",
-        get: -> progress.indeterminate
+        get: -> @_refreshing
         set: (val) ->
+          @_refreshing = false
           if val
             progress.style.opacity = 1
           else
