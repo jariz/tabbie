@@ -4,9 +4,9 @@ class Columns.Behance extends Columns.FeedColumn
   thumb: "column-behance.png"
 
   element: "behance-item"
-  dataPath: "projects"
-
   url: "https://api.behance.net/v2/projects?page={PAGENUM}&api_key=IRZkzuavyQ8XBNihD290wtgt4AlwYo6X"
+
+  dataPath: "projects"
   flex: true
   infiniteScroll: true
 

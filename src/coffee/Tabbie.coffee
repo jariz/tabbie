@@ -110,8 +110,9 @@ class Tabbie
 
     #load packery (layout manager)
     @packery = new Packery document.querySelector ".column-holder",
-      columnWidth: document.querySelector ".grid-sizer",
-      rowHeight: document.querySelector ".grid-sizer",
+      columnWidth: document.clientWidth / 4
+#      columnWidth: ".grid-sizer",
+#      rowHeight: document.querySelector ".grid-sizer",
       isInitLayout: false,
       isHorizontal: true
 
@@ -128,7 +129,7 @@ class Tabbie
     # check if resolution has changed since last save,
     # else we're gonna have to force a relayout because the positions may not be correct anymore
     # (each column has a percentage width relative to the body's width...)
-    res = store.get("lastRes", false)
+    res = store.get "lastRes", false
     if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth)
       @packery.layout()
 
@@ -136,37 +137,46 @@ class Tabbie
     fabs = document.querySelector ".fabs"
     fab = document.querySelector ".fab-add"
     fab2 = document.querySelector ".fab-edit"
+    fab3 = document.querySelector ".fab-settings"
     trans = @meta.byId "core-transition-center"
     trans.setup fab2
+    trans.setup fab3
 
     fabs.addEventListener "mouseenter", ->
-      if fab2.hasAttribute "hidden" then fab2.removeAttribute "hidden"
       trans.go fab2,
+        opened: true
+      trans.go fab3,
         opened: true
 
     fabs.addEventListener "mouseleave", ->
       trans.go fab2,
         opened: false
+      trans.go fab3,
+        opened: false
 
     fab2.addEventListener "click", =>
-      if active = fab2.classList.contains "active"
-        fab2.classList.remove "active"
-      else
-        fab2.classList.add "active"
+      if active = fab2.classList.contains "active" then fab2.classList.remove "active"
+      else fab2.classList.add "active"
 
       column.editMode not active for column in @usedColumns
 
+    settings = false
+    fab3.addEventListener "click", =>
+      settings = document.querySelector "#settings_dialog" if not settings
+      settings.toggle()
+
+    columndialog = false
     fab.addEventListener "click", =>
-      dialog = document.getElementById "column_chooser"
-      columnchooser = dialog.querySelector "column-chooser"
+      columndialog = document.getElementById "column_chooser" if not columndialog
+      columnchooser = columndialog.querySelector "column-chooser"
       columnchooser.columns = @columns
-      dialog.toggle()
+      columndialog.toggle()
 
       if(!@columnChosenBound)
         @columnChosenBound = true
-        dialog.addEventListener "column-chosen", (e) =>
+        columndialog.addEventListener "column-chosen", (e) =>
           column = new Columns[e.detail.className]
-          dialog.toggle()
+          columndialog.toggle()
           column.settings =>
             @addColumn(column)
             @packery.layout()

@@ -6,7 +6,20 @@
 //@import "compass/reset";
 @import "compass/css3/transform";
 
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+@font-face {
+    font-family: 'Roboto';
+    src: url('../src/../font/Roboto-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url('../src/../font/RobotoSlab-Regular-webfont.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 body {
     font-family: Roboto, sans-serif;
@@ -23,8 +36,9 @@ body {
     position: absolute;
     bottom:0;
     right:0;
-    height: 140px;
+    height: 210px;
     width: 100px;
+    z-index: 100;
 
     .fab-add {
         position: absolute;
@@ -47,6 +61,17 @@ body {
                 transform:translateZ(0) !important;
                 background-color: #558B2F;
             }
+        }
+    }
+
+    .fab-settings-wrapper {
+        position: absolute;
+        z-index: 100;
+        right: 29px;
+        bottom: 151px;
+
+        .fab-settings {
+            background-color: #2196F3;
         }
     }
 }
@@ -78,7 +103,10 @@ html /deep/ {
     height:200px;
 }
 
-.grid-sizer { width: 25%; }
+.grid-sizer {
+    width: 25%;
+    min-width: 320px;
+}
 
 .no-columns-container {
     display:flex;

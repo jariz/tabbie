@@ -54,12 +54,13 @@ window.Columns.Column = class Column
 
 
   render: (columnElement, holderElement) ->
-    if @flex then holderElement.className = "flex holder"
+    if @flex then holderElement.classList.add "flex"
 
     @columnElement = columnElement
 
     trans = tabbie.meta.byId "core-transition-center"
     for editable in @columnElement.querySelectorAll "html /deep/ .editable"
+      console.log "setup", editable
       trans.setup editable
       @editables.push editable
       editable.removeAttribute "hidden"

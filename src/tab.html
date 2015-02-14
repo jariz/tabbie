@@ -5,7 +5,6 @@
 
     <!-- 3RD PARTY -->
     <link rel="import" href="../bower_components/polymer/polymer.html">
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700' rel='stylesheet' type='text/css'>
     <script src="../bower_components/store.js/store.js"></script>
     <script src="../bower_components/color-thief/src/color-thief.js"></script>
     <script src="../bower_components/packery/dist/packery.pkgd.js"></script>
@@ -50,8 +49,11 @@
 </div>
 
 <div class="fabs">
+    <core-tooltip label='Configure Tabbie' position="left" class="fab-settings-wrapper">
+        <paper-fab mini icon="settings" class="fab-settings"></paper-fab>
+    </core-tooltip>
     <core-tooltip label='Enable edit mode which allows you to drag columns around.' position="left" class="fab-edit-wrapper">
-        <paper-fab mini icon="create" class="fab-edit" ></paper-fab>
+        <paper-fab mini icon="create" class="fab-edit"></paper-fab>
     </core-tooltip>
     <paper-fab icon="add" class="fab-add"></paper-fab>
 </div>
@@ -65,16 +67,22 @@
 </paper-dialog>
 
 
-<template is="auto-binding" id="hn_dialog_wrapper">
-    <paper-dialog id="hn_dialog" heading="HackerNews column settings" transition="core-transition-center">
+<!--<template is="auto-binding" id="hn_dialog_wrapper">-->
+    <!--<paper-dialog id="hn_dialog" heading="HackerNews column settings" transition="core-transition-center">-->
 
-        <core-selector selected="1" id="core_menu">
-            <paper-item>New</paper-item>
-            <paper-item>Top</paper-item>
-        </core-selector>
+        <!--<core-selector selected="1" id="core_menu">-->
+            <!--<paper-item>New</paper-item>-->
+            <!--<paper-item>Top</paper-item>-->
+        <!--</core-selector>-->
 
-        <paper-button dismissive>Cancel</paper-button>
-        <paper-button affirmative default>OK</paper-button>
+        <!--<paper-button dismissive>Cancel</paper-button>-->
+        <!--<paper-button affirmative default>OK</paper-button>-->
+    <!--</paper-dialog>-->
+<!--</template>-->
+
+<template is="auto-binding">
+    <paper-dialog heading="Preferences" id="settings_dialog" transition="core-transition-center">
+
     </paper-dialog>
 </template>
 
@@ -84,6 +92,5 @@
     </paper-toast>
 </template>
 
-<paper-toast id="edit_toast" duration="5000" text=""></paper-toast>
 </body>
 </html>

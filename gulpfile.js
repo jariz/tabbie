@@ -32,6 +32,12 @@ gulp.task('vulcanize', function () {
             dest: "dist",
             strip: false,
             csp: true, // chrome does not approve of inline scripts
+            excludes: {
+                imports: [
+                    //do not use roboto import because it requires external server
+                    "roboto.html"
+                ]
+            }
         }))
         .pipe(gulp.dest("dist"))
 });
