@@ -36,10 +36,14 @@
     <link rel="import" href="item-card.html">
     <link rel="import" href="tabbie-dialog.html">
     <link rel="import" href="column-chooser.html">
+    <link rel="import" href="fab-anim.html">
+    <link rel="import" href="fullscreen-dialog.html">
     <link rel="import" href="columns/compiled/columns.html">
 </head>
 <body unresolved>
-
+<fullscreen-dialog heading="Add a new column" id="addcolumn">
+    <column-chooser></column-chooser>
+</fullscreen-dialog>
 <div class="no-columns-container">
     <div>
         <h1>Welcome to Tabbie!</h1>
@@ -57,14 +61,15 @@
     </core-tooltip>
     <paper-fab icon="add" class="fab-add"></paper-fab>
 </div>
+
 <core-meta type="transition" id="meta"></core-meta>
 
 <div class="column-holder"></div>
 <div class="grid-sizer"></div>
 
-<paper-dialog id="column_chooser" transition="core-transition-center">
-    <column-chooser></column-chooser>
-</paper-dialog>
+<!--<paper-dialog id="column_chooser" transition="core-transition-center">-->
+    <!--&lt;!&ndash;<column-chooser></column-chooser>&ndash;&gt;-->
+<!--</paper-dialog>-->
 
 
 <!--<template is="auto-binding" id="hn_dialog_wrapper">-->

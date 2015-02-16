@@ -76,6 +76,19 @@ body {
     }
 }
 
+.fab-anim-add {
+    right: 20px;
+    bottom: 20px;
+}
+
+.fab-anim-settings {
+    right: 29px;
+    bottom: 151px;
+    background-color: #2196F3;
+    width:40px;
+    height:40px;
+}
+
 html .fab-edit /deep/ core-icon {
     transition:transform 250ms;
 }

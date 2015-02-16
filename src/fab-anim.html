@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<polymer-element name="fab-anim">
+    <template>
+        <style>
+            :host {
+                position: absolute;
+                width: 56px;
+                height: 56px;
+                background: #d23f31;
+                border-radius: 50%;
+                z-index: 500;
+                transition: all 700ms ease-in-out;
+            }
+
+            :host(.active) {
+                width:{{animHeight}}px;
+                height:{{animHeight}}px;
+                right:calc(50% - {{animHeight / 2}}px) !important;
+                bottom:calc(50% - {{animHeight / 2}}px) !important;
+            }
+        </style>
+
+    </template>
+    <script>
+        Polymer({
+            play: function() {
+                if(document.body.clientWidth < document.body.clientHeight) this.animHeight = document.body.clientHeight;
+                else this.animHeight = document.body.clientWidth;
+                this.animHeight = Math.round(this.animHeight * 1.4)
+                this.classList.add("active")
+            }
+        })
+    </script>
+</polymer-element>

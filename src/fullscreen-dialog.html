@@ -1,0 +1,109 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<polymer-element name="fullscreen-dialog" attributes="heading">
+    <template>
+        <style>
+            :host {
+                position:absolute;
+                width:100%;
+                height:100%;
+                top:0;
+                left:0;
+                background: #fff;
+                z-index: 1000;
+                opacity:0;
+                transition:opacity 500ms;
+                display:none;
+            }
+
+            .back-toolbar {
+                position: absolute;
+                left:0;
+                top:0;
+                width:100%;
+                background: #d23f31;
+                height:150px;
+                color:#fff;
+            }
+
+            .card {
+                width:70%;
+                margin: 45px auto 0;
+                background: #fff;
+                border-radius:3px;
+            }
+
+            .card .content {
+                padding:10px;
+                max-height: 82%;
+                overflow-y:auto;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            .card-bar {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                background: #fff;
+                padding:20px 10px;
+                height:auto;
+                border-bottom:1px solid #eee;
+            }
+
+        </style>
+
+        <core-toolbar class="back-toolbar">
+            <paper-icon-button icon="arrow-back" on-click="{{toggle}}"></paper-icon-button>
+        </core-toolbar>
+
+        <paper-shadow z="2" class="card">
+            <core-toolbar class="card-bar">
+                <span flex>{{heading}}</span>
+            </core-toolbar>
+
+            <div class="content">
+                <content></content>
+            </div>
+        </paper-shadow>
+
+    </template>
+    <script>
+        Polymer({
+            addButton: function(icon, callback) {
+                var toolbar = this.shadowRoot.querySelector(".card-bar")
+                var button = document.createElement("paper-icon-button");
+                button.icon = icon;
+                toolbar.appendChild(button)
+                button.addEventListener("click", function() {
+                    callback()
+                })
+            },
+
+            toggle: function(cb) {
+                if(this.style.opacity == 0) {
+                    this.style.display = "block"
+                    var self = this;
+                    setTimeout(function() {
+                        self.style.opacity = 1;
+                    }, 100)
+                }
+                else {
+                    this.style.opacity = 0;
+                }
+
+                if(typeof cb === 'function') {
+                    var event = this.addEventListener("webkitTransitionEnd", function() {
+                        this.removeEventListener("click", event);
+                        if(this.style.opacity == 0) this.style.display = "none"
+
+                        cb()
+                    })
+                }
+            }
+        })
+    </script>
+</polymer-element>

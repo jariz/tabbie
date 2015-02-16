@@ -122,9 +122,7 @@
                 <paper-icon-button on-click="{{settings}}" style="background-image: url(../src/img/{{column.thumb}})" class="logo"></paper-icon-button>
                 <div id="div" flex>{{column.name}}</div>
                 <paper-icon-button on-click="{{_delete}}" icon="delete" class="editable" hidden></paper-icon-button>
-                <template if="{{column.dialog}}">
-                    <paper-icon-button on-click="{{settings}}" icon="settings" class="editable" hidden></paper-icon-button>
-                </template>
+                <paper-icon-button on-click="{{settings}}" icon="settings" class="editable settings" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{refresh}}" icon="refresh"></paper-icon-button>
             </core-toolbar>
 

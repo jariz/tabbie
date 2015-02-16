@@ -9,6 +9,11 @@ class Columns.Reddit extends Columns.FeedColumn
   childPath: "data"
 
   refresh: (columnElement, holderElement) ->
+    if not @config.subreddit
+      @config =
+        listing: 0
+        subreddit: "funny"
+
     switch @config.listing
       when 0 then listing = "hot"
       when 1 then listing = "new"

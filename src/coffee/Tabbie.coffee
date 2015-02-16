@@ -47,7 +47,7 @@ class Tabbie
       @syncAll()
     columnEl.addEventListener "column-refresh", => column.refresh columnEl, holderEl
     columnEl.addEventListener "column-settings", =>
-      column.settings -> column.refresh columnEl holderEl
+      column.settings -> column.refresh columnEl, holderEl
 
     columnEl.animate [
       opacity: 0
@@ -162,24 +162,35 @@ class Tabbie
 
     settings = false
     fab3.addEventListener "click", =>
-      settings = document.querySelector "#settings_dialog" if not settings
-      settings.toggle()
 
-    columndialog = false
+#      fabanim = document.createElement "fab-anim"
+#      fabanim.classList.add "fab-anim-settings"
+#      fabanim.addEventListener "webkitAnimationEnd", ->
+#        fabanim.remove()
+#      document.body.appendChild fabanim
+#      fabanim.play()
+
+    columnchooser = document.querySelector "html /deep/ column-chooser"
+    columnchooser.columns = @columns
+
+    adddialog = document.querySelector "#addcolumn"
+    adddialog.addButton "add", =>
+      adddialog.toggle()
+      for column in columnchooser.selectedColumns
+        column = new Columns[column.className]
+        @addColumn(column)
+        @packery.layout()
+
     fab.addEventListener "click", =>
-      columndialog = document.getElementById "column_chooser" if not columndialog
-      columnchooser = columndialog.querySelector "column-chooser"
-      columnchooser.columns = @columns
-      columndialog.toggle()
 
-      if(!@columnChosenBound)
-        @columnChosenBound = true
-        columndialog.addEventListener "column-chosen", (e) =>
-          column = new Columns[e.detail.className]
-          columndialog.toggle()
-          column.settings =>
-            @addColumn(column)
-            @packery.layout()
+      fabanim = document.createElement "fab-anim"
+      fabanim.classList.add "fab-anim-add"
+      fabanim.addEventListener "webkitTransitionEnd", ->
+        adddialog.toggle ->
+          fabanim.remove()
+
+      document.body.appendChild fabanim
+      fabanim.play()
 
   register: (columnName, dir) =>
     @columnNames.push columnName

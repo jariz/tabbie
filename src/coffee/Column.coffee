@@ -61,6 +61,7 @@ window.Columns.Column = class Column
     trans = tabbie.meta.byId "core-transition-center"
     for editable in @columnElement.querySelectorAll "html /deep/ .editable"
       console.log "setup", editable
+      if not @dialog and editable.classList.contains "settings" then continue
       trans.setup editable
       @editables.push editable
       editable.removeAttribute "hidden"
