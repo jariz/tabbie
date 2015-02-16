@@ -1,0 +1,23 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link href="../../../bower_components/core-menu/core-menu.html" rel="import">
+<link href="../../../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
+<link href="../../../bower_components/paper-item/paper-item.html" rel="import">
+<link href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
+
+<polymer-element name="lobsters-dialog" attributes="config">
+    <template>
+        <tabbie-dialog style="width:400px; height: 223px;">
+            <paper-dropdown-menu label="Listing" style="width:100%; margin-bottom:20px;">
+                <paper-dropdown class="dropdown">
+                    <core-menu class="menu" selected="{{config.listing}}">
+                        <paper-item>Hot</paper-item>
+                        <paper-item>New</paper-item>
+                    </core-menu>
+                </paper-dropdown>
+            </paper-dropdown-menu>
+        </tabbie-dialog>
+    </template>
+    <script>
+        Polymer({})
+    </script>
+</polymer-element>
