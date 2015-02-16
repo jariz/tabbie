@@ -64,13 +64,13 @@ body {
         }
     }
 
-    .fab-settings-wrapper {
+    .fab-about-wrapper {
         position: absolute;
         z-index: 100;
         right: 29px;
         bottom: 151px;
 
-        .fab-settings {
+        .fab-about {
             background-color: #2196F3;
         }
     }
@@ -81,7 +81,7 @@ body {
     bottom: 20px;
 }
 
-.fab-anim-settings {
+.fab-anim-about {
     right: 29px;
     bottom: 151px;
     background-color: #2196F3;
@@ -89,19 +89,21 @@ body {
     height:40px;
 }
 
-html .fab-edit /deep/ core-icon {
-    transition:transform 250ms;
+.fab-edit {
+    /deep/ core-icon {
+        transition:transform 250ms;
+    }
+
+    &.active /deep/ core-icon {
+        transform:rotate(360deg);
+    }
 }
 
-html .fab-edit.active /deep/ core-icon {
-    transform:rotate(360deg);
+#about /deep/ .back-toolbar {
+    background-color: #2196F3;
 }
 
 html /deep/ {
-    #column_chooser {
-        width:565px; height:500px;
-    }
-
     paper-button.primary {
         background: #4285f4;
         color: #fff;

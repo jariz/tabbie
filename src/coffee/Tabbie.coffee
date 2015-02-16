@@ -1,4 +1,7 @@
 class Tabbie
+
+  version: "0.1-alpha"
+
   constructor: ->
     window.addEventListener 'polymer-ready', @render
 
@@ -135,11 +138,18 @@ class Tabbie
     if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth)
       @packery.layout()
 
+    #about shiz
+    #nasty, but i have no way to check if the autobinding template has loaded, and it's not yet loaded at run time...
+    setTimeout ->
+      for item in document.querySelectorAll("#about paper-item")
+        item.addEventListener "click", -> if @getAttribute("href") then window.open @getAttribute("href")
+    , 100
+
     #fab stuff
     fabs = document.querySelector ".fabs"
     fab = document.querySelector ".fab-add"
     fab2 = document.querySelector ".fab-edit"
-    fab3 = document.querySelector ".fab-settings"
+    fab3 = document.querySelector ".fab-about"
     trans = @meta.byId "core-transition-center"
     trans.setup fab2
     trans.setup fab3
@@ -162,15 +172,17 @@ class Tabbie
 
       column.editMode not active for column in @usedColumns
 
-    settings = false
     fab3.addEventListener "click", =>
+      aboutdialog = document.querySelector "#about"
+      aboutdialog.querySelector("html /deep/ template").version = @version
+      fabanim = document.createElement "fab-anim"
+      fabanim.classList.add "fab-anim-about"
+      fabanim.addEventListener "webkitTransitionEnd", ->
+        aboutdialog.toggle ->
+          fabanim.remove()
 
-#      fabanim = document.createElement "fab-anim"
-#      fabanim.classList.add "fab-anim-settings"
-#      fabanim.addEventListener "webkitAnimationEnd", ->
-#        fabanim.remove()
-#      document.body.appendChild fabanim
-#      fabanim.play()
+      document.body.appendChild fabanim
+      fabanim.play()
 
     columnchooser = document.querySelector "html /deep/ column-chooser"
     columnchooser.columns = @columns

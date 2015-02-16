@@ -14,6 +14,8 @@
 
     <!-- ELEMENTS -->
     <link rel="import" href="../bower_components/core-icons/core-icons.html">
+    <link rel="import" href="../bower_components/core-icons/maps-icons.html">
+    <link rel="import" href="../bower_components/core-icons/av-icons.html">
     <link rel="import" href="../bower_components/core-meta/core-meta.html">
     <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
     <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
@@ -44,6 +46,7 @@
 <fullscreen-dialog heading="Add a new column" id="addcolumn">
     <column-chooser></column-chooser>
 </fullscreen-dialog>
+
 <div class="no-columns-container">
     <div>
         <h1>Welcome to Tabbie!</h1>
@@ -52,9 +55,104 @@
     </div>
 </div>
 
+<fullscreen-dialog heading="About Tabbie" id="about">
+    <template is="auto-binding">
+        <style>
+
+            .about h3 {
+                font-weight: lighter;
+                color:#424242;
+                /*margin-bottom:5px;*/
+                font-size:22px;
+                display:block;
+                margin:0
+            }
+
+            .about h3 core-icon {
+                margin-right: 10px;
+            }
+
+            .about h4 {
+                text-transform: uppercase;
+            }
+
+            .about p {
+                text-transform: uppercase;
+                color:#9E9E9E;
+            }
+
+            .about h5 {
+                color:#9e9e9e;
+                font-size:14px;
+                font-weight:lighter;
+            }
+
+            /* NO FLEX, ZONE! */
+            .about paper-item /deep/ .button-content {
+                display:block;
+            }
+
+            .luv {
+                width:14px;
+            }
+
+            .disclaimer h5 {
+                margin-bottom: 0;
+            }
+
+            .disclaimer .logo {
+                color:#9e9e9e;
+                float:right;
+                padding-left:10px;
+                padding-top:13px;
+            }
+
+            .disclaimer .logo core-icon {
+                width: 18px;
+                position: relative;
+                top: -2px;
+            }
+        </style>
+
+        <div class="about">
+            <paper-item href="http://jari.io">
+                <h3>Development and design</h3>
+                <p>Jari Zwarts</p>
+            </paper-item>
+            <h4>Made with</h4>
+            <paper-item href="https://www.polymer-project.org/">
+                <h3><core-icon icon="polymer"></core-icon> Polymer</h3>
+            </paper-item>
+            <paper-item href="http://coffeescript.com">
+                <h3><core-icon icon="maps:local-cafe"></core-icon> CoffeeScript</h3>
+            </paper-item>
+            <paper-item href="http://vanilla-js.com">
+                <h3><core-icon icon="maps:local-florist"></core-icon> Vanilla.js</h3>
+            </paper-item>
+            <h4>Links</h4>
+            <paper-item href="https://github.com/jariz/tabbie">
+                <h3><core-icon icon="description"></core-icon> Project page</h3>
+            </paper-item>
+            <paper-item href="https://github.com/jariz/tabbie/issues">
+                <h3><core-icon icon="bug-report"></core-icon> Report a bug</h3>
+            </paper-item>
+            <paper-item href="https://github.com/jariz/tabbie/issues">
+                <h3><core-icon icon="av:new-releases"></core-icon> Request a column/feature</h3>
+            </paper-item>
+            <div class="disclaimer">
+                <div class="logo">
+                    <core-icon icon="tab"></core-icon> Tabbie {{version}}
+                </div>
+                <h5>Tabbie is opensource. Please consider contributing if you want to see more features.<br>
+                    Tabbie will never contain ads. Tabbie is a product of pure <core-icon class="luv" icon="favorite"></core-icon>. Tabbie is still in active development.</h5>
+            </div>
+        </div>
+    </template>
+</fullscreen-dialog>
+
 <div class="fabs">
-    <core-tooltip label='Configure Tabbie' position="left" class="fab-settings-wrapper">
-        <paper-fab mini icon="settings" class="fab-settings"></paper-fab>
+    <core-tooltip label='About Tabbie' position="left" class="fab-about-wrapper">
+        <paper-fab mini icon="info-outline" class="fab-about"></paper-fab>
     </core-tooltip>
     <core-tooltip label='Enable edit mode which allows you to drag columns around.' position="left" class="fab-edit-wrapper">
         <paper-fab mini icon="create" class="fab-edit"></paper-fab>
