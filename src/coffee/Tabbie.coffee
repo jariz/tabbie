@@ -39,7 +39,9 @@ class Tabbie
       toast = document.getElementById "removed_toast_wrapper"
       toast.column = column
       toast.restore = =>
-        @addColumn column
+        newcolumn = new Columns[column.className]
+        newcolumn[key] = column[key] for key of column when typeof column[key] isnt 'function'
+        @addColumn newcolumn
         @packery.layout()
       document.getElementById("removed_toast").show()
       @packery.remove columnEl
@@ -95,7 +97,7 @@ class Tabbie
         if typeof Columns[col.className] is 'undefined'
           delete cols[i]
           continue
-        newcol = new Columns[col.className](@)
+        newcol = new Columns[col.className]
         newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
         cols[i] = newcol
       @usedColumns = cols

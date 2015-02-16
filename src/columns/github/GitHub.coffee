@@ -8,7 +8,7 @@ class Columns.GitHub extends Columns.FeedColumn
   dialog: "github-dialog"
 
   refresh: (columnElement, holderElement) ->
-    if not @config.period then @config.period = 2
+    if typeof @config.period is "undefined" then @config.period = 2
 
     switch @config.period
       when 0 then period = "month"
