@@ -8,6 +8,8 @@
     <script src="../dist/js/libs.js"></script>
 
     <!-- ELEMENTS -->
+    <link rel="import" href="../bower_components/core-icon/core-icon.html">
+    <link rel="import" href="../bower_components/core-iconset-svg/core-iconset-svg.html">
     <link rel="import" href="../bower_components/core-icons/core-icons.html">
     <link rel="import" href="../bower_components/core-icons/maps-icons.html">
     <link rel="import" href="../bower_components/core-icons/av-icons.html">
@@ -88,9 +90,15 @@
     </template>
 </fullscreen-dialog>
 
+<core-iconset-svg id="tabbie" iconSize="24">
+    <svg><defs>
+        <g id="about"><rect stroke="#fffff" id="svg_3" height="13.389733" width="2.450408" y="8.876313" x="10.874563" stroke-opacity="0" stroke-width="2" fill="#fffff"/><rect stroke="#fffff" id="svg_7" height="2.217037" width="2.450408" y="2.648191" x="10.874563" stroke-opacity="0" stroke-width="2" fill="#fffff"/></g>
+    </defs></svg>
+</core-iconset-svg>
+
 <div class="fabs">
     <core-tooltip label='About Tabbie.' position="left" class="fab-about-wrapper">
-        <paper-fab mini icon="info-outline" class="fab-about"></paper-fab>
+        <paper-fab mini icon="tabbie:about" class="fab-about"></paper-fab>
     </core-tooltip>
     <core-tooltip label='Edit your existing columns.' position="left" class="fab-edit-wrapper">
         <paper-fab mini icon="create" class="fab-edit"></paper-fab>

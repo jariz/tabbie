@@ -50,7 +50,9 @@
                 <div class="column" on-click="{{onSelected}}">
                     <div class="content">
                         <paper-ripple></paper-ripple>
-                        <img src="../src/img/{{column.thumb}}">
+                        <template if="{{column.thumb}}">
+                            <img src="img/{{column.thumb}}">
+                        </template>
                         <h3>{{column.name}}</h3>
                     </div>
                 </div>
