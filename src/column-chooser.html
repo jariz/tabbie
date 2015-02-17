@@ -10,7 +10,6 @@
                 width: 200px;
                 min-width: 200px;
                 display:inline-block;
-                padding: 20px;
                 margin-left: 10px;
                 margin-bottom: 10px;
                 flex: 1 0 200px;
@@ -18,6 +17,10 @@
                 transition: 250ms background;
                 background: #fff;
                 cursor: pointer;
+            }
+
+            .column .content {
+                padding: 20px;
             }
 
             .column.selected {
@@ -40,18 +43,17 @@
 
             .hack {
                 height: 0;
-                border: none;
-                padding:0;
-                margin:0;
             }
         </style>
         <div horizontal layout wrap class="grid">
             <template repeat="{{column in columns}}">
-                <paper-shadow z="0" class="column" on-click="{{onSelected}}">
-                    <paper-ripple></paper-ripple>
-                    <img src="../src/img/{{column.thumb}}">
-                    <h3>{{column.name}}</h3>
-                </paper-shadow>
+                <div class="column" on-click="{{onSelected}}">
+                    <div class="content">
+                        <paper-ripple></paper-ripple>
+                        <img src="../src/img/{{column.thumb}}">
+                        <h3>{{column.name}}</h3>
+                    </div>
+                </div>
             </template>
             <div class="column hack"></div>
             <div class="column hack"></div>
@@ -68,6 +70,13 @@
         Polymer({
             selectedColumns: [],
             columns: [],
+            clear: function() {
+                this.selectedColumns = []
+                var columns = this.querySelectorAll("html /deep/ .grid .column");
+                for (i = 0; i < columns.length; ++i) {
+                    columns[i].classList.remove("selected")
+                }
+            },
             onSelected: function(e) {
                 var cl = e.currentTarget.classList;
                 var column = e.target.templateInstance.model.column

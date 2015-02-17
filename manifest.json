@@ -1,7 +1,7 @@
 {
   "name": "Tabbie",
   "description": "Tabbie aims to be the most customizable new tab extension ever made.",
-  "version": "0.2",
+  "version": "0.1-alpha",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "dist/tab.html"

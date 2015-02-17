@@ -144,3 +144,56 @@ html /deep/ {
     }
 
 }
+
+#about {
+    .about {
+        h3 {
+            font-weight: lighter;
+            color: #424242;
+            font-size: 22px;
+            display: block;
+            margin: 0;
+            core-icon {
+                margin-right: 10px;
+            }
+        }
+        h4 {
+            text-transform: uppercase;
+        }
+        p {
+            text-transform: uppercase;
+            color: #9E9E9E;
+        }
+        h5 {
+            color: #9e9e9e;
+            font-size: 14px;
+            font-weight: lighter;
+        }
+
+        /* NO FLEX, ZONE! */
+        paper-item /deep/ .button-content {
+            display: block;
+        }
+
+        .luv {
+            width: 14px;
+        }
+    }
+
+    .disclaimer {
+        h5 {
+            margin-bottom: 0;
+        }
+        .logo {
+            color: #9e9e9e;
+            float: right;
+            padding-left: 10px;
+            padding-top: 13px;
+            core-icon {
+                width: 18px;
+                position: relative;
+                top: -2px;
+            }
+        }
+    }
+}

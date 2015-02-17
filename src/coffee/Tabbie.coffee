@@ -1,6 +1,7 @@
 class Tabbie
 
   version: "0.1-alpha"
+  editMode: false
 
   constructor: ->
     window.addEventListener 'polymer-ready', @render
@@ -53,6 +54,8 @@ class Tabbie
     columnEl.addEventListener "column-refresh", => column.refresh columnEl, holderEl
     columnEl.addEventListener "column-settings", =>
       column.settings -> column.refresh columnEl, holderEl
+
+    if @editMode then column.editMode true
 
     columnEl.animate [
       opacity: 0
@@ -170,6 +173,7 @@ class Tabbie
       if active = fab2.classList.contains "active" then fab2.classList.remove "active"
       else fab2.classList.add "active"
 
+      @editMode = not active
       column.editMode not active for column in @usedColumns
 
     fab3.addEventListener "click", =>
@@ -196,7 +200,7 @@ class Tabbie
         @packery.layout()
 
     fab.addEventListener "click", =>
-
+      columnchooser.clear()
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-add"
       fabanim.addEventListener "webkitTransitionEnd", ->
