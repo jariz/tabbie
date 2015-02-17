@@ -1,0 +1,20 @@
+{
+  "name": "Tabbie",
+  "description": "A material, customizable, and hackable new tab extension.",
+  "version": "0.1",
+  "incognito": "split",
+  "chrome_url_overrides": {
+    "newtab": "tab.html"
+  },
+  "permissions": [
+    "https://lobste.rs/*",
+    "https://api.behance.net/*"
+  ],
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "icons": {
+    "48": "img/icon_48.png",
+    "64": "img/icon_64.png",
+    "128": "img/icon_128.png"
+  }
+}

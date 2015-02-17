@@ -9,6 +9,10 @@
                 padding: 0 0 0 90px;
             }
 
+            :host(.nothumb) {
+                padding:0 0 0 10px;
+            }
+
             img {
                 border-radius:50%;
                 width:50px;
@@ -24,13 +28,13 @@
             }
         </style>
 
-        <template if="{{item.thumbnail && item.thumbnail != 'self'}}">
+        <template if="{{!item.nothumb}}">
             <a class="img" target="_blank" href="{{item.url}}"><img src="{{item.thumbnail}}"></a>
         </template>
         <div>
             <h1><a href="{{item.url}}" target="_blank" >{{item.title}}</a></h1>
             <p>
-                submitted by <a target="_blank" href="http://www.reddit.com/u/{{item.author}}">{{item.author}}</a> <time-ago swag="hi" datetime="{{item.created}}"></time-ago>
+                submitted by <a target="_blank" href="http://www.reddit.com/u/{{item.author}}">{{item.author}}</a> <time-ago datetime="{{item.created}}"></time-ago>
             </p>
             <p>
                 <a target="_blank" href="https://reddit.com{{item.permalink}}">{{item.num_comments}} comments</a>, {{item.score}} points
@@ -38,6 +42,13 @@
         </div>
     </template>
     <script>
-        Polymer({});
+        Polymer({
+            attached: function() {
+                if(!this.item.thumbnail || this.item.thumbnail == "default" || this.item.thumbnail == "self") {
+                    this.item.nothumb = true
+                    this.classList.add("nothumb");
+                }
+            }
+        });
     </script>
 </polymer-element>

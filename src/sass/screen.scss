@@ -8,14 +8,14 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../src/../font/Roboto-Regular-webfont.woff') format('woff');
+    src: url('../font/Roboto-Regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Roboto Slab';
-    src: url('../src/../font/RobotoSlab-Regular-webfont.ttf') format('woff');
+    src: url('../font/RobotoSlab-Regular-webfont.ttf') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -140,7 +140,7 @@ html /deep/ {
         width: 554px;
         padding-top:140px;
         height: 355px;
-        background-image:url('../../src/img/chrome.png')
+        background-image:url('../img/chrome.png')
     }
 
 }

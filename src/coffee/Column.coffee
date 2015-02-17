@@ -3,11 +3,12 @@ window.Columns.Column = class Column
   constructor: ->
     @className = @constructor.name
 
-    thmb = document.createElement "img"
-    thmb.addEventListener "load", =>
-      ct = new ColorThief thmb
-      @color = ct.getColor thmb
-    thmb.src = "../src/img/" + @thumb
+    if not @color
+      thmb = document.createElement "img"
+      thmb.addEventListener "load", =>
+        ct = new ColorThief thmb
+        @color = ct.getColor thmb
+      thmb.src = "img/" + @thumb
 
     @config = {}
     @cache = []
@@ -105,7 +106,8 @@ window.Columns.Column = class Column
     "cache",
     "config",
     "className",
-    "id"
+    "id",
+    "color"
   ]
 
   #Dialog name
