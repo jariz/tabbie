@@ -1,7 +1,7 @@
 {
   "name": "Tabbie",
   "description": "A material, customizable, and hackable new tab extension.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "tab.html"

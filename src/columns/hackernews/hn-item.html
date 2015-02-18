@@ -10,7 +10,7 @@
                 submitted by <a target="_blank" href="{{item.source.authorUrl}}">{{item.source.username}}</a> <time-ago datetime="{{item.source.createdAt}}" epoch="false"></time-ago>
             </p>
             <p>
-                <a target="_blank" href="{{item.url.sourceUrl}}">{{item.source.commentsCount}} comments</a>, {{item.source.likesCount}} points
+                <a target="_blank" href="{{item.source.sourceUrl}}">{{item.source.commentsCount == null ? 0 : item.source.commentsCount}} comments</a>, {{item.source.likesCount}} points
             </p>
         </div>
     </template>
