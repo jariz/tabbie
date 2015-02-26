@@ -40,7 +40,7 @@ Start by renaming all files to your column (Reddit.coffee > Myservice.coffee), e
 A column image exists of a 150x150 png in the src/img directory.
 Column image can be defined with the 'thumb' property within a column's class. (more on that below)  
 Files should be in column-\*.png.
-Column images have a background that comes from [the google design color palette](www.google.com/design/spec/style/color.html#color-color-palette).
+Column images have a background that comes from [the google design color palette](https://www.google.com/design/spec/style/color.html#color-color-palette).
 It is very important that column images have a background on them, as tabbie automatically looks for the most dominant color, and uses it for the rest of a column's 'toolbar'.
 The logo itself on the column image must be white (#FFFFF), and a width of 75% of the total image, centered within the image itself.
 Preferabely vector (check out [font-awesome](http://fontawesome.io), or google's [material icons](https://google.github.io/material-design-icons/))  
