@@ -7,11 +7,18 @@
     "newtab": "tab.html"
   },
   "permissions": [
+    "identity",
     "https://lobste.rs/*",
     "https://api.behance.net/*"
   ],
+  "oauth2": {
+    "client_id": "2445668283-ovnfq4m0m03tmvkhh4rmj4qtu02l5tic.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/gmail.modify"
+    ]
+  },
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://apis.google.com/ https://accounts.google.com https://oauth.googleusercontent.com https://ssl.gstatic.com 'unsafe-eval'; object-src 'self'",
   "icons": {
     "48": "img/icon_48.png",
     "64": "img/icon_64.png",

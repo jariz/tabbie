@@ -99,5 +99,4 @@ class Columns.FeedColumn extends Columns.Column
 
     if Object.keys(@cache).length
       @draw @cache, holderElement
-      @refresh columnElement, holderElement
-    else @refresh columnElement, holderElement
+    @refresh columnElement, holderElement

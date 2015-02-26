@@ -41,7 +41,8 @@ gulp.task('libs', function() {
         'bower_components/color-thief/src/color-thief.js',
         'bower_components/draggabilly/dist/draggabilly.pkgd.js',
         'bower_components/fetch/fetch.js',
-        'bower_components/momentjs/moment.js'
+        'bower_components/momentjs/moment.js',
+        'bower_components/pleasejs/src/Please.js'
     ])
         .pipe(concat('libs.js'))
         .pipe(gulp.dest('dist/js'))
@@ -129,4 +130,6 @@ gulp.task('watch', ['serve'], function () {
     gulp.watch('src/**/*.html', ['html', 'reload']);
 
     gulp.watch('src/**/*.coffee', ['coffee', 'reload']);
+
+    gulp.watch('src/manifest.json', ['copy']);
 });

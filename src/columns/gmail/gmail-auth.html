@@ -1,0 +1,42 @@
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../../bower_components/google-signin/google-icons.html">
+<link rel="import" href="../../../bower_components/google-apis/google-apis.html">
+
+<polymer-element name="gmail-auth" attributes="item">
+    <template>
+        <style>
+            div {
+                display:flex;
+                width:100%;
+                height:100%;
+            }
+
+            div paper-button {
+                margin:auto;
+                background:#DC4434;
+                color:#fff;
+            }
+
+            div paper-button core-icon {
+                margin-right:10px;
+            }
+        </style>
+        <div>
+            <paper-button on-click="{{signIn}}" raised><core-icon icon="google:google"></core-icon> Sign in with Google</paper-button>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            signIn: function() {
+                var self = this;
+                chrome.identity.getAuthToken({
+                    interactive:true
+                }, function(token) {
+                    self.fire("sign-in", token)
+                    console.log(self)
+                });
+            }
+        })
+    </script>
+</polymer-element>
