@@ -36,6 +36,9 @@ window.Columns.Column = class Column
 
   refresh: (columnElement, holderElement) ->
 
+  attemptAdd: (successCallback) ->
+    if typeof successCallback is 'function' then successCallback()
+
   editMode: (enable) ->
     toolbar = @columnElement.querySelector "html /deep/ core-toolbar"
     trans = tabbie.meta.byId "core-transition-center"

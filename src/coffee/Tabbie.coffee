@@ -192,15 +192,21 @@ class Tabbie
     columnchooser.columns = @columns
 
     adddialog = document.querySelector "#addcolumn"
-    adddialog.addButton "add", =>
-      adddialog.toggle()
-      for column in columnchooser.selectedColumns
-        column = new Columns[column.className]
-        @addColumn(column)
-        @packery.layout()
+
+    #once again, there's no way to check if templates have loaded, so settimeout it is
+    setTimeout =>
+      columns = adddialog.querySelectorAll "html /deep/ .column:not(.hack)"
+      for columnEl in columns
+        column = columnEl.templateInstance.model.column
+        columnEl.addEventListener "click", (e) =>
+          column = e.target.templateInstance.model.column
+          column.attemptAdd =>
+            adddialog.toggle()
+            @addColumn column
+            @packery.layout()
+    , 100
 
     fab.addEventListener "click", =>
-      columnchooser.clear()
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-add"
       fabanim.addEventListener "webkitTransitionEnd", ->
@@ -210,7 +216,7 @@ class Tabbie
       document.body.appendChild fabanim
       fabanim.play()
 
-  register: (columnName, dir) =>
+  register: (columnName) =>
     @columnNames.push columnName
 
   packery: null

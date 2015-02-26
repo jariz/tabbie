@@ -86,7 +86,7 @@ class Columns.FeedColumn extends Columns.Column
       hack.remove() for hack in holderElement.querySelectorAll ".hack" when @flex
       @draw @cache, holderElement
     .catch (error) =>
-      console.error error.stack
+      console.error error
       @refreshing = false
 
   render: (columnElement, holderElement) ->

@@ -47,7 +47,7 @@
         </style>
         <div horizontal layout wrap class="grid">
             <template repeat="{{column in columns}}">
-                <div class="column" on-click="{{onSelected}}">
+                <div class="column">
                     <div class="content">
                         <paper-ripple></paper-ripple>
                         <template if="{{column.thumb}}">
@@ -70,26 +70,7 @@
     </template>
     <script>
         Polymer({
-            selectedColumns: [],
-            columns: [],
-            clear: function() {
-                this.selectedColumns = []
-                var columns = this.querySelectorAll("html /deep/ .grid .column");
-                for (i = 0; i < columns.length; ++i) {
-                    columns[i].classList.remove("selected")
-                }
-            },
-            onSelected: function(e) {
-                var cl = e.currentTarget.classList;
-                var column = e.target.templateInstance.model.column
-                if(!cl.contains("selected")) {
-                    this.selectedColumns.push(column)
-                    cl.add("selected")
-                } else {
-                    this.selectedColumns.splice(this.selectedColumns.indexOf(column))
-                    cl.remove("selected")
-                }
-            }
+            columns: []
         });
     </script>
 </polymer-element>

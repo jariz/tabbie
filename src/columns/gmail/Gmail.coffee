@@ -86,7 +86,7 @@ class Columns.Gmail extends Columns.Column
             gapi.auth.setToken
               access_token: token,
               duration: "52000",
-              state: "profile email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/gmail.modify"
+              state: "https://www.googleapis.com/auth/gmail.modify"
 
             console.log "Auth token data", gapi.auth.getToken()
             gapi.client.load "gmail", "v1", =>
@@ -122,6 +122,7 @@ class Columns.Gmail extends Columns.Column
                     if ax > bx then return -1
                     else return 1
                   @cache = messages
+                  tabbie.sync @
                   @draw messages, holderElement
           else
             @loading = false
