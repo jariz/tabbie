@@ -34,7 +34,7 @@
         <div>
             <h1><a href="{{item.url}}" target="_blank" >{{item.title}}</a></h1>
             <p>
-                submitted by <a target="_blank" href="http://www.reddit.com/u/{{item.author}}">{{item.author}}</a> <time-ago datetime="{{item.created}}"></time-ago>
+                submitted by <a target="_blank" href="http://www.reddit.com/u/{{item.author}}">{{item.author}}</a> <time-ago epoch="true" datetime="{{item.created_utc}}"></time-ago>
             </p>
             <p>
                 <a target="_blank" href="https://reddit.com{{item.permalink}}">{{item.num_comments}} comments</a>, {{item.score}} points
