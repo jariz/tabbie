@@ -215,11 +215,11 @@ class Tabbie
 
       document.body.appendChild fabanim
       fabanim.play()
-    if not store.has "update-" + @version
-      setTimeout ->
-        toast = document.querySelector "#update_toast"
-        toast.toggle()
-      , 1000
+#    if not store.has "update-" + @version
+#      setTimeout ->
+#        toast = document.querySelector "#update_toast"
+#        toast.toggle()
+#      , 1000
 
   register: (columnName) =>
     @columnNames.push columnName
