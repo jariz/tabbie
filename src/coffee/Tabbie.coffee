@@ -1,6 +1,6 @@
 class Tabbie
 
-  version: "0.2-alpha"
+  version: "0.2.2-alpha"
   editMode: false
 
   constructor: ->
