@@ -1,5 +1,5 @@
 {
-  "name": "Tabbie",
+  "name": "Tabbie - New Tab Page",
   "description": "A material, customizable, and hackable new tab extension.",
   "version": "0.2.2",
   "incognito": "split",
@@ -13,7 +13,10 @@
   ],
   "optional_permissions": [
     "http://*/",
-    "https://*/"
+    "https://*/",
+    "management",
+    "bookmarks",
+    "chrome://favicon/*"
   ],
   "oauth2": {
     "client_id": "2445668283-ovnfq4m0m03tmvkhh4rmj4qtu02l5tic.apps.googleusercontent.com",

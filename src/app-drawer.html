@@ -1,0 +1,127 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../bower_components/core-overlay/core-overlay.html">
+<polymer-element name="app-drawer">
+    <template>
+        <style>
+            :host {
+                position: absolute;
+                z-index: 105;
+                left:0;
+                top:0;
+                width: 100%;
+                height: 100%;
+                visibility: hidden;
+            }
+
+            paper-shadow {
+                position: absolute !important;
+                right: 0px;
+                top:50px;
+
+                width:400px;
+                height: 400px;
+                background: #fff;
+                border-radius: 0 0 3px 3px;
+                opacity:0;
+            }
+
+            .content {
+                width:400px;
+                height:400px;
+                overflow:hidden;
+                overflow-y:auto;
+                opacity:0;
+                transition:opacity 300ms ease-out;
+                transition-delay: 300ms;
+            }
+
+            paper-shadow.playing {
+                opacity:1;
+                -webkit-animation: tabbieDrawer 300ms ease-out;
+                -webkit-animation-direction: normal;
+            }
+
+            paper-shadow.playing .content {
+                opacity:1;
+            }
+
+            paper-shadow.playing.reverse .content {
+                transition-delay: 0ms;
+                opacity:0;
+            }
+
+            paper-shadow.playing.reverse {
+                -webkit-animation-direction: reverse;
+                -webkit-animation-delay: 500ms;
+            }
+
+            @-webkit-keyframes tabbieDrawer {
+                0% {
+                    opacity:0;
+                    top:0;
+                    right:25px;
+                    width:50px;
+                    height:50px;
+                    border-radius: 50%;
+                }
+
+                50% {
+                    opacity:1;
+                }
+
+                99% {
+                    border-radius: 3px;
+                }
+
+                100% {
+                    opacity:1;
+                    top:50px;
+                    right:0;
+                    width:400px;
+                    height:400px;
+                    border-radius: 0 0 3px 3px;
+                }
+            }
+        </style>
+        <div class="overlay" fit></div>
+        <paper-shadow>
+            <div class="content">
+                <content></content>
+            </div>
+        </paper-shadow>
+    </template>
+    <script>
+        Polymer({
+            attached: function() {
+                var self = this;
+                //overlay click handler that hides the drawer
+                this.querySelector("html /deep/ .overlay").addEventListener("click", function() {
+                    self.hide();
+                });
+                //handler that resets the drawer after hide animation has finished
+                this.querySelector("html /deep/ paper-shadow").addEventListener("webkitAnimationEnd", function() {
+                    if(!this.classList.contains("reverse")) return;
+                    this.classList.remove("playing");
+                    this.classList.remove("reverse")
+                    self.style.visibility = "hidden"
+                });
+            },
+            show: function() {
+                this.opened = true;
+                this.style.visibility = "visible"
+                var paper = this.querySelector("html /deep/ paper-shadow");
+                paper.classList.add("playing");
+            },
+            opened: false,
+            openedChanged: function() {
+                this.fire("opened-changed");
+            },
+            hide: function() {
+                this.opened = false;
+                var paper = this.querySelector("html /deep/ paper-shadow");
+                paper.classList.add("reverse");
+            }
+        })
+    </script>
+</polymer-element>

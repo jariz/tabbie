@@ -26,6 +26,8 @@ body {
     font-size:16px;
     background: #eeeeee;
     overflow:hidden;
+    margin:0;
+    padding:0;
 }
 
 * {
@@ -42,7 +44,7 @@ body {
 
     .fab-add {
         position: absolute;
-        right:20px;
+        right:10px;
         bottom:20px;
         z-index: 100;
     }
@@ -50,7 +52,7 @@ body {
     .fab-edit-wrapper {
         position: absolute;
         z-index: 100;
-        right: 29px;
+        right: 19px;
         bottom: 94px;
 
         .fab-edit {
@@ -67,7 +69,7 @@ body {
     .fab-about-wrapper {
         position: absolute;
         z-index: 100;
-        right: 29px;
+        right: 19px;
         bottom: 151px;
 
         .fab-about {
@@ -77,12 +79,12 @@ body {
 }
 
 .fab-anim-add {
-    right: 20px;
+    right: 10px;
     bottom: 20px;
 }
 
 .fab-anim-about {
-    right: 29px;
+    right: 19px;
     bottom: 151px;
     background-color: #2196F3;
     width:40px;
@@ -116,6 +118,7 @@ html /deep/ {
 
 .column-holder {
     height:200px;
+    width: calc(100% - 65px);
 }
 
 .grid-sizer {
@@ -194,6 +197,98 @@ html /deep/ {
                 position: relative;
                 top: -2px;
             }
+        }
+    }
+}
+
+.settings {
+    position: absolute;
+    right:0;
+    top:0;
+    z-index:104;
+    transition: background 500ms, width 300ms, box-shadow 500ms;
+    border-bottom-left-radius: 3px;
+    padding:5px 9px;
+    width: 107px;
+    height: 55px;
+    overflow: hidden;
+
+    &.force {
+        width:400px;
+    }
+
+    &:hover, &.force {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+        background: #fff;
+
+        .app-drawer-button, .bookmarks-drawer-button {
+            opacity:1;
+            -webkit-animation: enter 500ms;
+        }
+
+        .more {
+            opacity:0;
+        }
+    }
+
+    /deep/ core-icon {
+        color: #424242;
+        width:28px;
+        height:28px;
+    }
+
+    .app-drawer-button, .bookmarks-drawer-button {
+        transition:opacity 500ms;
+        opacity:0;
+        float:right;
+        -webkit-animation: leave 500ms;
+    }
+
+    .more {
+        position: absolute;
+        right:12px;
+        top:5px;
+        transition-delay: 250ms;
+        transition: opacity 250ms ;
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes enter {
+    0% {
+        transform: translateX(24px) rotate(180deg);
+    }
+
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+ }
+
+@-webkit-keyframes leave {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateX(24px) rotate(180deg);
+    }
+}
+
+paper-tabs.blue::shadow #selectionBar {
+    background-color: #3F51B5;
+}
+
+paper-tabs.blue paper-tab::shadow #ink {
+    color: #3F51B5;
+}
+
+app-drawer.bookmarks {
+    core-animated-pages {
+        height:calc(100% - 48px);
+        div {
+            height:100%;
+            width:100%;
+            overflow-y:auto;
         }
     }
 }

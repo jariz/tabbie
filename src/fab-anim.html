@@ -9,10 +9,12 @@
                 background: #d23f31;
                 border-radius: 50%;
                 z-index: 500;
-                transition: all 700ms ease-in-out;
+                opacity:.5;
+                transition: all 500ms ease-in-out;
             }
 
             :host(.active) {
+                opacity:1;
                 width:{{animHeight}}px !important;
                 height:{{animHeight}}px !important;
                 right:calc(50% - {{animHeight / 2}}px) !important;

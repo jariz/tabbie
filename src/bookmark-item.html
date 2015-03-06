@@ -1,0 +1,46 @@
+<link href="../bower_components/polymer/polymer.html" rel="import">
+<link href="../bower_components/paper-item/paper-item.html" rel="import">
+<link href="time-ago.html" rel="import">
+<polymer-element name="bookmark-item" attributes="title url date" noscript>
+    <template>
+        <style>
+            paper-item {
+                font-size:12px;
+            }
+            img, core-icon {
+                width:16px;
+                height:16px;
+                margin-right:10px;
+                float:left;
+                color:#616161;
+            }
+
+            p {
+                width:270px;
+                float:left;
+            }
+
+            a {
+                color:#000;
+            }
+
+            time-ago {
+                float:left;
+                color:#616161;
+            }
+        </style>
+        <template if="{{!folder}}">
+            <a href="{{url}}" target="_blank">
+                <paper-item>
+                    <p><img src="chrome://favicon/{{url}}"> {{title}}</p> <time-ago epoch="false" datetime="{{date}}"></time-ago>
+                </paper-item>
+            </a>
+        </template>
+        <template if="{{folder}}">
+            <paper-item>
+                <core-icon icon="folder"></core-icon> {{title}}
+            </paper-item>
+        </template>
+
+    </template>
+</polymer-element>

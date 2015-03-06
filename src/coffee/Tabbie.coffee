@@ -43,8 +43,7 @@ class Tabbie
       toast = document.getElementById "removed_toast_wrapper"
       toast.column = column
       toast.restore = =>
-        newcolumn = new Columns[column.className]
-        newcolumn[key] = column[key] for key of column when typeof column[key] isnt 'function'
+        newcolumn = new Columns[column.className](column)
         @addColumn newcolumn
         @packery.layout()
       document.getElementById("removed_toast").show()
@@ -103,8 +102,7 @@ class Tabbie
         if typeof Columns[col.className] is 'undefined'
           delete cols[i]
           continue
-        newcol = new Columns[col.className]
-        newcol[key] = col[key] for key of col when typeof col[key] isnt 'function'
+        newcol = new Columns[col.className](col)
         cols[i] = newcol
       @usedColumns = cols
 
@@ -220,6 +218,69 @@ class Tabbie
 #        toast = document.querySelector "#update_toast"
 #        toast.toggle()
 #      , 1000
+
+    document.querySelector(".bookmarks-drawer-button").addEventListener "click", ->
+      settings = document.querySelector(".settings")
+      chrome.permissions.request
+        permissions: ["bookmarks"],
+        origins: ["chrome://favicon/*"]
+      , (granted) =>
+        if granted
+          drawer = document.querySelector "app-drawer.bookmarks"
+          drawer.show()
+          drawer.addEventListener "opened-changed", ->
+            if @opened then settings.classList.add("force") else settings.classList.remove("force")
+
+          chrome.bookmarks.getRecent 10, (items) =>
+            console.log items
+            recent = drawer.querySelector(".recent")
+            recent.innerHTML = ""
+
+            for item in items
+              paper = document.createElement "bookmark-item"
+              paper.title = item.title
+              paper.url = item.url
+              paper.date = item.dateAdded
+              recent.appendChild paper
+
+          chrome.bookmarks.getTree (tree) =>
+            tree = tree[0].children
+            all = drawer.querySelector(".all")
+            all.innerHTML = ""
+            console.log "tree", tree
+
+            for child in tree
+              paper = document.createElement "bookmark-item"
+              paper.folder = true
+              paper.title = child.title
+              all.appendChild paper
+
+
+    document.querySelector(".app-drawer-button").addEventListener "click", ->
+      settings = document.querySelector(".settings")
+      chrome.permissions.request
+        permissions: ["management"]
+      , (granted) =>
+          if granted
+            chrome.management.getAll (extensions) =>
+              drawer = document.querySelector("app-drawer.apps")
+              drawer.innerHTML = ""
+              drawer.show()
+              drawer.addEventListener "opened-changed", ->
+                if @opened then settings.classList.add("force") else settings.classList.remove("force")
+
+              for extension in extensions when extension.type.indexOf("app") isnt -1 and not extension.disabled
+                console.log extension
+                app = document.createElement "app-item"
+                try
+                  app.name = extension.name
+                  app.icon = extension.icons[extension.icons.length-1].url
+                  app.id = extension.id
+                catch e
+                  console.warn e
+
+                app.addEventListener "click", -> chrome.management.launchApp this.id
+                drawer.appendChild app
 
   register: (columnName) =>
     @columnNames.push columnName

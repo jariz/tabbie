@@ -1,0 +1,27 @@
+<polymer-element name="app-item" attributes="name icon" noscript>
+    <template>
+        <style>
+            :host {
+                width:50%;
+                float:left;
+                position: relative;
+                padding:10px;
+                cursor:pointer;
+            }
+            h5 {
+                width:100%;
+                text-align: center;
+            }
+            img {
+                width:64px;
+                height:64px;
+                display:block;
+                margin:0 auto;
+            }
+        </style>
+
+        <paper-ripple fit></paper-ripple>
+        <img src="{{icon}}">
+        <h5>{{name}}</h5>
+    </template>
+</polymer-element>

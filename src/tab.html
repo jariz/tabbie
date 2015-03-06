@@ -27,6 +27,9 @@
     <link href="../bower_components/core-toolbar/core-toolbar.html" rel="import">
     <link href="../bower_components/paper-toast/paper-toast.html" rel="import">
     <link href="../bower_components/core-tooltip/core-tooltip.html" rel="import">
+    <link href="../bower_components/paper-tabs/paper-tabs.html" rel="import">
+    <link href="../bower_components/core-animated-pages/core-animated-pages.html" rel="import">
+    <link href="../bower_components/core-animated-pages/transitions/slide-from-right.html" rel="import">
 
     <!-- 1STPARTY -->
     <script src="../dist/js/main.js"></script>
@@ -37,6 +40,9 @@
     <link rel="import" href="column-chooser.html">
     <link rel="import" href="fab-anim.html">
     <link rel="import" href="fullscreen-dialog.html">
+    <link rel="import" href="app-drawer.html">
+    <link rel="import" href="app-item.html">
+    <link rel="import" href="bookmark-item.html">
     <link rel="import" href="columns/compiled/columns.html">
 </head>
 <body unresolved>
@@ -70,6 +76,9 @@
                 <h3><core-icon icon="maps:local-florist"></core-icon> Vanilla.js</h3>
             </paper-item>
             <h4>Links</h4>
+            <paper-item href="https://tabbie.io/">
+                <h3><core-icon icon="home"></core-icon> Official site</h3>
+            </paper-item>
             <paper-item href="https://github.com/jariz/tabbie">
                 <h3><core-icon icon="description"></core-icon> Project page</h3>
             </paper-item>
@@ -107,6 +116,27 @@
 </div>
 
 <core-meta type="transition" id="meta"></core-meta>
+
+<app-drawer class="apps"></app-drawer>
+<app-drawer class="bookmarks">
+    <template is="auto-binding">
+        <paper-tabs selected="{{selected}}" class="blue">
+            <paper-tab>RECENT</paper-tab>
+            <paper-tab>ALL</paper-tab>
+        </paper-tabs>
+        <core-animated-pages selected="{{selected}}" transitions="slide-from-right">
+            <div class="recent"></div>
+            <div class="all"></div>
+        </core-animated-pages>
+    </template>
+</app-drawer>
+
+<div class="settings">
+    <paper-icon-button icon="more-vert" class="more"></paper-icon-button>
+
+    <paper-icon-button icon="apps" class="app-drawer-button"></paper-icon-button>
+    <paper-icon-button icon="bookmark" class="bookmarks-drawer-button"></paper-icon-button>
+</div>
 
 <div class="column-holder"></div>
 <div class="grid-sizer"></div>

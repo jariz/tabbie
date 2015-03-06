@@ -1,7 +1,9 @@
 window.Columns = window.Columns || {}
 window.Columns.Column = class Column
-  constructor: ->
+  constructor: (properties) ->
     @className = @constructor.name
+
+    if properties then @[key] = properties[key] for key of properties when typeof properties[key] isnt 'function'
 
     if not @color
       thmb = document.createElement "img"
@@ -10,8 +12,8 @@ window.Columns.Column = class Column
         @color = ct.getColor thmb
       thmb.src = "img/" + @thumb
 
-    @config = {}
-    @cache = []
+    if not @config then @config = {}
+    if not @cache then @cache = []
     @refreshing = false
     @reloading = true
     @_refreshing = false
