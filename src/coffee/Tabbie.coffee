@@ -24,7 +24,7 @@ class Tabbie
     @packery.addItems [ columnEl ]
 
     columnEl.style.width = (25 * column.width)+"%"
-    columnEl.style.height = (document.documentElement.clientHeight / 2) - 10
+#    columnEl.style.height = (document.documentElement.clientHeight / 2) - 10
     holderEl = columnEl.querySelector("html /deep/ paper-shadow .holder")
     column.render columnEl, holderEl
 
@@ -115,12 +115,10 @@ class Tabbie
       @columns.push new Columns[column]
 
     #load packery (layout manager)
-    @packery = new Packery document.querySelector ".column-holder",
-      columnWidth: document.clientWidth / 4
-#      columnWidth: ".grid-sizer",
-#      rowHeight: document.querySelector ".grid-sizer",
-      isInitLayout: false,
-      isHorizontal: true
+    @packery = new Packery document.querySelector(".column-holder"),
+      columnWidth: ".grid-sizer"
+      rowHeight: ".grid-sizer"
+      itemSelector: "item-column"
 
     #packery bindings
     @packery.on "dragItemPositioned", @layoutChanged

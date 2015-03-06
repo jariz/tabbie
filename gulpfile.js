@@ -124,7 +124,7 @@ gulp.task('reload', function () {
     return browserSync.reload();
 });
 
-gulp.task('watch', ['serve'], function () {
+gulp.task('watch', ['default'], /*['serve'], */function () {
     gulp.watch('src/**/*.scss', ['compass', 'reload']);
 
     gulp.watch('src/**/*.html', ['html', 'reload']);

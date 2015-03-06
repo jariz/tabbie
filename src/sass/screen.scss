@@ -117,13 +117,15 @@ html /deep/ {
 }
 
 .column-holder {
-    height:200px;
     width: calc(100% - 65px);
+    height:100% !important; //<< packery does weird things with the height that i don't understand, so force the height
 }
 
 .grid-sizer {
+    position: absolute;
     width: 25%;
     min-width: 320px;
+    height:50%;
 }
 
 .no-columns-container {
