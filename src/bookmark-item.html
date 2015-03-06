@@ -1,23 +1,31 @@
 <link href="../bower_components/polymer/polymer.html" rel="import">
 <link href="../bower_components/paper-item/paper-item.html" rel="import">
 <link href="time-ago.html" rel="import">
-<polymer-element name="bookmark-item" attributes="title url date" noscript>
+<polymer-element name="bookmark-item" attributes="title url date level opened item" noscript>
     <template>
         <style>
             paper-item {
+                padding-left: calc(15px * {{level}});
                 font-size:12px;
             }
             img, core-icon {
-                width:16px;
-                height:16px;
                 margin-right:10px;
                 float:left;
                 color:#616161;
+            }
+            img {
+                margin-right:18px;
             }
 
             p {
                 width:270px;
                 float:left;
+                margin: 0;
+            }
+
+            p[wide] {
+                width:100%;
+                float:none;
             }
 
             a {
@@ -32,13 +40,16 @@
         <template if="{{!folder}}">
             <a href="{{url}}" target="_blank">
                 <paper-item>
-                    <p><img src="chrome://favicon/{{url}}"> {{title}}</p> <time-ago epoch="false" datetime="{{date}}"></time-ago>
+                    <p wide?="{{!showdate}}"><img src="chrome://favicon/{{url}}"> {{title}}</p>
+                    <template if="{{showdate}}">
+                        <time-ago epoch="false" datetime="{{date}}"></time-ago>
+                    </template>
                 </paper-item>
             </a>
         </template>
         <template if="{{folder}}">
             <paper-item>
-                <core-icon icon="folder"></core-icon> {{title}}
+                <core-icon icon="{{!opened ? 'folder' : 'folder-open'}}"></core-icon> {{title}}
             </paper-item>
         </template>
 

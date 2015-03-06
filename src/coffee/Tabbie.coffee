@@ -229,29 +229,56 @@ class Tabbie
           drawer.addEventListener "opened-changed", ->
             if @opened then settings.classList.add("force") else settings.classList.remove("force")
 
-          chrome.bookmarks.getRecent 10, (items) =>
-            console.log items
+
+          renderBookmarkTree = (holder, tree, level) =>
+            console.log "renderBookmarkTree level: ", level, " tree: ", tree
+            for item in tree
+              paper = document.createElement "bookmark-item"
+              paper.item = item
+              paper.level = level
+              paper.showdate = level is 0
+              paper.folder = !!item.children
+              paper.title = item.title
+              if level isnt 0 then paper.setAttribute "hidden", "" #only root items are visible on initial render
+              paper.id = item.id
+
+              if paper.folder then paper.addEventListener "click", ->
+                loopie = (items) =>
+                  for item in items
+                    console.info "loopie id", item.id, "parent", item.parentId
+                    el = holder.querySelector "[id='"+item.id+"']"
+                    el.opened = @opened
+                    if @opened then el.setAttribute("hidden", "")
+                    else el.removeAttribute("hidden")
+
+                    if item.children and @opened then loopie item.children
+
+                loopie @item.children, true
+
+                @opened = !@opened
+
+              if not paper.folder
+                paper.url = item.url
+                paper.date = item.dateAdded
+
+              holder.appendChild paper
+
+              if paper.folder
+                renderBookmarkTree holder, item.children, level+1
+
+          chrome.bookmarks.getRecent 20, (tree) =>
+            console.log tree
             recent = drawer.querySelector(".recent")
             recent.innerHTML = ""
-
-            for item in items
-              paper = document.createElement "bookmark-item"
-              paper.title = item.title
-              paper.url = item.url
-              paper.date = item.dateAdded
-              recent.appendChild paper
+            renderBookmarkTree recent, tree, 0
 
           chrome.bookmarks.getTree (tree) =>
             tree = tree[0].children
+            console.log "tree", tree
             all = drawer.querySelector(".all")
             all.innerHTML = ""
-            console.log "tree", tree
 
-            for child in tree
-              paper = document.createElement "bookmark-item"
-              paper.folder = true
-              paper.title = child.title
-              all.appendChild paper
+            renderBookmarkTree all, tree, 0
 
 
     document.querySelector(".app-drawer-button").addEventListener "click", ->
