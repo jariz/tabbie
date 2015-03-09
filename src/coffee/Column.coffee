@@ -41,17 +41,91 @@ window.Columns.Column = class Column
   attemptAdd: (successCallback) ->
     if typeof successCallback is 'function' then successCallback()
 
-  editMode: (enable) ->
+  handleHandler = undefined
+  editMode: (enable) =>
     toolbar = @columnElement.querySelector "html /deep/ core-toolbar"
     trans = tabbie.meta.byId "core-transition-center"
+    handle = @columnElement.querySelector "html /deep/ .handle"
 
     if enable
+      getPercentage = (target, width) =>
+        if width
+          base = document.querySelector(".grid-sizer").clientWidth
+          absolute = Math.round((target.style.width.substring(0, target.style.width.length - 2) ) / base)
+          final = absolute * 25
+          if final is 0 then final = 25
+        else
+          base = document.querySelector(".grid-sizer").clientHeight
+          absolute = Math.round((target.style.height.substring(0, target.style.height.length - 2) ) / base)
+          final = absolute * 50
+          if final is 0 then final = 50
+
+        if final > 100 then final = 100
+        console.info "[getPercentage] width?", width, "base", base, "absolute", absolute, "final", final, "%"
+        return final
+
+      preview = document.createElement "div"
+      preview.classList.add "resize-preview"
+      preview.style.visibility = "hidden"
+      document.querySelector(".column-holder").appendChild preview
+
+      #resize logic
+      target = @columnElement
+      handle.addEventListener "mousedown", (event) =>
+        event.preventDefault()
+        target.style.transition = "none"
+        startX = event.clientX - target.clientWidth
+        startY = event.clientY - target.clientHeight
+        mouseUpBound = false
+        console.log "startY", startY, "startX", startX
+        document.addEventListener "mousemove", msmv = (event) =>
+          event.preventDefault()
+          newX = event.clientX - startX
+          newY = event.clientY - startY
+
+          if preview.style.visibility isnt "visible"
+            preview.style.visibility = "visible"
+            preview.style.top = target.style.top
+            preview.style.left = target.style.left
+
+          preview.style.width = getPercentage(target, true)+"%"
+          preview.style.height = getPercentage(target, false)+"%"
+
+          target.style.zIndex = 107
+          target.style.width  = newX + 'px'
+          target.style.height = newY + 'px'
+
+          if not mouseUpBound
+            mouseUpBound = true
+            document.addEventListener "mouseup", msp = (event) =>
+              event.preventDefault()
+              #clean up events
+              document.removeEventListener "mousemove", msmv
+              document.removeEventListener "mouseup", msp
+
+              target.style.zIndex = 1
+              target.style.transition = "width 250ms, height 250ms"
+              widthPerc = getPercentage target, true
+              heightPerc = getPercentage target, false
+              target.style.width = widthPerc + "%"
+              target.style.height = heightPerc + "%"
+              @width = widthPerc / 25
+              @height = heightPerc / 50
+              preview.style.visibility = "hidden"
+              tabbie.sync @
+              target.addEventListener "webkitTransitionEnd", trnstn = ->
+                target.removeEventListener "webkitTransitionEnd", trnstn
+                tabbie.packery.layout()
+
+      handle.style.visibility = "visible"
       @draggie.enable()
       toolbar.classList.add "draggable"
       for editable in @editables
         trans.go editable,
           opened: true
     else
+      if @handleHandler then handle.removeEventListener "mousedown", handleHandler
+      handle.style.visibility = "hidden"
       @draggie.disable()
       toolbar.classList.remove "draggable"
       for editable in @editables
@@ -111,14 +185,19 @@ window.Columns.Column = class Column
     "config",
     "className",
     "id",
-    "color"
+    "color",
+    "width",
+    "height"
   ]
 
-  #Dialog name
+  #Column name
   name: "Empty column"
 
-  #Dialog grid width (width * 25%)
+  #Column grid width (width * 25%)
   width: 1
+
+  #Column grid height (height * 50%)
+  height: 1
 
   #Configuration dialog ID
   dialog: null

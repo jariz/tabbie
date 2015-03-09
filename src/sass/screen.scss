@@ -20,7 +20,6 @@
     font-style: normal;
 }
 
-
 body {
     font-family: Roboto, sans-serif;
     font-size:16px;
@@ -117,15 +116,15 @@ html /deep/ {
 }
 
 .column-holder {
-    width: calc(100% - 65px);
+    width: calc(100% - 85px);
     height:100% !important; //<< packery does weird things with the height that i don't understand, so force the height
-}
 
-.grid-sizer {
-    position: absolute;
-    width: 25%;
-    min-width: 320px;
-    height:50%;
+    .grid-sizer {
+        position: absolute;
+        width: 25%;
+        min-width: 320px;
+        height:50%;
+    }
 }
 
 .no-columns-container {
@@ -293,4 +292,11 @@ app-drawer.bookmarks {
             overflow-y:auto;
         }
     }
+}
+
+.resize-preview {
+    position: absolute;
+    z-index:200;
+    border:3px dotted #424242;
+    min-width: 320px;
 }

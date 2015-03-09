@@ -18,7 +18,7 @@
                 background: #fff;
                 border-radius: 3px;
                 margin: 10px;
-                height: 97%;
+                height: calc(100% - 20px);
                 box-sizing: border-box;
                 position: relative;
                 padding-top:64px;
@@ -102,6 +102,20 @@
                 overflow-x: hidden;
             }
 
+            .handle {
+                position: absolute;
+                bottom:0;
+                right:0;
+                width: 17px;
+                height: 19px;
+                cursor:se-resize;
+                visibility: hidden;
+            }
+
+            .handle core-icon {
+                transform: rotate(-45deg);
+            }
+
             /* Let's get this party started */
             ::-webkit-scrollbar {
                 width: 12px;
@@ -138,6 +152,10 @@
             <paper-spinner class="{{column.className}}" active></paper-spinner>
 
             <div class="holder">
+            </div>
+
+            <div class="handle">
+                <core-icon icon="arrow-drop-down"></core-icon>
             </div>
         </paper-shadow>
 
