@@ -281,6 +281,25 @@ class Tabbie
 
             renderBookmarkTree all, tree, 0
 
+    document.querySelector(".top-drawer-button").addEventListener "click", ->
+      settings = document.querySelector(".settings")
+      chrome.permissions.request
+        permissions: ["topSites"]
+      , (granted) =>
+        if granted
+          chrome.topSites.get (sites) =>
+            console.log sites
+            drawer = document.querySelector("app-drawer.top")
+            drawer.innerHTML = ""
+            drawer.show()
+            drawer.addEventListener "opened-changed", ->
+              if @opened then settings.classList.add("force") else settings.classList.remove("force")
+            for site in sites
+              paper = document.createElement "bookmark-item"
+              paper.showdate = false
+              paper.title = site.title
+              paper.url = site.url
+              drawer.appendChild paper
 
     document.querySelector(".app-drawer-button").addEventListener "click", ->
       settings = document.querySelector(".settings")

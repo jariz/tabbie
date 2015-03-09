@@ -103,7 +103,6 @@ window.Columns.Column = class Column
               document.removeEventListener "mousemove", msmv
               document.removeEventListener "mouseup", msp
 
-              target.style.zIndex = 1
               target.style.transition = "width 250ms, height 250ms"
               widthPerc = getPercentage target, true
               heightPerc = getPercentage target, false
@@ -115,6 +114,7 @@ window.Columns.Column = class Column
               tabbie.sync @
               target.addEventListener "webkitTransitionEnd", trnstn = ->
                 target.removeEventListener "webkitTransitionEnd", trnstn
+                target.style.zIndex = 1
                 tabbie.packery.layout()
 
       handle.style.visibility = "visible"
