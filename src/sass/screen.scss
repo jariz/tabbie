@@ -48,6 +48,17 @@ body {
         z-index: 100;
     }
 
+    .fab-update-wrapper {
+        position: absolute;
+        z-index: 100;
+        right: 19px;
+        bottom: 211px;
+        .fab-update {
+            overflow: inherit;
+            background-color: #FFC107;
+        }
+    }
+
     .fab-edit-wrapper {
         position: absolute;
         z-index: 100;
@@ -55,6 +66,7 @@ body {
         bottom: 94px;
 
         .fab-edit {
+            overflow: inherit;
             background-color: #8BC34A;
             &.active {
                 //ignore transitions
@@ -72,6 +84,7 @@ body {
         bottom: 151px;
 
         .fab-about {
+            overflow: inherit;
             background-color: #2196F3;
         }
     }
@@ -80,6 +93,14 @@ body {
 .fab-anim-add {
     right: 10px;
     bottom: 20px;
+}
+
+.fab-anim-update {
+    right: 19px;
+    bottom: 211px;
+    background-color: #FFC107;
+    width:40px;
+    height:40px;
 }
 
 .fab-anim-about {
@@ -102,6 +123,10 @@ body {
 
 #about /deep/ .back-toolbar {
     background-color: #2196F3;
+}
+
+#update /deep/ .back-toolbar {
+    background-color: #FFC107;
 }
 
 html /deep/ {

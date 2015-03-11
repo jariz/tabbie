@@ -1,6 +1,6 @@
 class Tabbie
 
-  version: "0.2.2-alpha"
+  version: "0.3"
   editMode: false
 
   constructor: ->
@@ -150,20 +150,26 @@ class Tabbie
     fab = document.querySelector ".fab-add"
     fab2 = document.querySelector ".fab-edit"
     fab3 = document.querySelector ".fab-about"
+    fab4 = document.querySelector ".fab-update"
     trans = @meta.byId "core-transition-center"
     trans.setup fab2
     trans.setup fab3
+    trans.setup fab4
 
     fabs.addEventListener "mouseenter", ->
       trans.go fab2,
         opened: true
       trans.go fab3,
         opened: true
+      trans.go fab4,
+        opened: true
 
     fabs.addEventListener "mouseleave", ->
       trans.go fab2,
         opened: false
       trans.go fab3,
+        opened: false
+      trans.go fab4,
         opened: false
 
     fab2.addEventListener "click", =>
@@ -180,6 +186,24 @@ class Tabbie
       fabanim.classList.add "fab-anim-about"
       fabanim.addEventListener "webkitTransitionEnd", ->
         aboutdialog.toggle ->
+          fabanim.remove()
+
+      document.body.appendChild fabanim
+      fabanim.play()
+
+    if store.has "hideUpdateButton"+@version then fab4.parentNode.style.display = "none"
+    updatediag = document.querySelector "#update"
+    updatediag.querySelector(".hide-button").addEventListener "click", =>
+      store.set "hideUpdateButton"+@version, "1"
+      document.querySelector(".fab-update-wrapper")
+      updatediag.toggle()
+      fab4.parentNode.style.display = "none"
+
+    fab4.addEventListener "click", =>
+      fabanim = document.createElement "fab-anim"
+      fabanim.classList.add "fab-anim-update"
+      fabanim.addEventListener "webkitTransitionEnd", ->
+        updatediag.toggle ->
           fabanim.remove()
 
       document.body.appendChild fabanim
@@ -212,11 +236,6 @@ class Tabbie
 
       document.body.appendChild fabanim
       fabanim.play()
-#    if not store.has "update-" + @version
-#      setTimeout ->
-#        toast = document.querySelector "#update_toast"
-#        toast.toggle()
-#      , 1000
 
     document.querySelector(".bookmarks-drawer-button").addEventListener "click", ->
       settings = document.querySelector(".settings")
@@ -229,7 +248,6 @@ class Tabbie
           drawer.show()
           drawer.addEventListener "opened-changed", ->
             if @opened then settings.classList.add("force") else settings.classList.remove("force")
-
 
           renderBookmarkTree = (holder, tree, level) =>
             console.log "renderBookmarkTree level: ", level, " tree: ", tree
