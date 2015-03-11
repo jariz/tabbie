@@ -71,7 +71,7 @@ window.Columns.Column = class Column
 
       #resize logic
       target = @columnElement
-      handle.addEventListener "mousedown", (event) =>
+      handle.addEventListener "mousedown", @handleHandler = (event) =>
         event.preventDefault()
         target.style.transition = "none"
         startX = event.clientX - target.clientWidth
@@ -124,7 +124,7 @@ window.Columns.Column = class Column
         trans.go editable,
           opened: true
     else
-      if @handleHandler then handle.removeEventListener "mousedown", handleHandler
+      if @handleHandler then handle.removeEventListener "mousedown", @handleHandler
       handle.style.visibility = "hidden"
       @draggie.disable()
       toolbar.classList.remove "draggable"
