@@ -1,6 +1,6 @@
 class Tabbie
 
-  version: "0.3"
+  version: "0.3.1"
   editMode: false
 
   constructor: ->
@@ -223,7 +223,8 @@ class Tabbie
           column = e.target.templateInstance.model.column
           column.attemptAdd =>
             adddialog.toggle()
-            @addColumn column
+            newcolumn = new Columns[column.className](column)
+            @addColumn newcolumn
             @packery.layout()
     , 100
 
@@ -302,7 +303,8 @@ class Tabbie
     document.querySelector(".top-drawer-button").addEventListener "click", ->
       settings = document.querySelector(".settings")
       chrome.permissions.request
-        permissions: ["topSites"]
+        permissions: ["topSites"],
+        origins: ["chrome://favicon/*"]
       , (granted) =>
         if granted
           chrome.topSites.get (sites) =>
@@ -322,7 +324,8 @@ class Tabbie
     document.querySelector(".app-drawer-button").addEventListener "click", ->
       settings = document.querySelector(".settings")
       chrome.permissions.request
-        permissions: ["management"]
+        permissions: ["management"],
+        origins: ["chrome://favicon/*"]
       , (granted) =>
           if granted
             chrome.management.getAll (extensions) =>

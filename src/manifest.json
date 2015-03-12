@@ -1,7 +1,8 @@
 {
   "name": "Tabbie - Material New Tab Page",
+  "short_name": "Tabbie",
   "description": "A material, customizable, and hackable new tab extension.",
-  "version": "0.3",
+  "version": "0.3.1",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "tab.html"
