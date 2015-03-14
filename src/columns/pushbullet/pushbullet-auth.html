@@ -1,0 +1,40 @@
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/core-icon/core-icon.html">
+
+<polymer-element name="pushbullet-auth" attributes="item">
+    <template>
+        <style>
+            div {
+                display:flex;
+                width:100%;
+                height:100%;
+            }
+
+            div paper-button {
+                margin:auto;
+                background:#4ab367;
+                color:#fff;
+            }
+
+            div paper-button core-icon {
+                margin-right:10px;
+            }
+        </style>
+        <div>
+            <paper-button on-click="{{signIn}}" raised><core-icon icon="open-in-new"></core-icon> Sign in</paper-button>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            signIn: function() {
+                var self = this;
+                chrome.identity.launchWebAuthFlow({ /* TODO CHANGE REDIRECT URL TO REAL EXTENSION ID WHEN GOING TO PROD */
+                    url: 'https://www.pushbullet.com/authorize?client_id=weqYIl7GLNIOaep4PaTOpfnFUCBRl1IN&redirect_uri=https%3A%2F%2Fdipcbfmgghcdcfkomagbmecfdimmbpmb.chromiumapp.org%2FpushBullet&response_type=token',
+                    interactive: true
+                }, function(redirect_url) {
+                    self.fire('sign-in', /access_token=([.a-zA-Z0-9]*)/.exec(redirect_url)[1])
+                })
+            }
+        })
+    </script>
+</polymer-element>

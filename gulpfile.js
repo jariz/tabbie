@@ -42,7 +42,8 @@ gulp.task('libs', function() {
         'bower_components/draggabilly/dist/draggabilly.pkgd.js',
         'bower_components/fetch/fetch.js',
         'bower_components/momentjs/moment.js',
-        'bower_components/pleasejs/src/Please.js'
+        'bower_components/pleasejs/src/Please.js',
+        'bower_components/pushbullet-js/pushbullet.js'
     ])
         .pipe(concat('libs.js'))
         .pipe(gulp.dest('dist/js'))

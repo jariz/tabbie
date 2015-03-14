@@ -23,6 +23,7 @@
     "fetch": "~0.7.0",
     "momentjs": "~2.9.0",
     "google-signin": "~0.2.1",
-    "pleasejs": "~0.4.2"
+    "pleasejs": "~0.4.2",
+    "pushbullet-js": "https://github.com/alexschneider/pushbullet-js.git"
   }
 }
