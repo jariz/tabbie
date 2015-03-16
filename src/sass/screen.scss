@@ -39,7 +39,7 @@ body {
     right:0;
     height: 210px;
     width: 100px;
-    z-index: 100;
+    z-index: 10;
 
     .fab-add {
         position: absolute;
@@ -232,18 +232,16 @@ html /deep/ {
     right:0;
     top:0;
     z-index:104;
-    transition: background 500ms, width 300ms, box-shadow 500ms;
+    transition: background 500ms, box-shadow 500ms, width 0ms 500ms;
     border-bottom-left-radius: 3px;
     padding:5px 9px;
-    width: 150px;
+    width: 65px;
     height: 55px;
     overflow: hidden;
 
-    &.force {
-        width:400px;
-    }
-
     &:hover, &.force {
+        width: 150px;
+        transition-delay:0ms;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
         background: #fff;
 
@@ -255,6 +253,11 @@ html /deep/ {
         .more {
             opacity:0;
         }
+    }
+
+    &.force {
+        transition: width 300ms;
+        width:400px;
     }
 
     /deep/ core-icon {
