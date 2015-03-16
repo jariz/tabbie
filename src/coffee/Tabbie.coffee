@@ -95,6 +95,42 @@ class Tabbie
       document.body.clientWidth
     ]
 
+  renderBookmarkTree: (holder, tree, level) =>
+    console.log "renderBookmarkTree level: ", level, " tree: ", tree
+    for item in tree
+      paper = document.createElement "bookmark-item"
+      paper.item = item
+      paper.level = level
+      paper.showdate = level is 0
+      paper.folder = !!item.children
+      paper.title = item.title
+      if level isnt 0 then paper.setAttribute "hidden", "" #only root items are visible on initial render
+      paper.id = item.id
+
+      if paper.folder then paper.addEventListener "click", ->
+        loopie = (items) =>
+          for item in items
+            console.info "loopie id", item.id, "parent", item.parentId
+            el = holder.querySelector "[id='"+item.id+"']"
+            el.opened = @opened
+            if @opened then el.setAttribute("hidden", "")
+            else el.removeAttribute("hidden")
+
+            if item.children and @opened then loopie item.children
+
+        loopie @item.children, true
+
+        @opened = !@opened
+
+      if not paper.folder
+        paper.url = item.url
+        paper.date = item.dateAdded
+
+      holder.appendChild paper
+
+      if paper.folder
+        @renderBookmarkTree holder, item.children, level+1
+
   render: =>
     #load all columns
     if not cols = store.get "usedColumns" then @usedColumns = [] else
@@ -250,47 +286,11 @@ class Tabbie
           drawer.addEventListener "opened-changed", ->
             if @opened then settings.classList.add("force") else settings.classList.remove("force")
 
-          renderBookmarkTree = (holder, tree, level) =>
-            console.log "renderBookmarkTree level: ", level, " tree: ", tree
-            for item in tree
-              paper = document.createElement "bookmark-item"
-              paper.item = item
-              paper.level = level
-              paper.showdate = level is 0
-              paper.folder = !!item.children
-              paper.title = item.title
-              if level isnt 0 then paper.setAttribute "hidden", "" #only root items are visible on initial render
-              paper.id = item.id
-
-              if paper.folder then paper.addEventListener "click", ->
-                loopie = (items) =>
-                  for item in items
-                    console.info "loopie id", item.id, "parent", item.parentId
-                    el = holder.querySelector "[id='"+item.id+"']"
-                    el.opened = @opened
-                    if @opened then el.setAttribute("hidden", "")
-                    else el.removeAttribute("hidden")
-
-                    if item.children and @opened then loopie item.children
-
-                loopie @item.children, true
-
-                @opened = !@opened
-
-              if not paper.folder
-                paper.url = item.url
-                paper.date = item.dateAdded
-
-              holder.appendChild paper
-
-              if paper.folder
-                renderBookmarkTree holder, item.children, level+1
-
           chrome.bookmarks.getRecent 20, (tree) =>
             console.log tree
             recent = drawer.querySelector(".recent")
             recent.innerHTML = ""
-            renderBookmarkTree recent, tree, 0
+            tabbie.renderBookmarkTree recent, tree, 0
 
           chrome.bookmarks.getTree (tree) =>
             tree = tree[0].children
@@ -298,7 +298,7 @@ class Tabbie
             all = drawer.querySelector(".all")
             all.innerHTML = ""
 
-            renderBookmarkTree all, tree, 0
+            tabbie.renderBookmarkTree all, tree, 0
 
     document.querySelector(".top-drawer-button").addEventListener "click", ->
       settings = document.querySelector(".settings")

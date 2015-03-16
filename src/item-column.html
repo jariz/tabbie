@@ -71,7 +71,7 @@
             .holder {
                 height:100%;
                 width:100%;
-                padding: 0px 10px 0px 0px;
+                /*padding: 0px 10px 0px 0px;*/
                 box-sizing: border-box;
                 overflow-y:auto;
                 overflow-x:hidden;
@@ -91,6 +91,8 @@
             .holder .hack {
                 height: 0;
                 border: none;
+                padding: 0;
+                overflow: hidden;
             }
 
             html {
@@ -147,7 +149,7 @@
         </style>
 
         <paper-shadow class="card" z="1">
-            <core-toolbar id="core_toolbar" class="{{column.className}}">
+            <core-toolbar class="{{column.className}}">
                 <template if="{{column.thumb}}">
                     <paper-icon-button on-click="{{settings}}" style="background-image: url(img/{{column.thumb}})" class="logo"></paper-icon-button>
                 </template>

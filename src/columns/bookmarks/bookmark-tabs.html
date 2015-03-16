@@ -1,0 +1,39 @@
+<polymer-element name="bookmark-tabs" noscript>
+    <template>
+        <style>
+            :host {
+                height: 100%;
+            }
+
+            ::content div {
+                height: 100%;
+                width: 100%;
+                overflow-y: auto;
+            }
+
+            paper-tabs {
+                background:#607d8b;
+                color:#fff;
+            }
+
+            paper-tabs::shadow #selectionBar {
+                background-color: #FFF;
+            }
+
+            paper-tabs paper-tab::shadow #ink {
+                color: #FFF;
+            }
+
+            core-animated-pages {
+                height: calc(100% - 48px);
+            }
+        </style>
+        <paper-tabs selected="{{selected}}">
+            <paper-tab>RECENT</paper-tab>
+            <paper-tab>ALL</paper-tab>
+        </paper-tabs>
+        <core-animated-pages selected="{{selected}}" transitions="slide-from-right">
+            <content></content>
+        </core-animated-pages>
+    </template>
+</polymer-element>

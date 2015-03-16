@@ -18,14 +18,7 @@
             }
 
             p {
-                width:270px;
-                float:left;
                 margin: 0;
-            }
-
-            p[wide] {
-                width:100%;
-                float:none;
             }
 
             a {
@@ -33,14 +26,14 @@
             }
 
             time-ago {
-                float:left;
+                float:right;
                 color:#616161;
             }
         </style>
         <template if="{{!folder}}">
             <a href="{{url}}" target="_blank">
                 <paper-item>
-                    <p wide?="{{!showdate}}"><img src="chrome://favicon/{{url}}"> {{title}}</p>
+                    <p flex?="{{showdate}}"><img src="chrome://favicon/{{url}}"> {{title}}</p>
                     <template if="{{showdate}}">
                         <time-ago epoch="false" datetime="{{date}}"></time-ago>
                     </template>
