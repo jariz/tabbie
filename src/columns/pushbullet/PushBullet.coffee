@@ -1,22 +1,45 @@
 class Columns.PushBullet extends Columns.Column
   name: "PushBullet"
   thumb: "column-pushbullet.png"
-  socket: undefined,
-  api: undefined,
+  dialog: "pushbullet-dialog"
+  socket: undefined
+  api: undefined
+  colEl: undefined
+  holEl: undefined
 
   refresh: (columnElement, holderElement) =>
-    @api.pushHistory (error, history) =>
-      @cache = history
+    @refreshing = true
+    @api.user (error, user) =>
+      @config.user = user
       tabbie.sync @
-      @draw history, holderElement
+      @api.pushHistory (error, history) =>
+        @refreshing = false
+        user.myself = true
+        item.from = user for item in history.pushes when item.direction is 'self'
+        @cache = history
+        tabbie.sync @
+        @draw history, holderElement
 
   draw: (data, holderElement) =>
-    for item in data
-      document.createElement "pushbullet-item"
+    @loading = false
+    holderElement.innerHTML = ""
+    for item in data.pushes
+      if not item.active then continue
+      el = document.createElement "pushbullet-item"
+      el.item = item
+      holderElement.appendChild el
+
+  logOut: () =>
+    delete @config.access_token
+    delete @config.user
+    tabbie.sync @
+    @render @colEl, @holEl
 
   render: (columnElement, holderElement) =>
     super columnElement, holderElement
     @api = window.PushBullet
+    @colEl = columnElement
+    @holEl = holderElement
 
     if not @config.access_token
       @loading = false
@@ -38,15 +61,6 @@ class Columns.PushBullet extends Columns.Column
       @socket = new WebSocket 'wss://stream.pushbullet.com/websocket/' + @config.access_token
       @socket.onmessage = (e) =>
         data = JSON.parse e.data
-        console.log "PB WS received", data
-        switch(data.type)
-          when "tickle" then if data.subtype is "push" then @refresh columnElement, holderElement
-
-      @socket.onopen = =>
-        console.info "PushBullet socket connected :D"
-      @socket.onerror = (e) =>
-        console.error "PushBullet socket fail " + e.data
-      @socket.onclose = =>
-        console.error "PushBullet socket closed :("
+        if data.type is "tickle" and data.subtype is "push" then @refresh columnElement, holderElement
 
 tabbie.register "PushBullet"

@@ -1,8 +1,105 @@
 <polymer-element name="pushbullet-item" attributes="item">
     <template>
-        <h1></h1>
+        <style>
+            :host {
+                padding:10px 10px;
+                display:block;
+                font-size:13px;
+                border-bottom: 1px solid #d2d2d2;
+                position: relative;
+            }
+
+            h4 {
+                font-size:14px;
+                margin: 10px 0 0;
+            }
+
+            a {
+                color:#000;
+                text-decoration: none;
+            }
+
+            .link {
+                color:#009688;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow:hidden;
+                width:100%;
+                display:block;
+            }
+
+            p {
+                margin:0;
+            }
+
+            .time {
+                color:#8A9C9D;
+                display:block;
+            }
+            .avatar {
+                border-radius: 50%;
+                float:left;
+                width:40px;
+                height:40px;
+                margin-right:10px;
+            }
+            .clearfix {
+                clear:both;
+            }
+
+            .image {
+                position: relative;
+                width:calc(100% + 11px); /* ew */
+                left:-10px;
+                margin-top:10px;
+                height:200px;
+                background-position: center center;
+                background-size: 100%;
+            }
+        </style>
+        <a href?="{{item._url}}" target="_blank">
+            <template if="{{item.from}}">
+                <img class="avatar" src="{{item.from.image_url}}">
+                From
+                <template if="{{!item.from.myself}}">{{item.from.name}}</template>
+                <template if="{{item.from.myself}}">Yourself</template>
+                <time-ago datetime="{{item.created}}" class="time"></time-ago>
+                <div class="clearfix"></div>
+            </template>
+            <template if="{{item.image_url}}">
+                <div class="image" style="background-image:url('{{item.image_url}}')"></div>
+            </template>
+            <h4>{{item.title}}</h4>
+            <template if="{{item.body}}">
+                <p>{{item.body}}</p>
+            </template>
+            <template if="{{item.type == 'file' && !item.image_url}}">
+                <span class="link">{{item.file_name}}</span>
+            </template>
+            <template if="{{item.type == 'link'}}">
+                <span class="link">{{item.url}}</span>
+            </template>
+
+            <template if="{{item._url}}">
+                <paper-ripple fit></paper-ripple>
+            </template>
+        </a>
+
     </template>
     <script>
-        Polymer({})
+        Polymer({
+            attached: function() {
+                switch(this.item.type) {
+                    case "note":
+                        this.item._url = false;
+                        break;
+                    case "file":
+                        this.item._url = this.item.file_url;
+                        break;
+                    case "link":
+                        this.item._url = this.item.url;
+                }
+            }
+        })
     </script>
 </polymer-element>

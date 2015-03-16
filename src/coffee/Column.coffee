@@ -22,6 +22,7 @@ window.Columns.Column = class Column
     if @dialog
       dialog = document.createElement @dialog
       dialog.config = @config
+      dialog.column = @
       document.body.appendChild dialog
       #warning, nasty code ahead
       _d = null
