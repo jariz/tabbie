@@ -15,32 +15,38 @@
 
         for (var j = 0, m; m = messages[j]; ++j) {
             var headers = m.payload.headers;
+            var keep = ['subject', 'snippet', 'id']
+            message = {}
+            keep.forEach(function(key) {
+                message[key] = m[key]
+            })
 
             // Example: Thu Sep 25 2014 14:43:18 GMT-0700 (PDT) -> Sept 25.
             var date = new Date(getValueForHeaderField(headers, 'Date'));
-            m.date = date.toDateString().split(' ').slice(1, 3).join(' ');
-            m.to = getValueForHeaderField(headers, 'To');
-            m.subject = getValueForHeaderField(headers, 'Subject');
+            message.date = date.toDateString().split(' ').slice(1, 3).join(' ');
+            message.to = getValueForHeaderField(headers, 'To');
+            message.subject = getValueForHeaderField(headers, 'Subject');
 
             var fromHeaders = getValueForHeaderField(headers, 'From');
             var fromHeaderMatches = fromHeaders.match(new RegExp(/"?(.*?)"?\s?<(.*)>/));
 
-            m.from = {};
+            message.from = {};
 
             // Use name if one was found. Otherwise, use email address.
             if (fromHeaderMatches) {
                 // If no a name, use email address for displayName.
-                m.from.name = fromHeaderMatches[1].length ? fromHeaderMatches[1] :
-                    fromHeaderMatches[2];
-                m.from.email = fromHeaderMatches[2];
+                message.from.name = fromHeaderMatches[1].length ? fromHeaderMatches[1] : fromHeaderMatches[2];
+                message.from.email = fromHeaderMatches[2];
             } else {
-                m.from.name = fromHeaders.split('@')[0];
-                m.from.email = fromHeaders;
+                message.from.name = fromHeaders.split('@')[0];
+                message.from.email = fromHeaders;
             }
-            m.from.name = m.from.name.split('@')[0]; // Ensure email is split.
+            message.from.name = message.from.name.split('@')[0]; // Ensure email is split.
 
-            m.unread = m.labelIds.indexOf("UNREAD") != -1;
-            m.starred = m.labelIds.indexOf("STARRED") != -1;
+            message.unread = m.labelIds.indexOf("UNREAD") != -1;
+            message.starred = m.labelIds.indexOf("STARRED") != -1;
+
+            messages[j] = message
         }
 
         return messages;
@@ -50,7 +56,6 @@
 class Columns.Gmail extends Columns.Column
   name: "Gmail"
   thumb: "column-gmail.png"
-  element: "hn-item"
 
   draw: (data, holderElement) =>
     @loading = false
