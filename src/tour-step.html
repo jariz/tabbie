@@ -1,0 +1,95 @@
+<polymer-element name="tour-step" extends="core-overlay">
+    <template>
+        <style>
+            :host {
+                color:#fff;
+                background-repeat:no-repeat;
+            }
+
+            :host(.top-right) {
+                padding-right:90px;
+                background-position: top right;
+                right:0;
+                top:0;
+            }
+
+            :host(.top-left) {
+                padding-left:90px;
+                background-position: top left;
+                left:0;
+                top:0;
+            }
+
+            :host(.bottom-left) {
+                padding-left:90px;
+                padding-bottom:20px;
+                background-position: bottom left;
+                left:0;
+                bottom:0;
+            }
+
+            :host(.bottom-right) {
+                padding-right:90px;
+                padding-bottom:20px;
+                background-position: bottom right;
+                right:0;
+                bottom:0;
+            }
+
+            ::content paper-button {
+                background:rgba(255,255,255,0.2)
+            }
+        </style>
+        <content></content>
+        <script type="text/plain" class="style">
+            .core-overlay-backdrop {
+                background:{{color}};
+            }
+
+            .core-overlay-backdrop.core-opened {
+                opacity:{{opacity}};
+            }
+
+        </script>
+    </template>
+    <script>
+        var backdropOverride;
+        Polymer({
+            backdrop: true,
+            layered: true,
+            publish: {
+                color: "#4CAF50",
+                opacity: 0.9,
+                img: "",
+                position: "top-left"
+            },
+
+            attached: function() {
+                var self = this;
+                this.style.backgroundImage = "url(" + this.img + ")"
+                this.classList.add(this.position);
+                var buttons = this.querySelectorAll("paper-button[affirmative]");
+                if (buttons.length) {
+                    for (var i = 0; i < buttons.length; ++i) {
+                        var button = buttons[i]
+                        button.addEventListener("click", function () {
+                            self.opened = false
+                        });
+                    }
+                }
+            },
+            openedChanged: function() {
+                if(this.opened) {
+                    var css = this.shadowRoot.querySelector(".style").innerHTML
+                    cssEl = document.createElement("style");
+                    cssEl.innerHTML = css;
+                    document.body.appendChild(cssEl)
+                    backdropOverride = cssEl
+                } else {
+                    if(backdropOverride) backdropOverride.remove()
+                }
+                this.super()
+            }
+        })
+    </script>
+</polymer-element>

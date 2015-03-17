@@ -57,7 +57,7 @@
                 background-size: 100%;
             }
         </style>
-        <a href?="{{item._url}}" target="_blank">
+        <a target="_blank">
             <template if="{{item.from}}">
                 <img class="avatar" src="{{item.from.image_url}}">
                 From
@@ -99,6 +99,8 @@
                     case "link":
                         this.item._url = this.item.url;
                 }
+
+                if(this.item._url) this.shadowRoot.querySelector("a").setAttribute("href", this.item._url)
             }
         })
     </script>

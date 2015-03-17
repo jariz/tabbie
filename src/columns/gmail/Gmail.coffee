@@ -56,6 +56,36 @@
 class Columns.Gmail extends Columns.Column
   name: "Gmail"
   thumb: "column-gmail.png"
+  dialog: "gmail-dialog"
+
+  holderEl: undefined
+  columnEl: undefined
+
+  logOut: =>
+    #clear content, show spinner
+    @holderEl.innerHTML = ""
+    @loading = true
+    delete @config.user
+    @cache = []
+    tabbie.sync @
+
+    chrome.identity.getAuthToken
+      interactive: false
+    , (token) =>
+      if !chrome.runtime.lastError
+        #step 1, remove token from local storage
+        chrome.identity.removeCachedAuthToken
+          token: token
+        , =>
+            #step 2, revoke token @ google
+            fetch("https://accounts.google.com/o/oauth2/revoke?token=" + token)
+              .catch =>
+                #ok, so because we don't have permissions this we can't complete the request, but this doesn't matter, because the token is revoked eitherway.
+                #wait 1 sec because else weird things start to happen (token not actually being revoked / getAuthToken returning a new token)
+                setTimeout =>
+                  @loading = false
+                  @refresh @columnEl, @holderEl
+                , 1000
 
   draw: (data, holderElement) =>
     @loading = false
@@ -70,6 +100,9 @@ class Columns.Gmail extends Columns.Column
 
   render: (columnElement, holderElement) ->
     super columnElement, holderElement
+
+    @columnEl = columnElement
+    @holderEl = holderElement
 
     if Object.keys(@cache).length
       @draw @cache, holderElement
@@ -94,7 +127,20 @@ class Columns.Gmail extends Columns.Column
               state: "https://www.googleapis.com/auth/gmail.modify"
 
             console.log "Auth token data", gapi.auth.getToken()
+
             gapi.client.load "gmail", "v1", =>
+              if not @config.user
+                gapi.client.load "plus", "v1", =>
+                  console.info "gplus loaded"
+                  batch = gapi.client.newBatch()
+                  batch.add gapi.client.plus.people.get
+                    userId: 'me'
+                  batch.add gapi.client.gmail.users.getProfile
+                    userId: 'me'
+                  batch.then (resp) =>
+                    @config.user = {}
+                    @config.user[key] = value for key, value of item.result for k, item of resp.result
+              console.info "user", @config.user
               console.info "gmail loaded"
               gmail = gapi.client.gmail.users
               gmail.threads.list

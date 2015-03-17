@@ -1,0 +1,64 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link href="../../../bower_components/core-menu/core-menu.html" rel="import">
+<link href="../../../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
+<link href="../../../bower_components/paper-item/paper-item.html" rel="import">
+<link href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
+
+<polymer-element name="gmail-dialog" attributes="config">
+    <template>
+        <tabbie-dialog style="width:300px;">
+            <style>
+                paper-button {
+                    color:#F44336;
+                    float:left
+                }
+                img {
+                    float:left;
+                    width:40px;
+                    height:40px;
+                    border-radius: 50%;
+                    margin-right:10px;
+                }
+
+                .clear {
+                    clear:both;
+                    margin-bottom:20px;
+                }
+
+                .email {
+                    color:#616161;
+                }
+
+                .user {
+                    font-size:13px;
+                }
+            </style>
+            <template if="{{config.user}}">
+                <div class="user">
+                    <p>You are logged in as</p>
+                    <img src="{{config.user.image.url}}">
+                    {{config.user.displayName}}<br>
+                    <span class="email">{{config.user.emailAddress}}</span>
+                    <div class="clear"></div>
+                </div>
+            </template>
+            <template if="{{!config.user}}">
+                <div class="user">
+                    <p>You are logged in as</p>
+                    <img src="../../../img/column-unknown.png">
+                    Not logged in<br>
+                    <div class="clear"></div>
+                </div>
+            </template>
+            <paper-button on-click="{{logOut}}" disabled?="{{!config.user}}">Log out</paper-button>
+        </tabbie-dialog>
+    </template>
+    <script>
+        Polymer({
+            logOut: function(e) {
+                e.currentTarget.parentElement.toggle()
+                this.column.logOut()
+            }
+        })
+    </script>
+</polymer-element>

@@ -1,6 +1,6 @@
 class Tabbie
 
-  version: "0.3.1"
+  version: "0.4"
   editMode: false
 
   constructor: ->
@@ -131,7 +131,33 @@ class Tabbie
       if paper.folder
         @renderBookmarkTree holder, item.children, level+1
 
+  tour: =>
+    setTimeout ->
+      steps = document.querySelectorAll("tour-step")
+      currStep = 0
+      tourEnded = false
+      tours = document.querySelector "#tours"
+      tours.endTour = endTour = ->
+        store.set "notour", true
+        tourEnded = true
+      tours.openFabs = (e) ->
+        if e.detail
+          document.querySelector(".fabs").dispatchEvent new MouseEvent 'mouseenter'
+        else document.querySelector(".fabs").dispatchEvent new MouseEvent 'mouseleave'
+      for step in steps
+        step.addEventListener "core-overlay-open", (e) ->
+          if e.detail or tourEnded then return
+          currStep++
+          step = steps[currStep]
+          if typeof step == 'undefined' then endTour()
+          else step.toggle()
+
+      steps[0].toggle()
+    , 1000
+
   render: =>
+    if not store.has "notour" then @tour()
+
     #load all columns
     if not cols = store.get "usedColumns" then @usedColumns = [] else
       for col, i in cols

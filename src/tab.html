@@ -43,9 +43,38 @@
     <link rel="import" href="app-drawer.html">
     <link rel="import" href="app-item.html">
     <link rel="import" href="bookmark-item.html">
+    <link rel="import" href="tour-step.html">
     <link rel="import" href="columns/compiled/columns.html">
 </head>
 <body unresolved>
+
+<template is="auto-binding" id="tours">
+    <tour-step img="img/tour-more.png" position="top-right" color="#03A9F4">
+        <h2>Looking for your bookmarks, apps and topsites?</h2>
+        <p>You can access them from this handy menu here.</p>
+        <paper-button affirmative on-click="{{next}}">Got it</paper-button>
+        <paper-button affirmative on-click="{{endTour}}">End tour</paper-button>
+    </tour-step>
+    <tour-step img="img/tour-add.png" position="bottom-right" color="#F44336">
+        <h2>Start by adding a column of your choice</h2>
+        <p>The most important part of Tabbie are it's columns. Add one here.</p>
+        <paper-button affirmative>Got it</paper-button>
+        <paper-button affirmative on-click="{{endTour}}">End tour</paper-button>
+    </tour-step>
+    <tour-step img="img/tour-edit.png" position="bottom-right" color="#4CAF50" on-core-overlay-open="{{openFabs}}">
+        <h2>Make yourself at home.</h2>
+        <p>You can modify columns to fit your needs as well.</p>
+        <ul>
+            <li>Move a column by dragging it's toolbar.</li>
+            <li>Resize a column by dragging it's bottom right handle.</li>
+            <li>Customize a column by clicking on the settings icon.</li>
+            <li>Remove a column by clicking on it's delete icon.</li>
+        </ul>
+        <paper-button affirmative>Got it</paper-button>
+        <paper-button affirmative on-click="{{endTour}}">End tour</paper-button>
+    </tour-step>
+</template>
+
 <fullscreen-dialog heading="Add a new column" id="addcolumn">
     <column-chooser></column-chooser>
 </fullscreen-dialog>
