@@ -53,10 +53,10 @@
         </script>
     </template>
     <script>
-        var backdropOverride;
         Polymer({
             backdrop: true,
             layered: true,
+            backdropOverride: undefined,
             publish: {
                 color: "#4CAF50",
                 opacity: 0.9,
@@ -79,14 +79,19 @@
                 }
             },
             openedChanged: function() {
+                console.log( "[openedChanged]", this.opened)
                 if(this.opened) {
                     var css = this.shadowRoot.querySelector(".style").innerHTML
                     cssEl = document.createElement("style");
                     cssEl.innerHTML = css;
                     document.body.appendChild(cssEl)
-                    backdropOverride = cssEl
+                    this.backdropOverride = cssEl
                 } else {
-                    if(backdropOverride) backdropOverride.remove()
+                    var completed;
+                    this.addEventListener("core-overlay-close-completed", completed = function() {
+                        this.removeEventListener("core-overlay-close-completed", completed);
+                        if(this.backdropOverride) this.backdropOverride.remove()
+                    });
                 }
                 this.super()
             }
