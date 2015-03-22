@@ -59,7 +59,7 @@ class Columns.Reddit extends Columns.FeedColumn
     , (granted) =>
       if granted
         chrome.identity.launchWebAuthFlow
-          url: "https://www.reddit.com/api/v1/authorize?client_id=qr6drw45JFCXfw&response_type=code&state=hellothisisaeasteregg&redirect_uri=https%3A%2F%2Fkckhddfnffeofnfjcpdffpeiljicclbd.chromiumapp.org%2Freddit&duration=permanent&scope=read"
+          url: "https://www.reddit.com/api/v1/authorize?client_id=qr6drw45JFCXfw&response_type=code&state=hellothisisaeasteregg&redirect_uri=https%3A%2F%2F"+chrome.runtime.id+".chromiumapp.org%2Freddit&duration=permanent&scope=read"
           interactive: true,
         , (redirect_url) =>
             if redirect_url
@@ -69,7 +69,7 @@ class Columns.Reddit extends Columns.FeedColumn
                 headers:
                   "Content-Type": "application/x-www-form-urlencoded",
                   "Authorization": "Basic "+btoa("qr6drw45JFCXfw:")
-                body: "grant_type=authorization_code&code="+code+"&redirect_uri=https%3A%2F%2Fkckhddfnffeofnfjcpdffpeiljicclbd.chromiumapp.org%2Freddit"
+                body: "grant_type=authorization_code&code="+code+"&redirect_uri=https%3A%2F%2F"+chrome.runtime.id+".chromiumapp.org%2Freddit"
               .then (response) =>
                 if response.status is 200 then Promise.resolve response.json()
                 else Promise.reject new Error response.statusText
