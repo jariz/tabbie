@@ -5,25 +5,122 @@
 <link href="../../../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
 <link href="../../../bower_components/paper-item/paper-item.html" rel="import">
 <link href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
+<link href="../../../bower_components/paper-radio-button/paper-radio-button.html" rel="import">
+<link href="../../../bower_components/paper-radio-group/paper-radio-group.html" rel="import">
 
 <polymer-element name="reddit-dialog" attributes="config">
     <template>
-        <tabbie-dialog>
-            <paper-dropdown-menu label="Listing">
-                <paper-dropdown class="dropdown">
-                    <core-menu class="menu" selected="{{config.listing}}">
-                        <paper-item>Hot</paper-item>
-                        <paper-item>New</paper-item>
-                        <paper-item>Top</paper-item>
-                    </core-menu>
-                </paper-dropdown>
-            </paper-dropdown-menu>
-            <paper-input-decorator label="subreddit name" floatingLabel error="Subreddit name is required!" autoValidate>
-                <input is="core-input" required value="{{config.subreddit}}">
-            </paper-input-decorator>
+        <tabbie-dialog style="width:400px;">
+            <style>
+                paper-input-decorator {
+                    display:block !important;
+                }
+                .listing {
+                    width:70px;
+                    margin-left:10px;
+                    padding-top: 0.75em
+                }
+                .listing paper-dropdown {
+                    width:90px;
+                }
+
+                .listing paper-dropdown-menu {
+                    margin-top:0;
+                    height: 22px;
+                }
+
+                .listing paper-dropdown paper-item {
+                    min-width: 0 !important;
+                }
+
+                .listing .label {
+                    color: #757575;
+                    display: block;
+                    font-size: 12px;
+                }
+
+                paper-radio-group {
+                    width:100%;
+                    padding-bottom:20px;
+                }
+
+                paper-radio-group > * {
+                    padding:0 !important;
+                }
+
+                .pad {
+                    padding-left:33px !important;
+                }
+
+                paper-button {
+                    float:left;
+                }
+
+                paper-button.green {
+                    color:#4CAF50;
+                }
+
+                paper-button.red {
+                    color:#F44336;
+                }
+            </style>
+            <paper-radio-group selected="{{config.option}}">
+                <paper-radio-button name="subreddit" label="Display a subreddit"></paper-radio-button>
+                <div layout horizontal class="pad">
+                    <paper-input-decorator label="subreddit name" floatingLabel error="Subreddit name is required!" autoValidate flex>
+                        <input is="core-input" required value="{{config.subreddit}}" class="subreddit">
+                    </paper-input-decorator>
+
+                    <div class="listing">
+                        <span class="label">listing</span>
+                        <paper-dropdown-menu label="Listing">
+                            <paper-dropdown class="dropdown">
+                                <core-menu class="menu" selected="{{config.listing}}">
+                                    <paper-item>Hot</paper-item>
+                                    <paper-item>New</paper-item>
+                                    <paper-item>Top</paper-item>
+                                </core-menu>
+                            </paper-dropdown>
+                        </paper-dropdown-menu>
+                    </div>
+                </div>
+                <paper-radio-button name="multireddit" label="Display a multireddit"></paper-radio-button>
+                <div class="pad">
+                    <paper-input-decorator style="margin-right:20px;" label="multireddit url (for example empw/m/autos)" floatingLabel error="Url is required!" autoValidate flex>
+                        <input is="core-input" required value="{{config.multireddit}}" class="multi">
+                    </paper-input-decorator>
+                </div>
+                <paper-radio-button name="frontpage" disabled?="{{!config.access_token}}" label="Display the frontpage"></paper-radio-button>
+            </paper-radio-group>
+
+            <template if="{{!config.access_token}}">
+                <paper-button on-click="{{logIn}}" class="green">Log in</paper-button>
+            </template>
+            <template if="{{config.access_token}}">
+                <paper-button on-click="{{logOut}}" class="red">Log out</paper-button>
+            </template>
         </tabbie-dialog>
     </template>
     <script>
-        Polymer({})
+        Polymer({
+            dialog: null,
+            attached: function() {
+                this.dialog = this.shadowRoot.querySelector("tabbie-dialog")
+            },
+            configChanged: function() {
+                this.dialog.querySelector(".subreddit").parentElement.validate()
+                this.dialog.querySelector(".multi").parentElement.validate()
+            },
+            logIn: function() {
+                this.column.login()
+            },
+            logOut: function() {
+                this.column.logout()
+            },
+            close: function() {
+                this.super();
+                console.log(this.config)
+            }
+        })
     </script>
 </polymer-element>

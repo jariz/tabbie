@@ -28,8 +28,8 @@
         Polymer({
             signIn: function() {
                 var self = this;
-                chrome.identity.launchWebAuthFlow({ /* TODO CHANGE REDIRECT URL TO REAL EXTENSION ID WHEN GOING TO PROD */
-                    url: 'https://www.pushbullet.com/authorize?client_id=weqYIl7GLNIOaep4PaTOpfnFUCBRl1IN&redirect_uri=https%3A%2F%2Fdipcbfmgghcdcfkomagbmecfdimmbpmb.chromiumapp.org%2FpushBullet&response_type=token',
+                chrome.identity.launchWebAuthFlow({
+                    url: 'https://www.pushbullet.com/authorize?client_id=weqYIl7GLNIOaep4PaTOpfnFUCBRl1IN&redirect_uri=https%3A%2F%2Fkckhddfnffeofnfjcpdffpeiljicclbd.chromiumapp.org%2FpushBullet&response_type=token',
                     interactive: true
                 }, function(redirect_url) {
                     self.fire('sign-in', /access_token=([.a-zA-Z0-9]*)/.exec(redirect_url)[1])
