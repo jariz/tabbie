@@ -55,7 +55,7 @@ class Columns.Reddit extends Columns.FeedColumn
 
   login: =>
     chrome.permissions.request
-      origins: ['https://oauth.reddit.com/']
+      origins: ['https://oauth.reddit.com/', 'https://www.reddit.com/']
     , (granted) =>
       if granted
         chrome.identity.launchWebAuthFlow
