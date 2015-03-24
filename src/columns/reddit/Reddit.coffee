@@ -8,7 +8,7 @@ class Columns.Reddit extends Columns.FeedColumn
   dataPath: "data.children"
   childPath: "data"
 
-  cid: "auSbM9i5Z1IlKw"
+  cid: "qr6drw45JFCXfw"
 
   refresh: (columnElement, holderElement) =>
     @refreshing = true
@@ -44,6 +44,10 @@ class Columns.Reddit extends Columns.FeedColumn
             else if response.status is 401
               @holderElement.innerHTML = ""
               @holderElement.appendChild document.createElement "reddit-error"
+              delete @config.access_token
+              delete @config.refresh_token
+              delete @config.expire
+              tabbie.sync @
               Promise.reject new Error response.statusText
             else Promise.reject new Error response.statusText
           .then (data) =>
