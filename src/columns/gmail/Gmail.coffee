@@ -15,7 +15,7 @@
 
         for (var j = 0, m; m = messages[j]; ++j) {
             var headers = m.payload.headers;
-            var keep = ['subject', 'snippet', 'id']
+            var keep = ['subject', 'snippet', 'id', 'threadId']
             message = {}
             keep.forEach(function(key) {
                 message[key] = m[key]
