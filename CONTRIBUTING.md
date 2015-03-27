@@ -8,7 +8,8 @@ This guide is still WIP and a more in-depth, 'real' documentation page is planne
 
 1. Fork the project by clicking on fork at the right top.
 2. Clone your url (`git clone https://github.com/yourusername/tabbie tabbie; cd tabbie`)
-3. Make sure you've installed [node](http://nodejs.org)
+3. Make sure you've installed [node](http://nodejs.org) and [compass](http://compass-style.org/install) (depends on [Ruby](https://www.ruby-lang.org) (or use [rvm](https://rvm.io/)))
+
 4.
 ```
 sudo npm install -g gulp bower #ignore if you already have gulp & bower installed
