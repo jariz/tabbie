@@ -3,6 +3,7 @@ class Columns.Reddit extends Columns.FeedColumn
   width: 1
   dialog: "reddit-dialog"
   thumb: "column-reddit.png"
+  link: "https://www.reddit.com/"
 
   element: "reddit-item"
   dataPath: "data.children"

@@ -3,6 +3,7 @@ class Columns.ProductHunt extends Columns.FeedColumn
   thumb: "column-producthunt.png"
   element: "ph-item"
   dataPath: "posts"
+  link: "https://www.producthunt.com"
 
   attemptAdd: (successCallback) ->
     chrome.permissions.request
