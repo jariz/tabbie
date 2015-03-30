@@ -1,19 +1,23 @@
 #Tabbie
-![](http://i.imgur.com/nL3luqy.jpg)  
-![](http://i.imgur.com/k6C65k7.png)  
+![](https://cloud.githubusercontent.com/assets/1415847/6825212/2231c0f2-d2f9-11e4-8eea-134c067d084e.png)  
+![](https://cloud.githubusercontent.com/assets/1415847/6825227/43d8f36a-d2f9-11e4-973f-3e1a07d25820.png)  
   
-Tabbie keeps you informed, inspired, and up to date trough it's beautiful and customizable columns.
+Tabbie keeps you informed, inspired, and up to date through it's beautiful and customizable columns.
 Tabbie replaces your 'new tab' page with your favorite websites.
 Choose exactly what content you want to see.
 
-Sites supported (for now... much more coming):
+Tabbie supports (still working on more):
 - Dribbble
 - Behance
 - HackerNews
 - LayerVault Designer News
 - GitHub
-- Reddit (configure which subreddit you want)
+- Reddit (frontpage/multireddit/frontpage of your account)
 - Lobste.rs
+- ProductHunt
+- Gmail
+- PushBullet
+- Chrome Apps, Bookmarks, and Top sites.
 
 Features
 - Material design based on Google's design principles.
@@ -22,6 +26,7 @@ Features
 - Add/remove columns
 - Customize column-specific settings
 - Decentralized, gets it data straight from 3rd party API's
+- Resize columns
 
 
 ##Contributing to Tabbie
