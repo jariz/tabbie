@@ -75,6 +75,7 @@ class Tabbie
         item = @packery.getItem(columnEl);
         position = item.position
         column = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column
+        console.info "!!LAYOUTCHANGED!!", column, column.config.position, "=>", position
         column.config.position = position;
         @sync column
 
@@ -82,11 +83,13 @@ class Tabbie
     @usedColumns = @usedColumns.map (c) ->
       if c.id is column.id then c = column
       c
+    console.debug "!!SYNC!!", column
     @syncAll()
 
   syncAll: () =>
     used = []
     for column in @usedColumns
+      console.debug "!!SYNCALL!!", column.name, column.config.position
       used.push column.toJSON()
     store.set "usedColumns", used
 
