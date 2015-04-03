@@ -132,6 +132,12 @@
             ::-webkit-scrollbar-thumb:window-inactive {
                 background: rgba(210, 210, 210, 0.40);
             }
+
+            /* Title link */
+            .title a {
+                color: inherit;
+                text-decoration: none;
+            }
         </style>
 
         <paper-shadow class="card" z="1">
@@ -139,7 +145,7 @@
                 <template if="{{column.thumb}}">
                     <paper-icon-button on-click="{{settings}}" style="background-image: url(img/{{column.thumb}})" class="logo"></paper-icon-button>
                 </template>
-                <div class="title" flex>{{column.name}}</div>
+                <div class="title" flex><a href="{{column.link}}">{{column.name}}</a></div>
                 <paper-icon-button on-click="{{_delete}}" icon="delete" class="editable" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{settings}}" icon="settings" class="editable settings" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{refresh}}" icon="refresh"></paper-icon-button>
