@@ -57,6 +57,7 @@ class Columns.Gmail extends Columns.Column
   name: "Gmail"
   thumb: "column-gmail.png"
   dialog: "gmail-dialog"
+  link: "https://mail.google.com/"
 
   holderEl: undefined
   columnEl: undefined

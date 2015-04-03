@@ -1,6 +1,7 @@
 class Columns.Bookmarks extends Columns.Column
   name: "Bookmarks"
   thumb: "column-bookmarks.png"
+  link: "chrome://bookmarks"
 
   attemptAdd: (successCallback) =>
     chrome.permissions.request
