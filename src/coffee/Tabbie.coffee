@@ -311,9 +311,14 @@ class Tabbie
       , (granted) =>
         if granted
           drawer = document.querySelector "app-drawer.bookmarks"
-          drawer.show()
-          drawer.addEventListener "opened-changed", ->
-            if @opened then settings.classList.add("force") else settings.classList.remove("force")
+         otherdrawers=[document.querySelector "app-drawer.bookmarks",document.querySelector("app-drawer.apps")]
+            drawer.innerHTML = ""
+            drawer.show()
+            drawer.addEventListener "opened-changed", ->
+              if @opened then settings.classList.add("force") else
+                for otherdrawer in otherdrawers
+                  otherdrawer.addEventListener "opened-changed", ->
+                    if @opened then settings.classList.add("force") else settings.classList.remove("force")
 
           chrome.bookmarks.getRecent 20, (tree) =>
             console.log tree
@@ -339,10 +344,14 @@ class Tabbie
           chrome.topSites.get (sites) =>
             console.log sites
             drawer = document.querySelector("app-drawer.top")
+            otherdrawers=[document.querySelector "app-drawer.bookmarks",document.querySelector("app-drawer.apps")]
             drawer.innerHTML = ""
             drawer.show()
             drawer.addEventListener "opened-changed", ->
-              if @opened then settings.classList.add("force") else settings.classList.remove("force")
+              if @opened then settings.classList.add("force") else
+                for otherdrawer in otherdrawers
+                  otherdrawer.addEventListener "opened-changed", ->
+                    if @opened then settings.classList.add("force") else settings.classList.remove("force")
             for site in sites
               paper = document.createElement "bookmark-item"
               paper.showdate = false
@@ -359,10 +368,14 @@ class Tabbie
           if granted
             chrome.management.getAll (extensions) =>
               drawer = document.querySelector("app-drawer.apps")
-              drawer.innerHTML = ""
-              drawer.show()
-              drawer.addEventListener "opened-changed", ->
-                if @opened then settings.classList.add("force") else settings.classList.remove("force")
+             otherdrawers=[document.querySelector "app-drawer.bookmarks",document.querySelector("app-drawer.apps")]
+            drawer.innerHTML = ""
+            drawer.show()
+            drawer.addEventListener "opened-changed", ->
+              if @opened then settings.classList.add("force") else
+                for otherdrawer in otherdrawers
+                  otherdrawer.addEventListener "opened-changed", ->
+                    if @opened then settings.classList.add("force") else settings.classList.remove("force")
 
               for extension in extensions when extension.type.indexOf("app") isnt -1 and not extension.disabled
                 console.log extension
