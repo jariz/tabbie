@@ -1,8 +1,9 @@
-class Columns.ProductHunt extends Columns.FeedColumn
-  name: "ProductHunt"
+class Columns.TabbieHunt extends Columns.FeedColumn
+  name: "TabbieHunt"
   thumb: "column-producthunt.png"
-  element: "ph-item"
+  element: "th-item"
   dataPath: "posts"
+  flex: true
   link: "https://www.producthunt.com"
 
   attemptAdd: (successCallback) ->
@@ -35,7 +36,7 @@ class Columns.ProductHunt extends Columns.FeedColumn
     .then (response) ->
       return response.json()
     .then (json) =>
-      @url = "https://api.producthunt.com/v1/posts?access_token="+json.access_token
+      @url = "https://api.producthunt.com/v1/posts/all?access_token="+json.access_token
       super columnElement, holderElement
     .catch (error) =>
       console.error error
@@ -43,4 +44,4 @@ class Columns.ProductHunt extends Columns.FeedColumn
       @loading = false
 
 
-tabbie.register "ProductHunt"
+tabbie.register "TabbieHunt"
