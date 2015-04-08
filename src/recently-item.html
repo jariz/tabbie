@@ -1,0 +1,38 @@
+<link href="../bower_components/polymer/polymer.html" rel="import">
+<link href="../bower_components/paper-item/paper-item.html" rel="import">
+<link href="time-ago.html" rel="import">
+<polymer-element name="recently-item" attributes="title url window tab-count" noscript>
+    <template>
+        <style>
+            paper-item {
+                font-size:12px;
+            }
+            img, core-icon {
+                margin-right:10px;
+                float:left;
+                color:#616161;
+            }
+            img {
+                margin-right:18px;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            a {
+                color:#000;
+            }
+        </style>
+        <template if="{{!window}}">
+            <paper-item>
+                <p><img src="chrome://favicon/{{url}}"> {{title}}</p>
+            </paper-item>
+        </template>
+        <template if="{{window}}">
+            <paper-item>
+                <core-icon icon="tab"></core-icon> {{tab_count}} Tabs
+            </paper-item>
+        </template>
+    </template>
+</polymer-element>

@@ -241,12 +241,12 @@ html /deep/ {
     overflow: hidden;
 
     &:hover, &.force {
-        width: 150px;
+        width: 195px;
         transition-delay:0ms;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
         background: #fff;
 
-        .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button {
+        .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button, .recently-drawer-button {
             opacity:1;
             -webkit-animation: enter 500ms;
         }
@@ -267,7 +267,7 @@ html /deep/ {
         height:28px;
     }
 
-    .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button {
+    .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button, .recently-drawer-button {
         transition:opacity 500ms;
         opacity:0;
         float:right;

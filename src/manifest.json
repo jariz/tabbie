@@ -18,7 +18,8 @@
     "management",
     "bookmarks",
     "chrome://favicon/*",
-    "topSites"
+    "topSites",
+    "sessions"
   ],
   "oauth2": {
     "client_id": "2445668283-ovnfq4m0m03tmvkhh4rmj4qtu02l5tic.apps.googleusercontent.com",
