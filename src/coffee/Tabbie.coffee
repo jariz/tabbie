@@ -74,23 +74,28 @@ class Tabbie
       for columnEl in document.querySelectorAll("item-column")
         item = @packery.getItem(columnEl);
         position = item.position
-        column = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column
-        console.info "!!LAYOUTCHANGED!!", column, column.config.position, "=>", position
-        column.config.position = position;
-        @sync column
+        columnId = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column.id
+        column = c for c in @usedColumns when c.id is columnId
 
-  sync: (column) =>
+        #what will now follow, is a fix for one of the strangest things i've seen in a while in my 7+ year programming career.
+        #ok not really. but still.
+        #we need to clear the column's config, or else changes get carried on across other columns
+        #do not ask me why or how.
+        newconfig = {}
+        newconfig[k] = v for k, v of column.config when column.config.hasOwnProperty k
+        newconfig.position = position
+        column.config = newconfig
+      @syncAll()
+
+  sync: (column, dontSyncAll) =>
     @usedColumns = @usedColumns.map (c) ->
       if c.id is column.id then c = column
       c
-    console.debug "!!SYNC!!", column
-    @syncAll()
+    if not dontSyncAll then @syncAll()
 
   syncAll: () =>
     used = []
-    for column in @usedColumns
-      console.debug "!!SYNCALL!!", column.name, column.config.position
-      used.push column.toJSON()
+    used.push column.toJSON() for column in @usedColumns
     store.set "usedColumns", used
 
     store.set "lastRes", [
@@ -199,9 +204,11 @@ class Tabbie
     # check if resolution has changed since last save,
     # else we're gonna have to force a relayout because the positions may not be correct anymore
     # (each column has a percentage width relative to the body's width...)
-    res = store.get "lastRes", false
-    if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth)
-      @packery.layout()
+#    res = store.get "lastRes", false
+#    if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth)
+
+    # ^ disabled resolution check for now...
+    @packery.layout()
 
     #about shiz
     #nasty, but i have no way to check if the autobinding template has loaded, and it's not yet loaded at run time...

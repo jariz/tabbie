@@ -6,6 +6,7 @@ class Columns.PushBullet extends Columns.Column
   api: undefined
   colEl: undefined
   holEl: undefined
+  link: "https://www.pushbullet.com"
 
   refresh: (columnElement, holderElement) =>
     @refreshing = true
