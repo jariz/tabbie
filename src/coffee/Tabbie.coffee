@@ -380,7 +380,7 @@ class Tabbie
     document.querySelector(".recently-drawer-button").addEventListener "click", ->
       settings = document.querySelector(".settings")
       chrome.permissions.request
-        permissions: ["sessions"],
+        permissions: ["sessions", "tabs"],
         origins: ["chrome://favicon/*"]
       , (granted) =>
         if granted
