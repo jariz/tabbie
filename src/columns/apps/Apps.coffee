@@ -2,6 +2,7 @@ class Columns.Apps extends Columns.Column
   name: "Apps"
   thumb: "column-apps.png"
   flex: true
+  link: "chrome://apps"
 
   attemptAdd: (successCallback) =>
     chrome.permissions.request

@@ -95,20 +95,6 @@
                 overflow: hidden;
             }
 
-            html {
-                overflow: auto;
-            }
-            body {
-                position: absolute;
-                top: 20px;
-                left: 20px;
-                bottom: 20px;
-                right: 20px;
-                padding: 30px;
-                overflow-y: scroll;
-                overflow-x: hidden;
-            }
-
             .handle {
                 position: absolute;
                 bottom:0;
@@ -146,14 +132,26 @@
             ::-webkit-scrollbar-thumb:window-inactive {
                 background: rgba(210, 210, 210, 0.40);
             }
+
+            /* Title link */
+            .title a {
+                color: inherit;
+                text-decoration: none;
+            }
+
+            .logo {
+                color:#fff;
+            }
         </style>
 
         <paper-shadow class="card" z="1">
             <core-toolbar class="{{column.className}}">
                 <template if="{{column.thumb}}">
-                    <paper-icon-button on-click="{{settings}}" style="background-image: url(img/{{column.thumb}})" class="logo"></paper-icon-button>
+                    <a target="_blank" href="{{column.link}}">
+                        <paper-icon-button style="background-image: url(img/{{column.thumb}})" class="logo"></paper-icon-button>
+                    </a>
                 </template>
-                <div class="title" flex>{{column.name}}</div>
+                <div class="title" flex><a target="_blank" href="{{column.link}}">{{column.name}}</a></div>
                 <paper-icon-button on-click="{{_delete}}" icon="delete" class="editable" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{settings}}" icon="settings" class="editable settings" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{refresh}}" icon="refresh"></paper-icon-button>
