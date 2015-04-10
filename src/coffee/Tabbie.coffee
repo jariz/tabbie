@@ -69,6 +69,12 @@ class Tabbie
     if @packery.items.length > 0 then op = 0 else op = 1
     document.querySelector(".no-columns-container").style.opacity = op
 
+  autoRefresh: =>
+    setInterval ->
+      #nasty stuff, but tabbie has been nasty prototype stuff since the beginning
+      column.shadowRoot.querySelector("[icon='refresh']").dispatchEvent(new MouseEvent("click")) for column in document.querySelectorAll("item-column")
+    , 1000 * 60 * 5
+
   layoutChanged: () =>
       @noColumnsCheck()
       for columnEl in document.querySelectorAll("item-column")
@@ -199,7 +205,8 @@ class Tabbie
 
     #render loaded columns
     @renderColumns()
-    @noColumnsCheck();
+    @noColumnsCheck()
+    @autoRefresh()
 
     # check if resolution has changed since last save,
     # else we're gonna have to force a relayout because the positions may not be correct anymore
