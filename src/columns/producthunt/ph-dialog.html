@@ -1,0 +1,24 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link href="../../../bower_components/core-menu/core-menu.html" rel="import">
+<link href="../../../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
+<link href="../../../bower_components/paper-item/paper-item.html" rel="import">
+<link href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
+
+<polymer-element name="ph-dialog" attributes="config">
+    <template>
+        <tabbie-dialog style="width:400px; height: 260px;">
+            <p style="display:inline-block; float:left;">Show:</p>
+            <paper-dropdown-menu label="???" style="float:left; margin-bottom:20px;width: 150px;margin-left: 10px;position: relative;top: -7px;">
+                <paper-dropdown class="dropdown">
+                    <core-menu class="menu" selected="{{config.feedtype}}">
+                        <paper-item>Text List</paper-item>
+                        <paper-item>Visual Thumbnails</paper-item>
+                    </core-menu>
+                </paper-dropdown>
+            </paper-dropdown-menu>
+        </tabbie-dialog>
+    </template>
+    <script>
+        Polymer({})
+    </script>
+</polymer-element>
