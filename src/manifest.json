@@ -15,6 +15,11 @@
   "optional_permissions": [
     "http://*/",
     "https://*/",
+
+    "https://www.reddit.com/",
+    "https://oauth.reddit.com/",
+    "https://api.producthunt.com/",
+
     "management",
     "bookmarks",
     "chrome://favicon/*",
