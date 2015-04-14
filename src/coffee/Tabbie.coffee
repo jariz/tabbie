@@ -391,6 +391,38 @@ class Tabbie
                 app.addEventListener "click", -> chrome.management.launchApp this.id
                 drawer.appendChild app
 
+    document.querySelector(".recently-drawer-button").addEventListener "click", ->
+      settings = document.querySelector(".settings")
+      chrome.permissions.request
+        permissions: ["sessions", "tabs"],
+        origins: ["chrome://favicon/*"]
+      , (granted) =>
+        if granted
+          chrome.sessions.getRecentlyClosed (sites) =>
+            console.log sites
+            drawer = document.querySelector("app-drawer.recently")
+            drawer.innerHTML = ""
+            drawer.show()
+            drawer.addEventListener "opened-changed", ->
+              if @opened then settings.classList.add("force") else settings.classList.remove("force")
+            for site in sites
+              paper = document.createElement "recently-item"
+              if site.hasOwnProperty("tab")
+                paper.window = 0
+                paper.url = site.tab.url
+                paper.title = site.tab.title
+                paper.sessId = site.tab.sessionId
+              else
+                paper.window = 1
+                paper.tab_count = site.window.tabs.length
+                paper.sessId = site.window.sessionId
+
+              paper.addEventListener "click", ->
+                chrome.sessions.restore this.sessId
+                drawer.hide()
+
+              drawer.appendChild paper
+
   register: (columnName) =>
     @columnNames.push columnName
 

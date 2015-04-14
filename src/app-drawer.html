@@ -119,6 +119,7 @@
             },
             hide: function() {
                 this.opened = false;
+                this.style.visibility = "hidden"
                 var paper = this.querySelector("html /deep/ paper-shadow");
                 paper.classList.add("reverse");
             }
