@@ -1,6 +1,6 @@
 class Columns.ClosedTabs extends Columns.Column
   name: "Closed tabs"
-  thumb: "column-bookmarks.png"
+  thumb: "column-closedtabs.png"
   link: "chrome://history"
 
   attemptAdd: (successCallback) =>
