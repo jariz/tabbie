@@ -28,6 +28,8 @@ class Columns.ClosedTabs extends Columns.Column
 
         paper.addEventListener "click", ->
           chrome.sessions.restore this.sessId
+          chrome.tabs.getCurrent (tab) ->
+            chrome.tabs.remove tab.id
 
         holderElement.appendChild paper
 
@@ -36,5 +38,7 @@ class Columns.ClosedTabs extends Columns.Column
     @refreshing = false
     @loading = false
     @refresh columnElement, holderElement
+    chrome.tabs.onRemoved.addListener (tabId) =>
+      @refresh columnElement, holderElement
 
 tabbie.register "ClosedTabs"

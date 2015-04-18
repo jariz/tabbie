@@ -419,6 +419,8 @@ class Tabbie
 
               paper.addEventListener "click", ->
                 chrome.sessions.restore this.sessId
+                chrome.tabs.getCurrent (tab) ->
+                  chrome.tabs.remove tab.id
                 drawer.hide()
 
               drawer.appendChild paper
