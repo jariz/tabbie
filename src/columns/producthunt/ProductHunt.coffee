@@ -4,6 +4,8 @@ class Columns.ProductHunt extends Columns.FeedColumn
   element: "ph-item"
   dataPath: "posts"
   link: "https://www.producthunt.com"
+  dialog: "ph-dialog"
+  width: 2
 
   attemptAdd: (successCallback) ->
     chrome.permissions.request
@@ -12,6 +14,10 @@ class Columns.ProductHunt extends Columns.FeedColumn
         if granted and typeof successCallback is 'function' then successCallback()
 
   draw: (data, holderElement) ->
+    if not @config.type then @config.type = "list"
+    @element = if @config.type == "list" then "ph-item" else "ph-thumb"
+    @flex = @element == "ph-thumb"
+
     data.posts = data.posts.map (item, index) -> item.index = index + 1; item
 
     super data, holderElement

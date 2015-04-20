@@ -329,3 +329,10 @@ app-drawer.bookmarks {
     border:3px dotted #424242;
     min-width: 250px;
 }
+
+html /deep/ paper-button.choice {
+    width: 50%;
+    height: 150px;
+    padding-top: 54px;
+    transition:background-color 500ms, color 500ms;
+}

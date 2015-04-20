@@ -1,0 +1,27 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link href="../../../bower_components/paper-button/paper-button.html" rel="import">
+<link href="../../../bower_components/core-icon/core-icon.html" rel="import">
+
+<polymer-element name="ph-dialog" attributes="config">
+    <template>
+        <tabbie-dialog style="width:400px;">
+            <div layout horizontal style="padding-bottom: 20px;">
+                <paper-button class="choice active" raised on-click="{{setActive}}" focused?="{{config.type == 'list'}}" data-type="list">
+                    <core-icon icon="view-stream"></core-icon>
+                    List
+                </paper-button>
+                <paper-button class="choice" raised on-click="{{setActive}}" focused?="{{config.type == 'grid'}}" data-type="grid">
+                    <core-icon icon="view-module"></core-icon>
+                    Grid
+                </paper-button>
+            </div>
+        </tabbie-dialog>
+    </template>
+    <script>
+        Polymer({
+            setActive: function(e) {
+                this.config.type = e.target.getAttribute("data-type");
+            }
+        })
+    </script>
+</polymer-element>
