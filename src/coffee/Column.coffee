@@ -136,6 +136,7 @@ window.Columns.Column = class Column
 
   render: (columnElement, holderElement) ->
     if @flex then holderElement.classList.add "flex"
+    else holderElement.classList.remove "flex"
 
     @columnElement = columnElement
 
