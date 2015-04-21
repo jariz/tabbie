@@ -5,9 +5,9 @@
     <template>
         <link rel="stylesheet" href="../../../dist/css/feeditem.css">
         <div>
-            <h1><a href="{{item.source.absoluteUrl}}" target="_blank" >{{item.title}} <span class="domain">{{item.hostname}}</span> </a></h1>
+            <h1><a href="{{item.link}}" target="_blank" >{{item.title}}</a></h1>
             <p>
-                author {{item.source.authorName}} <time-ago datetime="{{item.source.createdAt}}" epoch="false"></time-ago>
+                author {{item.author.name}} <time-ago datetime="{{item.pubDate}}" epoch="false"></time-ago>
             </p>
         </div>
     </template>
