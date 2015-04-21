@@ -1,0 +1,22 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../time-ago.html">
+
+<polymer-element name="verge-item" attributes="item">
+    <template>
+        <link rel="stylesheet" href="../../../dist/css/feeditem.css">
+        <div>
+            <h1><a href="{{item.source.absoluteUrl}}" target="_blank" >{{item.title}} <span class="domain">{{item.hostname}}</span> </a></h1>
+            <p>
+                author {{item.source.authorName}} <time-ago datetime="{{item.source.createdAt}}" epoch="false"></time-ago>
+            </p>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            attached: function() {
+                var match = this.item.url.target.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+                if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) this.item.hostname = match[2]
+            }
+        });
+    </script>
+</polymer-element>
