@@ -20,7 +20,9 @@
     <script>
         Polymer({
             setActive: function(e) {
-                this.config.type = e.target.getAttribute("data-type");
+                var target = e.target
+                if(e.target.nodeName.toLowerCase() == "core-icon") target = e.target.parentElement
+                this.config.type = target.getAttribute("data-type");
             }
         })
     </script>
