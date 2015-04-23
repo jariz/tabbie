@@ -4,7 +4,6 @@ class Columns.TheVerge extends Columns.FeedColumn
   url: "https://www.theverge.com/rss/index.xml"
   element: "verge-item"
   link: "https://www.theverge.com"
-  dataType: "rss"
   xmlTag: "entry"
   responseType: "xml"
 
