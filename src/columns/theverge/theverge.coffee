@@ -1,9 +1,17 @@
 class Columns.TheVerge extends Columns.FeedColumn
   name: "TheVerge"
   thumb: "column-theverge.png"
-  url: "http://pipes.yahoo.com/pipes/pipe.run?_id=63dacb712b98477f11670fa723466e37&_render=json"
+  url: "https://www.theverge.com/rss/index.xml"
   element: "verge-item"
   link: "https://www.theverge.com"
-  dataPath: "value.items"
+  dataType: "rss"
+  xmlTag: "entry"
+  responseType: "xml"
+
+  attemptAdd: (successCallback) ->
+    chrome.permissions.request
+      origins: ['https://www.theverge.com/']
+    , (granted) =>
+      if granted and typeof successCallback is 'function' then successCallback()
 
 tabbie.register "TheVerge"

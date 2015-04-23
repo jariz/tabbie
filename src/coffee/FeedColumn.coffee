@@ -41,7 +41,7 @@ class Columns.FeedColumn extends Columns.Column
     if @responseType is 'xml'
       parser = new DOMParser
       xmlDoc = parser.parseFromString data, 'text/xml'
-      items = xmlDoc.getElementsByTagName 'item'
+      items = xmlDoc.getElementsByTagName @xmlTag
       data = []
 
       for item in items

@@ -5,18 +5,13 @@
     <template>
         <link rel="stylesheet" href="../../../dist/css/feeditem.css">
         <div>
-            <h1><a href="{{item.link}}" target="_blank" >{{item.title}}</a></h1>
+            <h1><a href="{{item.id}}">{{item.title}}</a></h1>
             <p>
-                author {{item.author.name}} <time-ago datetime="{{item.pubDate}}" epoch="false"></time-ago>
+                {{item.author}} <time-ago datetime="{{item.published}}" epoch="false"></time-ago>
             </p>
         </div>
     </template>
     <script>
-        Polymer({
-            attached: function() {
-                var match = this.item.url.target.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
-                if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) this.item.hostname = match[2]
-            }
-        });
+        Polymer({});
     </script>
 </polymer-element>
