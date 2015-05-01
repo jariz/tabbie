@@ -83,6 +83,12 @@
                 })
             },
 
+            replaceHeader: function(headerEl) {
+                var toolbar = this.shadowRoot.querySelector(".card-bar");
+                toolbar.innerHTML = "";
+                toolbar.appendChild(headerEl)
+            },
+
             toggle: function(cb) {
                 if(this.style.opacity == 0) {
                     this.style.display = "block"
@@ -95,14 +101,14 @@
                     this.style.opacity = 0;
                 }
 
-                if(typeof cb === 'function') {
-                    var event = this.addEventListener("webkitTransitionEnd", function() {
-                        this.removeEventListener("click", event);
-                        if(this.style.opacity == 0) this.style.display = "none"
+                var event = this.addEventListener("webkitTransitionEnd", function(e) {
+                    if(e.target.nodeName.toLowerCase() == "auto-suggestions") return;
 
-                        cb()
-                    })
-                }
+                    if(this.style.opacity == 0) this.style.display = "none"
+
+                    if(typeof cb === 'function') cb()
+                })
+
             }
         })
     </script>

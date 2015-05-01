@@ -10,7 +10,7 @@
         <style>
             :host {
                 display:block;
-                min-width:250px;
+                min-width:310px;
                 height:50%;
             }
 
@@ -63,7 +63,7 @@
                 /*z-index: 100;*/
             }
 
-            core-toolbar.draggable {
+            core-toolbar .drag {
                 cursor: move;
                 cursor: -webkit-grabbing;
             }
@@ -105,9 +105,10 @@
                 visibility: hidden;
             }
 
-            core-toolbar.draggable .title {
+            core-toolbar .title {
                 overflow:hidden;
                 text-overflow: ellipsis;
+                position: relative;
             }
 
             .handle core-icon {
@@ -133,25 +134,38 @@
                 background: rgba(210, 210, 210, 0.40);
             }
 
-            /* Title link */
-            .title a {
-                color: inherit;
-                text-decoration: none;
-            }
-
             .logo {
                 color:#fff;
+            }
+
+            :host(.draggable) /deep/ .editableTitle {
+                display: block;
+            }
+
+            :host(.draggable) /deep/ .title span{
+                visibility: hidden;
+            }
+
+            .editableTitle {
+                top:0;
+                left:0;
+                position: absolute;
+                z-index: 1;
+                color: #f1f1f1;
+                display:none;
             }
         </style>
 
         <paper-shadow class="card" z="1">
             <core-toolbar class="{{column.className}}">
                 <template if="{{column.thumb}}">
-                    <a target="_blank" href="{{column.link}}">
-                        <paper-icon-button style="background-image: url(img/{{column.thumb}})" class="logo"></paper-icon-button>
-                    </a>
+                    <paper-icon-button style="background-image: url({{column.thumb}})" class="logo"></paper-icon-button>
                 </template>
-                <div class="title" flex><a target="_blank" href="{{column.link}}">{{column.name}}</a></div>
+                <div class="title" flex>
+                    <span>{{column.name}}</span>
+                    <input fill value="{{column.name}}" class="editableTitle" is="core-input">
+                </div>
+                <paper-icon-button icon="open-with" class="editable drag" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{_delete}}" icon="delete" class="editable" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{settings}}" icon="settings" class="editable settings" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{refresh}}" icon="refresh"></paper-icon-button>

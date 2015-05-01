@@ -1,0 +1,119 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+
+<polymer-element name="auto-suggestions" attributes="suggestions">
+    <template>
+        <style>
+            .item[highlighted] {
+                background-color: #E3F2FD;
+            }
+
+            .item {
+                padding:30px 20px;
+                width:100%;
+                box-sizing: border-box;
+                position: relative;
+                cursor:pointer;
+                transition:background 250ms;
+            }
+
+            .item img {
+                float:left;
+                margin-right:10px;
+                margin-top: 3px;
+                width:32px;
+                height:32px;
+            }
+
+            .item h4 {
+                margin:0;
+                overflow:hidden;
+                text-overflow: ellipsis;
+                position: relative;
+                white-space: nowrap;
+            }
+
+            .item .website {
+                font-size: 10px;
+                background-color: #a2bf72;
+                padding: 0.2em 0.7em;
+                float: right;
+                color:#fff;
+            }
+
+            .item h5 {
+                color:#424242;
+                margin:0;
+                font-size: 0.7em;
+                overflow:hidden;
+                text-overflow: ellipsis;
+                position: relative;
+                white-space: nowrap;
+            }
+        </style>
+        <div vertical layout wrap class="list">
+            <template repeat="{{suggestion in suggestions}}">
+                <div highlighted?="{{suggestion == activeSuggestion}}" class="item" on-click="{{choose}}" on-mouseenter="{{highlightCurrent}}">
+                    <img src="{{suggestion.iconUrl ? suggestion.iconUrl : 'img/column-unknown.png'}}">
+                    <span style="background-color: {{suggestion.website | formatWebsite | color}}" class="website">{{suggestion.website | formatWebsite}}</span>
+                    <h4>{{suggestion.title}}</h4>
+                    <h5>{{suggestion.description}}</h5>
+                    <paper-ripple fit></paper-ripple>
+                </div>
+            </template>
+            <!-- todo feedly shoutout -->
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            highlightDown: function() {
+                if(this.index < (this.suggestions.length - 1)) {
+                    this.index++;
+                    this.indexChanged()
+                }
+            },
+            highlightUp: function() {
+                if(this.index > 0) {
+                    this.index--;
+                    this.indexChanged()
+                }
+            },
+            highlightChosen: function() {
+                this.fire("suggestion-chosen", this.activeSuggestion)
+            },
+            highlightCurrent: function(e) {
+                this.activeSuggestion = e.target.templateInstance.model.suggestion
+
+                //not so nice way to find index based on a element #vanillajsthings
+                this.index = Array.prototype.indexOf.call(this.shadowRoot.querySelector(".list").children, e.target) - 1;
+            },
+            indexChanged: function() {
+                this.activeSuggestion = this.suggestions[this.index];
+            },
+            suggestionsChanged: function() {
+                if(this.suggestions.length) {
+                    this.index = 0;
+                    this.indexChanged()
+                }
+            },
+            index: 0,
+            activeSuggestion: undefined,
+            colors: {},
+            color: function(id) {
+                if(id in this.colors) return this.colors[id];
+                else return this.colors[id] = Please.make_color()[0];
+            },
+            formatWebsite: function(url) {
+                var host = new URI(url).hostname();
+                if(host.substring(0, 4) == "www.") host = host.substring(4)
+                return host
+            },
+            choose: function(e) {
+                this.fire("suggestion-chosen", e.target.templateInstance.model.suggestion);
+            },
+
+            suggestions: []
+        });
+    </script>
+</polymer-element>

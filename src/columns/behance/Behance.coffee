@@ -1,7 +1,7 @@
 class Columns.Behance extends Columns.FeedColumn
   name: "Behance"
   width: 2
-  thumb: "column-behance.png"
+  thumb: "img/column-behance.png"
   link: "https://www.behance.net/"
 
   element: "behance-item"

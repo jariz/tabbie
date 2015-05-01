@@ -1,6 +1,6 @@
 class Columns.TheVerge extends Columns.FeedColumn
   name: "TheVerge"
-  thumb: "column-theverge.png"
+  thumb: "img/column-theverge.png"
   url: "https://www.theverge.com/rss/index.xml"
   element: "verge-item"
   link: "https://www.theverge.com"

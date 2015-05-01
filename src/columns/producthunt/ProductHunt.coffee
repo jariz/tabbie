@@ -1,6 +1,6 @@
 class Columns.ProductHunt extends Columns.FeedColumn
   name: "ProductHunt"
-  thumb: "column-producthunt.png"
+  thumb: "img/column-producthunt.png"
   element: "ph-item"
   dataPath: "posts"
   link: "https://www.producthunt.com"

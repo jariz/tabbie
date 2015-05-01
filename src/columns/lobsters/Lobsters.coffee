@@ -1,7 +1,7 @@
 class Columns.Lobsters extends Columns.FeedColumn
   name: "Lobste.rs"
   width: 1
-  thumb: "column-lobsters.png"
+  thumb: "img/column-lobsters.png"
   link: "https://lobste.rs/"
 
   url: "https://lobste.rs/hottest.json"

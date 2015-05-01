@@ -1,6 +1,6 @@
 class Columns.Apps extends Columns.Column
   name: "Apps"
-  thumb: "column-apps.png"
+  thumb: "img/column-apps.png"
   flex: true
   link: "chrome://apps"
 

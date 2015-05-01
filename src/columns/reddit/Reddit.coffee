@@ -2,7 +2,7 @@ class Columns.Reddit extends Columns.FeedColumn
   name: "Reddit"
   width: 1
   dialog: "reddit-dialog"
-  thumb: "column-reddit.png"
+  thumb: "img/column-reddit.png"
   link: "https://www.reddit.com/"
 
   element: "reddit-item"

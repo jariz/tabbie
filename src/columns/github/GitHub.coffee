@@ -1,7 +1,7 @@
 class Columns.GitHub extends Columns.FeedColumn
   name: "GitHub"
   width: 1
-  thumb: "column-github.png"
+  thumb: "img/column-github.png"
   link: "https://github.com"
 
   element: "github-item"

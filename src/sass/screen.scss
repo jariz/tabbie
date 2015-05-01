@@ -130,6 +130,22 @@ body {
     background-color: #FFC107;
 }
 
+#searchdialog /deep/ .back-toolbar {
+    background-color: #EEEEEE;
+}
+
+#searchdialog /deep/ paper-icon-button {
+    color:#000;
+}
+
+#searchdialog /deep/ .card-bar .search-bar {
+    width:100%;
+}
+
+#searchdialog /deep/ .card .content {
+    padding:0;
+}
+
 html /deep/ {
     paper-button.primary {
         background: #4285f4;

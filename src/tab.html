@@ -46,6 +46,7 @@
     <link rel="import" href="bookmark-item.html">
     <link rel="import" href="recently-item.html">
     <link rel="import" href="tour-step.html">
+    <link rel="import" href="auto-suggestions.html">
     <link rel="import" href="columns/compiled/columns.html">
 </head>
 <body unresolved>
@@ -79,6 +80,11 @@
 
 <fullscreen-dialog heading="Add a new column" id="addcolumn">
     <column-chooser></column-chooser>
+</fullscreen-dialog>
+
+<fullscreen-dialog id="searchdialog">
+    <paper-input class="search-bar" label="Type the name of your favorite website"></paper-input>
+    <auto-suggestions></auto-suggestions>
 </fullscreen-dialog>
 
 <fullscreen-dialog heading="Tabbie 0.4 - 22 March 2015" id="update" style="font-size:14px;">

@@ -27,14 +27,6 @@
                 background:#eeeeee;
             }
 
-            .column paper-ripple {
-                position: absolute;
-                width:100%;
-                height:100%;
-                top:0;
-                left:0;
-            }
-
             .grid {
                 display:flex;
                 flex-wrap: wrap;
@@ -49,9 +41,9 @@
             <template repeat="{{column in columns}}">
                 <div class="column">
                     <div class="content">
-                        <paper-ripple></paper-ripple>
+                        <paper-ripple fit></paper-ripple>
                         <template if="{{column.thumb}}">
-                            <img src="img/{{column.thumb}}">
+                            <img src="{{column.thumb}}">
                         </template>
                         <h3>{{column.name}}</h3>
                     </div>

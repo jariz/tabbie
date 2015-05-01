@@ -10,7 +10,7 @@ window.Columns.Column = class Column
       thmb.addEventListener "load", =>
         ct = new ColorThief thmb
         @color = ct.getColor thmb
-      thmb.src = "img/" + @thumb
+      thmb.src = @thumb
 
     if not @config then @config = {}
     if not @cache then @cache = []
@@ -44,7 +44,6 @@ window.Columns.Column = class Column
 
   handleHandler = undefined
   editMode: (enable) =>
-    toolbar = @columnElement.querySelector "html /deep/ core-toolbar"
     trans = tabbie.meta.byId "core-transition-center"
     handle = @columnElement.querySelector "html /deep/ .handle"
 
@@ -120,7 +119,7 @@ window.Columns.Column = class Column
 
       handle.style.visibility = "visible"
       @draggie.enable()
-      toolbar.classList.add "draggable"
+      @columnElement.classList.add "draggable"
       for editable in @editables
         trans.go editable,
           opened: true
@@ -128,7 +127,7 @@ window.Columns.Column = class Column
       if @handleHandler then handle.removeEventListener "mousedown", @handleHandler
       handle.style.visibility = "hidden"
       @draggie.disable()
-      toolbar.classList.remove "draggable"
+      @columnElement.classList.remove "draggable"
       for editable in @editables
         trans.go editable,
           opened: false
@@ -189,7 +188,8 @@ window.Columns.Column = class Column
     "id",
     "color",
     "width",
-    "height"
+    "height",
+    "name"
   ]
 
   #Column name
@@ -205,7 +205,7 @@ window.Columns.Column = class Column
   dialog: null
 
   #Thumbnail image path
-  thumb: "column-unknown.png"
+  thumb: "img/column-unknown.png"
 
   #Configurations trough dialogs etc get saved in here
   config: {}

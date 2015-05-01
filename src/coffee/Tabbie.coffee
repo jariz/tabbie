@@ -29,7 +29,7 @@ class Tabbie
     column.render columnEl, holderEl
 
     column.draggie = new Draggabilly columnEl,
-      handle: "html /deep/ core-toolbar",
+      handle: "html /deep/ core-toolbar /deep/ paper-icon-button.drag",
     column.draggie.disable()
 
     @packery.bindDraggabillyEvents column.draggie
@@ -292,19 +292,71 @@ class Tabbie
     columnchooser.columns = @columns
 
     adddialog = document.querySelector "#addcolumn"
+    search = document.querySelector "#searchdialog"
+
+    searchBar = search.querySelector ".search-bar"
+    searchSuggestions = search.querySelector "auto-suggestions"
+
+    search.replaceHeader searchBar
+    searchSuggestions.addEventListener "suggestion-chosen", (e) =>
+      @createColumnFromFeedly e.detail
+      search.toggle ->
+        searchBar.value = ""
+        searchSuggestions.suggestions = []
+
+    query = ""
+    timeout = undefined
+
+    searchBar.addEventListener "keydown", (e) =>
+      prevent = true
+      switch e.keyIdentifier
+        when "Down" then searchSuggestions.highlightDown()
+        when "Up" then searchSuggestions.highlightUp()
+        when "Enter" then searchSuggestions.highlightChosen()
+        else prevent = false
+
+      if prevent then e.preventDefault()
+
+    searchBar.addEventListener "keyup", (e) =>
+      if query != searchBar.value
+        query = searchBar.value
+
+        if not query
+          searchSuggestions.suggestions = []
+          return
+
+        if timeout then clearTimeout timeout
+
+        timeout = setTimeout =>
+          fetch "http://feedly.com/v3/search/auto-complete?query="+query+"&sites=7&topics=0&libraries=0&locale=en-US"
+          .then (response) ->
+            if response.status is 200 then Promise.resolve response
+            else Promise.reject new Error response.statusText
+          .then (response) ->
+            return response.json()
+          .then (json) =>
+            searchSuggestions.suggestions = json.sites
+          .catch (error) =>
+            console.error error
+        , 300
+
+    adddialog.addButton 'add', ->
+      chrome.permissions.request
+        origins: ["http://feedly.com/"]
+      , (granted) =>
+        if granted
+          search.toggle()
+          searchBar.focus()
 
     #once again, there's no way to check if templates have loaded, so settimeout it is
     setTimeout =>
-      columns = adddialog.querySelectorAll "html /deep/ .column:not(.hack)"
-      for columnEl in columns
-        column = columnEl.templateInstance.model.column
-        columnEl.addEventListener "click", (e) =>
-          column = e.target.templateInstance.model.column
-          column.attemptAdd =>
-            adddialog.toggle()
-            newcolumn = new Columns[column.className](column)
-            @addColumn newcolumn
-            @packery.layout()
+      columnchooser.shadowRoot.addEventListener "click", (e) =>
+        column = e.target.templateInstance.model.column
+        column.attemptAdd =>
+          adddialog.toggle()
+          newcolumn = new Columns[column.className](column)
+          @addColumn newcolumn
+          @packery.layout()
     , 100
 
     fab.addEventListener "click", =>
@@ -425,6 +477,15 @@ class Tabbie
 
   register: (columnName) =>
     @columnNames.push columnName
+
+  createColumnFromFeedly: (feedly) =>
+    console.log feedly
+    column = new Columns.CustomColumn
+      name: feedly.title
+      link: feedly.website
+      url: feedly.feedId.substring 5
+      thumb: "http://proxy.boxresizer.com/convert?resize=150x150&source=" + encodeURIComponent(feedly.visualUrl)
+    @columns.push column
 
   packery: null
   columns: []

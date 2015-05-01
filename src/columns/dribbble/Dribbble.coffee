@@ -1,7 +1,7 @@
 class Columns.Dribbble extends Columns.FeedColumn
   name: "Dribbble"
   width: 2
-  thumb: "column-dribble.png"
+  thumb: "img/column-dribble.png"
   link: "https://dribbble.com"
 
   element: "dribbble-item"

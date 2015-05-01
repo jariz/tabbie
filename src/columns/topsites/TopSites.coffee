@@ -1,6 +1,6 @@
 class Columns.TopSites extends Columns.Column
   name: "Top sites"
-  thumb: "column-topsites.png"
+  thumb: "img/column-topsites.png"
 
   attemptAdd: (successCallback) =>
     chrome.permissions.request

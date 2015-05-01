@@ -1,6 +1,6 @@
 class Columns.Bookmarks extends Columns.Column
   name: "Bookmarks"
-  thumb: "column-bookmarks.png"
+  thumb: "img/column-bookmarks.png"
   link: "chrome://bookmarks"
 
   attemptAdd: (successCallback) =>

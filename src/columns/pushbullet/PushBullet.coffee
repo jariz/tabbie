@@ -1,6 +1,6 @@
 class Columns.PushBullet extends Columns.Column
   name: "PushBullet"
-  thumb: "column-pushbullet.png"
+  thumb: "img/column-pushbullet.png"
   dialog: "pushbullet-dialog"
   socket: undefined
   api: undefined
