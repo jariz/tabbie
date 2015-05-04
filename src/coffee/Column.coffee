@@ -189,7 +189,10 @@ window.Columns.Column = class Column
     "color",
     "width",
     "height",
-    "name"
+    "name",
+    "url",
+    "link",
+    "thumb"
   ]
 
   #Column name

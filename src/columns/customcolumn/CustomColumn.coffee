@@ -5,6 +5,7 @@ class Columns.CustomColumn extends Columns.FeedColumn
   element: "custom-item"
   xmlTag: "item"
   responseType: "xml"
+  width: 2
 
   # name, link, name, etc all get set by Tabbie core
 

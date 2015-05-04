@@ -104,6 +104,8 @@ class Tabbie
     used.push column.toJSON() for column in @usedColumns
     store.set "usedColumns", used
 
+    store.set "customColumns", @customColumns.map (column) -> column.toJSON()
+
     store.set "lastRes", [
       document.body.clientHeight,
       document.body.clientWidth
@@ -172,7 +174,7 @@ class Tabbie
   render: =>
     if not store.has "notour" then @tour()
 
-    #load all columns
+    #load all default columns
     if not cols = store.get "usedColumns" then @usedColumns = [] else
       for col, i in cols
         if typeof Columns[col.className] is 'undefined'
@@ -185,17 +187,22 @@ class Tabbie
     #get meta from dom
     @meta = document.getElementById "meta"
 
-    #load column definitions
-    for column in @columnNames
-      continue if typeof Columns[column] is 'undefined'
-      @columns.push new Columns[column]
+    #load default column definitions
+    @columns.push new Columns[column] for column in @columnNames when typeof Columns[column] isnt 'undefined'
+
+    #load custom user made column definitions
+    customColumns = store.get "customColumns", []
+    @customColumns.push new Columns[column.className](column) for column in customColumns
+    @columns.push column for column in @customColumns
+
+    #resort columns by alphabet
+    @resortColumns()
 
     #load packery (layout manager)
     @packery = new Packery document.querySelector(".column-holder"),
       columnWidth: ".grid-sizer"
       rowHeight: ".grid-sizer"
       itemSelector: "item-column",
-#      gutter: 10
 
     #packery bindings
     @packery.on "dragItemPositioned", @layoutChanged
@@ -480,13 +487,26 @@ class Tabbie
 
   createColumnFromFeedly: (feedly) =>
     console.log feedly
+
+    #todo download and convert thumb to data url
+    if feedly.visualUrl then thumb = "http://proxy.boxresizer.com/convert?resize=150x150&source=" + encodeURIComponent(feedly.visualUrl)
+    else thumb = "img/column-unknown.png";
+
     column = new Columns.CustomColumn
       name: feedly.title
       link: feedly.website
       url: feedly.feedId.substring 5
-      thumb: "http://proxy.boxresizer.com/convert?resize=150x150&source=" + encodeURIComponent(feedly.visualUrl)
-    @columns.push column
+      thumb: thumb
 
+    @customColumns.push column
+    @columns.push column
+    @resortColumns()
+    @syncAll()
+
+  resortColumns: =>
+    @columns.sort (a, b) -> if a.name < b.name then -1 else if a.name > b.name then 1 else 0
+
+  customColumns: []
   packery: null
   columns: []
   columnNames: [],
