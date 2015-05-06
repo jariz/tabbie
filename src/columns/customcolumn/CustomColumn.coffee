@@ -2,19 +2,13 @@
 #blabla
 
 class Columns.CustomColumn extends Columns.FeedColumn
-  element: "custom-item"
-  xmlTag: "item"
-  responseType: "xml"
-  width: 2
-
-  # name, link, name, etc all get set by Tabbie core
+  element: "feedly-item"
+  responseType: "json"
+  dataPath: "items"
 
   attemptAdd: (successCallback) =>
-    uri = new URI @url
-    uri.path("")
-    console.log "[attemptAdd]", "full", @url, "formatted", uri.toString()
-
     chrome.permissions.request
-      origins: [uri.toString()]
+      origins: ["https://feedly.com/"]
     , (granted) =>
-      if granted and typeof successCallback is 'function' then successCallback()
+      if granted
+        if typeof successCallback is "function" then successCallback();

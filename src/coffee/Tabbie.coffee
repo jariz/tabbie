@@ -335,7 +335,7 @@ class Tabbie
         if timeout then clearTimeout timeout
 
         timeout = setTimeout =>
-          fetch "http://feedly.com/v3/search/auto-complete?query="+query+"&sites=7&topics=0&libraries=0&locale=en-US"
+          fetch "https://feedly.com/v3/search/auto-complete?query="+query+"&sites=7&topics=0&libraries=0&locale=en-US"
           .then (response) ->
             if response.status is 200 then Promise.resolve response
             else Promise.reject new Error response.statusText
@@ -349,7 +349,7 @@ class Tabbie
 
     adddialog.addButton 'add', ->
       chrome.permissions.request
-        origins: ["http://feedly.com/"]
+        origins: ["https://feedly.com/"]
       , (granted) =>
         if granted
           search.toggle()
@@ -486,7 +486,6 @@ class Tabbie
     @columnNames.push columnName
 
   createColumnFromFeedly: (feedly) =>
-    console.log feedly
 
     #todo download and convert thumb to data url
     if feedly.visualUrl then thumb = "http://proxy.boxresizer.com/convert?resize=150x150&source=" + encodeURIComponent(feedly.visualUrl)
@@ -495,7 +494,7 @@ class Tabbie
     column = new Columns.CustomColumn
       name: feedly.title
       link: feedly.website
-      url: feedly.feedId.substring 5
+      url: "https://feedly.com/v3/streams/contents?streamId=" + encodeURIComponent(feedly.feedId)
       thumb: thumb
 
     @customColumns.push column

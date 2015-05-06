@@ -9,12 +9,18 @@
   },
   "permissions": [
     "identity",
-    "http://*/*",
-    "https://*/*"
+    "https://lobste.rs/*",
+    "https://api.behance.net/*"
   ],
   "optional_permissions": [
     "http://*/",
     "https://*/",
+
+    "https://www.reddit.com/",
+    "https://oauth.reddit.com/",
+    "https://api.producthunt.com/",
+    "https://feedly.com/",
+    "https://www.theverge.com/",
 
     "management",
     "bookmarks",

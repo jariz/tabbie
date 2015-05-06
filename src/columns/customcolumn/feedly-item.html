@@ -1,0 +1,148 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../time-ago.html">
+
+<polymer-element name="feedly-item" attributes="item">
+    <template>
+        <style>
+            :host {
+                /*padding:10px;*/
+                padding-right:10px;
+            }
+
+            .media {
+                position:relative;
+            }
+
+            .media img {
+                width:100%;
+            }
+
+            h1 {
+                font-size:16px;
+                font-family: 'Roboto Slab', 'Roboto', sans-serif;
+                font-weight:normal;
+            }
+
+            .media h1 {
+                color:#fff;
+                position:absolute;
+                bottom:0;
+                background:rgba(0,0,0,.5);
+                width:100%;
+                left:0;
+                padding:5px 10px;
+                margin:0;
+                box-sizing: border-box;
+            }
+
+            .media h1 a {
+                color:#fff;
+            }
+
+            a {
+                color:#2c2c2c;
+                text-decoration: none;
+            }
+
+            .info {
+                color: #616161;
+                font-size:10px;
+                padding: 10px;
+                font-weight: lighter;
+                border-bottom:1px solid #d2d2d2;
+            }
+
+            footer {
+                margin-top:10px;
+            }
+
+            .info p {
+                margin:0;
+            }
+
+            footer p {
+                width:50%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow:hidden;
+            }
+
+            footer p:last-child {
+                text-align:right;
+            }
+        </style>
+
+        <template if="{{item.visual.url | isValidUrl}}">
+            <div class="media">
+                <img src="{{item.visual.url}}">
+                <h1><a target="_blank" href="{{item.alternate.href}}">{{item.title}}</a></h1>
+            </div>
+        </template>
+
+        <div class="info">
+
+            <template if="{{item.visual.url | isInvalidUrl}}">
+                <h1><a target="_blank" href="{{item.alternate.href}}">{{item.title}}</a></h1>
+            </template>
+
+            <p>{{item.article | filterHtml | summarize}}</p>
+
+            <footer layout horizontal>
+                <p>
+                    <template if="{{item.author}}">
+                        by {{item.author}}
+                    </template>
+                </p>
+                <p>
+                    <time-ago datetime="{{item.published}}" epoch="false"></time-ago>
+                </p>
+            </footer>
+
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            isValidUrl: function(url) {
+                return typeof url === "string" && url.substring(0, 4) === "http"
+            },
+
+            isInvalidUrl: function(url) {
+                //not very pretty, but polymer doesn't have an else statement
+                return !this.isValidUrl(url);
+            },
+
+            summarize: function(content) {
+                if(typeof content !== 'string') return content;
+
+                var words = content.split(" ")
+                if(words.length > 50) {
+                    //more than 50 words, let's make it a bit shorter
+                    words = words.filter(function(word, i) {
+                        return i < 50;
+                    })
+                    content = words.join(' ') + '...';
+                }
+
+                return content;
+            },
+
+            filterHtml: function(string) {
+                //if it's not a string, we don't want it
+                if(typeof string !== 'string') return string;
+
+                //pretty mediocre way, but it's the only way to do this without *shivers* executing the html.
+                string = _.unescape(string)
+
+                //don't worry. this is just to make the summaries with html look a bit more nice.
+                //we're never actually inserting any html into the dom. because that's dangerous af. chrome runtime access, son. i don't think so.
+                return string.replace(/<[^>]*>?/g, '');
+            },
+
+            attached:function() {
+                if('summary' in this.item) this.item.article = this.item.summary.content;
+                else if('content' in this.item) this.item.article = this.item.content.content;
+            }
+        });
+    </script>
+</polymer-element>
