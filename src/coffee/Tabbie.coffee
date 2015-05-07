@@ -102,7 +102,7 @@ class Tabbie
   syncAll: () =>
     used = []
     used.push column.toJSON() for column in @usedColumns
-    store.set "usedColumns", used
+    store.set "usedColumns", @resortUsedColumns used
 
     store.set "customColumns", @customColumns.map (column) -> column.toJSON()
 
@@ -504,6 +504,13 @@ class Tabbie
 
   resortColumns: =>
     @columns.sort (a, b) -> if a.name < b.name then -1 else if a.name > b.name then 1 else 0
+
+  resortUsedColumns: (used) =>
+    used = used.map (clmn) ->
+      if not clmn.config.position then clmn.config.position = {x: 0, y: 0}
+      return clmn
+
+    used.sort (a, b) -> a.config.position.y - b.config.position.y or a.config.position.x - b.config.position.x;
 
   customColumns: []
   packery: null
