@@ -6,11 +6,12 @@
 <link rel="import" href="../../time-ago.html">
 
 <polymer-element name="ph-thumb" attributes="item" noscript>
-    <template if="{{!config.feedtype}}">
+    <template if="{{!config.feedtype}}" center-justified layout>
         <style>
             :host {
                 flex: 1 0 280px;
                 height: 340px;
+                max-width: 280px;
                 font-size: 10px;
                 color: black;
                 display: inline-block;
@@ -22,7 +23,12 @@
                 box-sizing: border-box;
                 border-radius: 4px;
             }
-
+            :host(:hover) {
+                background: #fcf5e2;
+                -webkit-transition: background,.1s;
+                -moz-transition: background,.1s;
+                transition: background,.1s;
+            }
             h1 {
                 font-size: 24px;
                 font-family: Verdana, Arial, sans-serif;
@@ -42,12 +48,15 @@
                 width: 100%;
                 padding-bottom: 10px;
             }
+            .img:hover {
+                opacity: .8;
+                -webkit-transition: opacity,.2s;
+                transition: opacity,.2s;
+                -moz-transition: opacity,.2s;
+            }
             a {
                 color: rgba(0, 0, 0, 0.87);
                 text-decoration: none;
-            }
-            .product:hover {
-                background: #fcf5e2;
             }
             .overlay {
                 position: absolute;
@@ -60,13 +69,6 @@
                 z-index: 1;
                 box-sizing:border-box;
             }
-            paper-ripple {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                z-index: 2;
-                box-sizing:content-box;
-            }
             .minigrid {
                 position: relative;
                 width: 100%;
@@ -78,7 +80,7 @@
                 height: 15px;
             }
             .votes {
-                background-image: url(../../img/arrow_up.svg);
+                background-image: url(../../../img/arrow_up.svg);
                 background-position: center 2px;
                 background-repeat: no-repeat;
                 border-radius: 3px;
@@ -98,16 +100,21 @@
                 margin-right: 10px;
             }
             .comments {
-                background-image: url(../../img/comment.svg);
+                background-image: url(../../../img/comment.svg);
                 background-repeat: no-repeat;
                 color: #a9a29f;
                 height: 20px;
                 min-width: 30px;
-                padding-left: 20px;
+                /*padding-left: 20px;*/
                 position: absolute;
                 right: 0;
                 text-align: right;
                 top: 0;
+            }
+            .comments:hover {
+                background-image: url(../../../img/comment_hover.svg);
+                background-repeat: no-repeat;
+                color: #da552f;
             }
             p {
                 color: #685f5c;
@@ -116,26 +123,25 @@
                 padding: 0;
             }
         </style>
-        <a target="_blank" href="{{item.discussion_url}}">
-            <paper-ripple></paper-ripple>
-            <div class="product">
+        <a class="product" target="_blank" href="{{item.redirect_url}}">
+            <div class="product" center-justified layout>
                 <div class="img">
                     <img src="{{item.screenshot_url['300px']}}">
                 </div>
 
                 <div class="minigrid">
                     <div class="votes">
-                        <core-icon icon="favorite"></core-icon>
-                        <span>{{item.votes_count}}</span>
+                        {{item.votes_count}}
                     </div>
                     <div class="details">
                         <h3>{{item.name}}</h3>
                         <p>{{item.tagline}}</p>
                     </div>
-                    <div class="comments">
-                        <core-icon icon="communication:comment"></core-icon>
-                        <span>{{item.comments_count}}</span>
-                    </div>
+                    <a href="{{item.discussion_url}}" target="_blank">
+                        <div class="comments">
+                            {{item.comments_count}}
+                        </div>
+                    </a>
                 </div>
             </div>
         </a>
