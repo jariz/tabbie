@@ -19,11 +19,13 @@ class Columns.ProductHunt extends Columns.FeedColumn
     super data, holderElement
 
   refresh: (columnElement, holderElement) =>
-    if typeof @config.feedtype is "undefined" then @config.feedtype = 1
+    if typeof @config.feedtype is "undefined" then @config.feedtype = 0
 
     switch @config.feedtype
-      when 0 then feedtype = "text"
-      when 1 then feedtype = "thumb"
+      when 0 then feedtype = true
+      when 1 then feedtype = false
+
+    super columnElement, holderElement
 
     #producthunt api requires a request for a access token
     #when we've got access token, we can go on as usual
