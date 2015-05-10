@@ -5,9 +5,9 @@
 <link rel="import" href="../../../bower_components/core-icons/image-icons.html">
 <link rel="import" href="../../time-ago.html">
 
-<polymer-element name="ph-thumb" attributes="item" noscript>
+<polymer-element name="behance-item" attributes="item">
     <template>
-         <style>
+        <style>
             :host {
                 flex: 1 0 200px;
                 font-size: 10px;
@@ -20,12 +20,8 @@
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 14px;
                 font-family: 'Roboto Slab', 'Roboto', sans-serif;
-                font-weight: bold;
-                text-align: center;
-                padding-top: 50%;
-                transform:translateY(-50%);
             }
 
             .img {
@@ -47,7 +43,6 @@
                 background-color: rgba(255, 255, 255, .5);
                 transition: opacity 250ms;
                 z-index: 1;
-                box-sizing:border-box;
             }
 
             paper-ripple {
@@ -65,28 +60,13 @@
                 transform: scale(1.2)
             }
 
-            .minigrid {
-                position: absolute;
-                bottom: 30px;
-                left:0px;
-                width: 100%;
-                margin: 0 auto;
-                display: flex;
-            }
             .minigrid div {
-                width: auto;
+                width: 30%;
                 float: left;
                 text-align: center;
                 color: #484848;
             }
-            .minigrid div:first-child {
-                margin-left: auto;
-                margin-right: 8px;
-            }
-            .minigrid div:last-child {
-                margin-right: auto;
-                margin-left: 8px;
-            }
+
             .minigrid div span {
 
             }
@@ -98,48 +78,53 @@
 
             .author {
                 position: absolute;
-                bottom: 0px;
-                left:0px;
-                width: 100%;
-                box-sizing:border-box;
-                margin: 0 auto;
-                text-align: center;
+                bottom: 25px;
             }
 
             .author img {
                 width: 25px;
                 height: 25px;
                 border-radius: 50%;
+                float: left;
+                margin-right: 10px;
             }
 
             .author span {
                 display: inline-block;
                 padding-top: 7px;
-                vertical-align: top;
             }
 
         </style>
 
-        <a target="_blank" href="{{item.discussion_url}}">
+        <a target="_blank" href="{{item.url}}">
             <paper-ripple></paper-ripple>
             <div class="overlay">
                 <h1>{{item.name}}</h1>
+
                 <div class="minigrid">
                     <div>
                         <core-icon icon="favorite"></core-icon>
-                        <span>{{item.votes_count}}</span>
+                        <span>{{item.stats.appreciations}}</span>
                     </div>
                     <div>
                         <core-icon icon="communication:comment"></core-icon>
-                        <span>{{item.comments_count}}</span>
+                        <span>{{item.stats.comments}}</span>
+                    </div>
+                    <div>
+                        <core-icon icon="image:remove-red-eye"></core-icon>
+                        <span>{{item.stats.views}}</span>
                     </div>
                 </div>
                 <div class="author">
-                    <img src="{{item.user.image_url.original}}"> <span>{{item.user.name}}</span>
+                    <img src="{{item.owners[0].images['50']}}"> <span>{{item.owners[0].first_name}} {{item.owners[0].last_name}}</span>
                 </div>
             </div>
-            <img src="{{item.screenshot_url['300px']}}" class="img">
+            <img src="{{item.covers['404']}}" class="img">
         </a>
 
     </template>
+    <script>
+        Polymer({
+        });
+    </script>
 </polymer-element>
