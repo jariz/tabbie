@@ -11,6 +11,7 @@
     <link rel="import" href="../bower_components/core-icon/core-icon.html">
     <link rel="import" href="../bower_components/core-iconset-svg/core-iconset-svg.html">
     <link rel="import" href="../bower_components/core-icons/core-icons.html">
+    <link rel="import" href="../bower_components/core-icons/device-icons.html">
     <link rel="import" href="../bower_components/core-icons/maps-icons.html">
     <link rel="import" href="../bower_components/core-icons/av-icons.html">
     <link rel="import" href="../bower_components/core-meta/core-meta.html">
@@ -43,6 +44,7 @@
     <link rel="import" href="app-drawer.html">
     <link rel="import" href="app-item.html">
     <link rel="import" href="bookmark-item.html">
+    <link rel="import" href="recently-item.html">
     <link rel="import" href="tour-step.html">
     <link rel="import" href="columns/compiled/columns.html">
 </head>
@@ -177,13 +179,16 @@
     </template>
 </app-drawer>
 <app-drawer class="top"></app-drawer>
+<app-drawer class="recently"></app-drawer>
 
 <div class="settings">
     <paper-icon-button icon="more-vert" class="more"></paper-icon-button>
 
+    <paper-icon-button icon="device:access-time" class="recently-drawer-button"></paper-icon-button>
     <paper-icon-button icon="bookmark" class="bookmarks-drawer-button"></paper-icon-button>
     <paper-icon-button icon="apps" class="app-drawer-button"></paper-icon-button>
     <paper-icon-button icon="grade" class="top-drawer-button"></paper-icon-button>
+
 </div>
 
 <div class="column-holder">

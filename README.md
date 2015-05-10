@@ -1,4 +1,5 @@
-#Tabbie
+#Tabbie <span style='float:right'>[![Join the chat at https://gitter.im/jariz/tabbie](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jariz/tabbie?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/jariz/tabbie.svg?branch=master&style=flat-square)](https://travis-ci.org/jariz/tabbie) [![](https://img.shields.io/badge/Chrome-Extension-yellow.svg?style=flat-square)](https://chrome.google.com/webstore/detail/tabbie/kckhddfnffeofnfjcpdffpeiljicclbd)
+
 ![](https://cloud.githubusercontent.com/assets/1415847/6825212/2231c0f2-d2f9-11e4-8eea-134c067d084e.png)  
 ![](https://cloud.githubusercontent.com/assets/1415847/6825227/43d8f36a-d2f9-11e4-973f-3e1a07d25820.png)  
   

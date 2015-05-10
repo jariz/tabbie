@@ -1,6 +1,6 @@
 class Tabbie
 
-  version: "0.4.2"
+  version: "0.4.7"
   editMode: false
 
   constructor: ->
@@ -68,6 +68,12 @@ class Tabbie
   noColumnsCheck: =>
     if @packery.items.length > 0 then op = 0 else op = 1
     document.querySelector(".no-columns-container").style.opacity = op
+
+  autoRefresh: =>
+    setInterval ->
+      #nasty stuff, but tabbie has been nasty prototype stuff since the beginning
+      column.shadowRoot.querySelector("[icon='refresh']").dispatchEvent(new MouseEvent("click")) for column in document.querySelectorAll("item-column")
+    , 1000 * 60 * 5
 
   layoutChanged: () =>
       @noColumnsCheck()
@@ -199,7 +205,8 @@ class Tabbie
 
     #render loaded columns
     @renderColumns()
-    @noColumnsCheck();
+    @noColumnsCheck()
+    @autoRefresh()
 
     # check if resolution has changed since last save,
     # else we're gonna have to force a relayout because the positions may not be correct anymore
@@ -383,6 +390,38 @@ class Tabbie
 
                 app.addEventListener "click", -> chrome.management.launchApp this.id
                 drawer.appendChild app
+
+    document.querySelector(".recently-drawer-button").addEventListener "click", ->
+      settings = document.querySelector(".settings")
+      chrome.permissions.request
+        permissions: ["sessions", "tabs"],
+        origins: ["chrome://favicon/*"]
+      , (granted) =>
+        if granted
+          chrome.sessions.getRecentlyClosed (sites) =>
+            console.log sites
+            drawer = document.querySelector("app-drawer.recently")
+            drawer.innerHTML = ""
+            drawer.show()
+            drawer.addEventListener "opened-changed", ->
+              if @opened then settings.classList.add("force") else settings.classList.remove("force")
+            for site in sites
+              paper = document.createElement "recently-item"
+              if site.hasOwnProperty("tab")
+                paper.window = 0
+                paper.url = site.tab.url
+                paper.title = site.tab.title
+                paper.sessId = site.tab.sessionId
+              else
+                paper.window = 1
+                paper.tab_count = site.window.tabs.length
+                paper.sessId = site.window.sessionId
+
+              paper.addEventListener "click", ->
+                chrome.sessions.restore this.sessId
+                drawer.hide()
+
+              drawer.appendChild paper
 
   register: (columnName) =>
     @columnNames.push columnName

@@ -14,17 +14,15 @@ class Columns.ProductHunt extends Columns.FeedColumn
         if granted and typeof successCallback is 'function' then successCallback()
 
   draw: (data, holderElement) ->
+    if not @config.type then @config.type = "list"
+    @element = if @config.type == "list" then "ph-item" else "ph-thumb"
+    @flex = @element == "ph-thumb"
+
     data.posts = data.posts.map (item, index) -> item.index = index + 1; item
 
     super data, holderElement
 
   refresh: (columnElement, holderElement) =>
-    if typeof @config.feedtype is "undefined" then @config.feedtype = 1
-
-    switch @config.feedtype
-      when 0 then feedtype = "text"
-      when 1 then feedtype = "thumb"
-
     #producthunt api requires a request for a access token
     #when we've got access token, we can go on as usual
 

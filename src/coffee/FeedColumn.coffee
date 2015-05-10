@@ -29,6 +29,9 @@ class Columns.FeedColumn extends Columns.Column
   draw: (data, holderElement) ->
     @loading = false
 
+    if @flex then holderElement.classList.add "flex"
+    else holderElement.classList.remove "flex"
+
     if not @element
       console.warn "Please define the 'element' property on your column class!"
       return
@@ -38,7 +41,7 @@ class Columns.FeedColumn extends Columns.Column
     if @responseType is 'xml'
       parser = new DOMParser
       xmlDoc = parser.parseFromString data, 'text/xml'
-      items = xmlDoc.getElementsByTagName 'item'
+      items = xmlDoc.getElementsByTagName @xmlTag
       data = []
 
       for item in items
