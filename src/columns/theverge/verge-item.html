@@ -1,0 +1,17 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../time-ago.html">
+
+<polymer-element name="verge-item" attributes="item">
+    <template>
+        <link rel="stylesheet" href="../../../dist/css/feeditem.css">
+        <div>
+            <h1><a target="_blank" href="{{item.id}}">{{item.title}}</a></h1>
+            <p>
+                {{item.author}} <time-ago datetime="{{item.published}}" epoch="false"></time-ago>
+            </p>
+        </div>
+    </template>
+    <script>
+        Polymer({});
+    </script>
+</polymer-element>

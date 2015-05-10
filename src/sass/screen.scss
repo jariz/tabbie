@@ -241,12 +241,12 @@ html /deep/ {
     overflow: hidden;
 
     &:hover, &.force {
-        width: 150px;
+        width: 195px;
         transition-delay:0ms;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
         background: #fff;
 
-        .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button {
+        .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button, .recently-drawer-button {
             opacity:1;
             -webkit-animation: enter 500ms;
         }
@@ -267,7 +267,7 @@ html /deep/ {
         height:28px;
     }
 
-    .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button {
+    .app-drawer-button, .bookmarks-drawer-button, .top-drawer-button, .recently-drawer-button {
         transition:opacity 500ms;
         opacity:0;
         float:right;
@@ -328,4 +328,11 @@ app-drawer.bookmarks {
     z-index:200;
     border:3px dotted #424242;
     min-width: 250px;
+}
+
+html /deep/ paper-button.choice {
+    width: 50%;
+    height: 150px;
+    padding-top: 54px;
+    transition:background-color 500ms, color 500ms;
 }
