@@ -1,6 +1,6 @@
 class Tabbie
 
-  version: "0.4.2"
+  version: "0.5"
   editMode: false
 
   constructor: ->
@@ -78,7 +78,7 @@ class Tabbie
   layoutChanged: () =>
       @noColumnsCheck()
       for columnEl in document.querySelectorAll("item-column")
-        item = @packery.getItem(columnEl);
+        item = @packery.getItem(columnEl)
         position = item.position
         columnId = columnEl.querySelector("html /deep/ paper-shadow").templateInstance.model.column.id
         column = c for c in @usedColumns when c.id is columnId
@@ -105,11 +105,6 @@ class Tabbie
     store.set "usedColumns", @resortUsedColumns used
 
     store.set "customColumns", @customColumns.map (column) -> column.toJSON()
-
-    store.set "lastRes", [
-      document.body.clientHeight,
-      document.body.clientWidth
-    ]
 
   renderBookmarkTree: (holder, tree, level) =>
     console.log "renderBookmarkTree level: ", level, " tree: ", tree
@@ -212,16 +207,10 @@ class Tabbie
 
     #render loaded columns
     @renderColumns()
+
     @noColumnsCheck()
     @autoRefresh()
 
-    # check if resolution has changed since last save,
-    # else we're gonna have to force a relayout because the positions may not be correct anymore
-    # (each column has a percentage width relative to the body's width...)
-#    res = store.get "lastRes", false
-#    if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth)
-
-    # ^ disabled resolution check for now...
     @packery.layout()
 
     #about shiz
@@ -231,41 +220,26 @@ class Tabbie
         item.addEventListener "click", -> if @getAttribute("href") then window.open @getAttribute("href")
     , 100
 
-    #fab stuff
     fabs = document.querySelector ".fabs"
-    fab = document.querySelector ".fab-add"
-    fab2 = document.querySelector ".fab-edit"
-    fab3 = document.querySelector ".fab-about"
-    fab4 = document.querySelector ".fab-update"
+    allFabs = [".fab-edit", ".fab-about", ".fab-update"]
+    allFabs = allFabs.map -> document.querySelector arguments[0]
     trans = @meta.byId "core-transition-center"
-    trans.setup fab2
-    trans.setup fab3
-    trans.setup fab4
 
-    fabs.addEventListener "mouseenter", ->
-      trans.go fab2,
-        opened: true
-      trans.go fab3,
-        opened: true
-      trans.go fab4,
-        opened: true
+    for fab in allFabs
+      trans.setup fab
+      fab.removeAttribute "hidden"
 
-    fabs.addEventListener "mouseleave", ->
-      trans.go fab2,
-        opened: false
-      trans.go fab3,
-        opened: false
-      trans.go fab4,
-        opened: false
+    fabs.addEventListener "mouseenter", -> trans.go fab, { opened: true } for fab in allFabs
+    fabs.addEventListener "mouseleave", -> trans.go fab, { opened: false } for fab in allFabs
 
-    fab2.addEventListener "click", =>
-      if active = fab2.classList.contains "active" then fab2.classList.remove "active"
-      else fab2.classList.add "active"
+    document.querySelector(".fab-edit").addEventListener "click", (e) =>
+      if active = e.target.classList.contains "active" then e.target.classList.remove "active"
+      else e.target.classList.add "active"
 
       @editMode = not active
       column.editMode not active for column in @usedColumns
 
-    fab3.addEventListener "click", =>
+    document.querySelector(".fab-about").addEventListener "click", =>
       aboutdialog = document.querySelector "#about"
       aboutdialog.querySelector("html /deep/ template").version = @version
       fabanim = document.createElement "fab-anim"
@@ -277,15 +251,16 @@ class Tabbie
       document.body.appendChild fabanim
       fabanim.play()
 
-    if store.has "hideUpdateButton"+@version then fab4.parentNode.style.display = "none"
+    updateFab = document.querySelector(".fab-update")
+    if store.has "hideUpdateButton"+@version then updateFab.parentNode.style.display = "none"
     updatediag = document.querySelector "#update"
     updatediag.querySelector(".hide-button").addEventListener "click", =>
       store.set "hideUpdateButton"+@version, "1"
       document.querySelector(".fab-update-wrapper")
       updatediag.toggle()
-      fab4.parentNode.style.display = "none"
+      updateFab.parentNode.style.display = "none"
 
-    fab4.addEventListener "click", =>
+    updateFab.addEventListener "click", =>
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-update"
       fabanim.addEventListener "webkitTransitionEnd", ->
@@ -330,6 +305,7 @@ class Tabbie
 
         if not query
           searchSuggestions.suggestions = []
+          searchSuggestions.error = false
           return
 
         if timeout then clearTimeout timeout
@@ -343,8 +319,11 @@ class Tabbie
             return response.json()
           .then (json) =>
             searchSuggestions.suggestions = json.sites
+            searchSuggestions.error = false
           .catch (error) =>
             console.error error
+            searchSuggestions.suggestions = []
+            searchSuggestions.error = true
         , 300
 
     adddialog.addButton 'add', ->
@@ -366,7 +345,7 @@ class Tabbie
           @packery.layout()
     , 100
 
-    fab.addEventListener "click", =>
+    document.querySelector(".fab-add").addEventListener "click", =>
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-add"
       fabanim.addEventListener "webkitTransitionEnd", ->
@@ -494,7 +473,7 @@ class Tabbie
     column = new Columns.CustomColumn
       name: feedly.title
       link: feedly.website
-      url: "https://feedly.com/v3/streams/contents?streamId=" + encodeURIComponent(feedly.feedId)
+      url: "https://feedly.com/v3/streams/contents?count=20&streamId=" + encodeURIComponent(feedly.feedId) + "&continuation={PAGENUM}"
       thumb: thumb
 
     @customColumns.push column

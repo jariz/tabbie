@@ -86,7 +86,7 @@ class Columns.FeedColumn extends Columns.Column
       @cache = data
       tabbie.sync @
       holderElement.innerHTML = "" if not adding
-      hack.remove() for hack in holderElement.querySelectorAll ".hack" when @flex
+      if @flex then hack.remove() for hack in holderElement.querySelectorAll ".hack"
       @draw @cache, holderElement
     .catch (error) =>
       console.error error

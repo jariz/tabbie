@@ -7,14 +7,11 @@
             :host {
                 /*padding:10px;*/
                 padding-right:10px;
+                position: relative;
             }
 
             .media {
                 position:relative;
-            }
-
-            .media img {
-                width:100%;
             }
 
             h1 {
@@ -33,6 +30,28 @@
                 padding:5px 10px;
                 margin:0;
                 box-sizing: border-box;
+            }
+
+            .media {
+                min-height:200px;
+                width:100%;
+                position: relative;
+                background:#eee;
+            }
+
+            .media .fake-img {
+                display:none;
+            }
+
+            .media .img {
+                opacity:0;
+                transition:opacity 500ms;
+                background: no-repeat center center;
+                background-size: cover;
+            }
+
+            paper-ripple {
+                z-index:1;
             }
 
             .media h1 a {
@@ -72,9 +91,13 @@
             }
         </style>
 
+        <paper-ripple fit></paper-ripple>
+
         <template if="{{item.visual.url | isValidUrl}}">
+
             <div class="media">
-                <img src="{{item.visual.url}}">
+                <img on-load="{{imageLoaded}}" src="{{item.visual.url}}" class="fake-img">
+                <div fit class="img"></div>
                 <h1><a target="_blank" href="{{item.alternate.href}}">{{item.title}}</a></h1>
             </div>
         </template>
@@ -137,6 +160,16 @@
                 //don't worry. this is just to make the summaries with html look a bit more nice.
                 //we're never actually inserting any html into the dom. because that's dangerous af. chrome runtime access, son. i don't think so.
                 return string.replace(/<[^>]*>?/g, '');
+            },
+
+            imageLoaded: function(e) {
+                var path = e.target.getAttribute("src");
+
+                var img = this.shadowRoot.querySelector(".media .img")
+                img.style.backgroundImage = "url("+path+")";
+                img.style.opacity = 1;
+
+                e.target.remove(); //saves memory
             },
 
             attached:function() {

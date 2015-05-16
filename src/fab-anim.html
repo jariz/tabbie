@@ -9,12 +9,12 @@
                 background: #d23f31;
                 border-radius: 50%;
                 z-index: 500;
-                opacity:.5;
-                transition: all 500ms ease-in-out;
+                /*opacity:.5;*/
+                transition: all 350ms ease-in-out;
             }
 
             :host(.active) {
-                opacity:1;
+                /*opacity:1;*/
                 width:{{animHeight}}px !important;
                 height:{{animHeight}}px !important;
                 right:calc(50% - {{animHeight / 2}}px) !important;
@@ -28,7 +28,7 @@
             play: function() {
                 if(document.body.clientWidth < document.body.clientHeight) this.animHeight = document.body.clientHeight;
                 else this.animHeight = document.body.clientWidth;
-                this.animHeight = Math.round(this.animHeight * 1.4)
+                this.animHeight = Math.round(this.animHeight * 1.3)
                 this.classList.add("active")
             }
         })

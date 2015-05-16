@@ -121,6 +121,9 @@ window.Columns.Column = class Column
       @draggie.enable()
       @columnElement.classList.add "draggable"
       for editable in @editables
+        editable.removeAttribute "hidden"
+        editable.offsetTop #hack that forces re-render
+
         trans.go editable,
           opened: true
     else
@@ -132,6 +135,9 @@ window.Columns.Column = class Column
         trans.go editable,
           opened: false
 
+        trans.listenOnce editable, trans.completeEventName, (e) ->
+          e.setAttribute "hidden", ""
+        , [editable]
 
   render: (columnElement, holderElement) ->
     if @flex then holderElement.classList.add "flex"
@@ -144,7 +150,6 @@ window.Columns.Column = class Column
       if not @dialog and editable.classList.contains "settings" then continue
       trans.setup editable
       @editables.push editable
-      editable.removeAttribute "hidden"
 
     spinner = columnElement.querySelector "html /deep/ paper-spinner"
     progress = columnElement.querySelector "html /deep/ paper-progress"

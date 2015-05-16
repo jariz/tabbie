@@ -28,10 +28,6 @@
                 background-size: cover;
             }
 
-            paper-icon-button.core-transition:not(.core-opened):not(.core-closed) {
-                visibility: hidden;
-            }
-
             paper-spinner {
                 top: 50%;
                 left: 50%;
@@ -52,6 +48,7 @@
                 width:100%;
                 opacity: 0;
                 transition:500ms opacity;
+                z-index: 1;
             }
 
             core-toolbar {
@@ -60,7 +57,6 @@
                 top: 0;
                 left: 0;
                 color: #f1f1f1;
-                /*z-index: 100;*/
             }
 
             core-toolbar .drag {

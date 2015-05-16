@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 
-<polymer-element name="auto-suggestions" attributes="suggestions">
+<polymer-element name="auto-suggestions" attributes="suggestions error">
     <template>
         <style>
             .item[highlighted] {
@@ -50,6 +50,24 @@
                 position: relative;
                 white-space: nowrap;
             }
+
+            .error {
+                font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                text-align: center;
+                padding-top: 80px;
+                padding-bottom: 80px;
+                color:#646464;
+            }
+
+            .error p {
+                font-size: .9em;
+                margin: 0.2em 0 0;
+            }
+
+            .error core-icon {
+                width:64px;
+                height:64px;
+            }
         </style>
         <div vertical layout wrap class="list">
             <template repeat="{{suggestion in suggestions}}">
@@ -61,6 +79,12 @@
                     <paper-ripple fit></paper-ripple>
                 </div>
             </template>
+
+            <div class="error" hidden?="{{!error}}">
+                <core-icon icon="cloud-off"></core-icon>
+                <p>Unable to get your sites. Is your internet down?</p>
+            </div>
+
             <!-- todo feedly shoutout -->
         </div>
 
@@ -113,7 +137,8 @@
                 this.fire("suggestion-chosen", e.target.templateInstance.model.suggestion);
             },
 
-            suggestions: []
+            suggestions: [],
+            error: false
         });
     </script>
 </polymer-element>
