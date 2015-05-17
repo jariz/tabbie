@@ -149,6 +149,11 @@ class Columns.Gmail extends Columns.Column
                 q: 'in:inbox'
               .then (resp) =>
                 batch = gapi.client.newBatch()
+
+                if not resp.result.threads
+                  @draw [], holderElement
+                  return
+
                 resp.result.threads.forEach (thread) =>
                   req = gmail.threads.get
                     userId: 'me',

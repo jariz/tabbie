@@ -91,6 +91,17 @@ class Columns.FeedColumn extends Columns.Column
     .catch (error) =>
       console.error error
       @refreshing = false
+      @loading = false
+
+      #no cached data to display? show error
+      if not @cache or @cache.length is 0
+        holderElement.setAttribute("hidden", "")
+        colEl = holderElement.parentElement;
+        error = colEl.querySelector(".error")
+        error.removeAttribute("hidden")
+        error.offsetTop #re-render hack
+        error.style.opacity = 1
+        @offline = true
 
   render: (columnElement, holderElement) ->
     super columnElement, holderElement

@@ -197,7 +197,8 @@ window.Columns.Column = class Column
     "name",
     "url",
     "link",
-    "thumb"
+    "thumb",
+    "custom"
   ]
 
   #Column name
@@ -226,6 +227,9 @@ window.Columns.Column = class Column
 
   #If set to true, this will cause the holder to be a flexbox
   flex: false
+
+  #whether to hande column as a custom column or not
+  custom: false
 
   toJSON: ->
     result = {}

@@ -8,7 +8,7 @@
                 height: 56px;
                 background: #d23f31;
                 border-radius: 50%;
-                z-index: 500;
+                z-index: 9;
                 transition: transform 350ms ease-in-out;
             }
 
@@ -23,7 +23,7 @@
             play: function() {
                 var animHeight = document.body.clientWidth;
                 if(document.body.clientWidth < document.body.clientHeight) animHeight = document.body.clientHeight;
-                this.scale = Math.round((animHeight / 54) * 3);
+                this.scale = Math.round((animHeight / 56) * 3);
                 console.log("fabanim scale", this.scale)
                 this.classList.add("active")
             }

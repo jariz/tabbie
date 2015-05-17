@@ -2,20 +2,22 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
-<polymer-element name="column-chooser" attributes="columns">
+<link rel="import" href="../bower_components/paper-dialog/paper-action-dialog.html">
+<polymer-element name="column-chooser" attributes="columns packery">
     <template>
         <style>
+            * {
+                box-sizing: border-box;
+            }
+
             .column {
                 text-align: center;
-                width: 200px;
-                min-width: 200px;
+                width: 25%;
+                min-width:170px;
                 display:inline-block;
-                margin-left: 10px;
-                margin-bottom: 10px;
-                flex: 1 0 200px;
                 position: relative;
                 transition: 250ms background;
-                background: #fff;
+                /*background: #fff;*/
                 cursor: pointer;
             }
 
@@ -23,24 +25,29 @@
                 padding: 20px;
             }
 
-            .column.selected {
-                background:#eeeeee;
-            }
-
             .grid {
-                display:flex;
-                flex-wrap: wrap;
-                align-content: flex-start;
+                height:100% !important;
             }
 
             .hack {
                 height: 0;
+                margin:0;
+            }
+
+            paper-icon-button.remove {
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index:1;
             }
         </style>
-        <div horizontal layout wrap class="grid">
+        <div class="grid">
             <template repeat="{{column in columns}}">
                 <div class="column">
                     <div class="content">
+                        <template if="{{column.custom}}">
+                            <paper-icon-button on-click="{{attemptDelete}}" class="remove" icon="remove-circle"></paper-icon-button>
+                        </template>
                         <paper-ripple fit></paper-ripple>
                         <template if="{{column.thumb}}">
                             <img src="{{column.thumb}}">
@@ -49,19 +56,39 @@
                     </div>
                 </div>
             </template>
-            <div class="column hack"></div>
-            <div class="column hack"></div>
-            <div class="column hack"></div>
-            <div class="column hack"></div>
-            <div class="column hack"></div>
-            <div class="column hack"></div>
-            <div class="column hack"></div>
-            <div class="column hack"></div>
         </div>
+
+        <paper-action-dialog transition="core-transition-center" heading="Are you sure?" backdrop id="confirm">
+            <p>This will remove the column from your overview, you will have to add it again if you want it back.</p>
+
+            <paper-button affirmative>No</paper-button>
+            <paper-button affirmative yes autofocus on-click="{{deleteColumn}}">Yes</paper-button>
+        </paper-action-dialog>
 
     </template>
     <script>
         Polymer({
+            attemptDelete: function(e) {
+                this.columnToBeDeleted = e.target.templateInstance.model.column;
+                this.shadowRoot.querySelector("#confirm").toggle()
+            },
+            deleteColumn: function() {
+                this.fire("delete-column", this.columnToBeDeleted)
+            },
+            columnsChanged: function() {
+                var self = this;
+
+                setTimeout(function() {
+                    if(!self.packery) self.packery = new Packery(self.shadowRoot.querySelector(".grid"), {
+                        itemSelector: ".column"
+                    })
+                    self.packery.layout()
+                    self.packery.on("removeComplete", function() {
+                        self.packery.layout()
+                    })
+                }, 500)
+            },
+            packery: undefined,
             columns: []
         });
     </script>

@@ -111,7 +111,30 @@
                 transform: rotate(-45deg);
             }
 
-            /* Let's get this party started */
+            .error {
+                font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                text-align: center;
+                color:#646464;
+                font-size: .7em;
+                transition:500ms opacity;
+                opacity:0;
+                display:flex;
+                height: 100%;
+            }
+
+            .error div {
+                margin:auto;
+            }
+
+            .error p {
+                margin: 0.2em 0 0;
+            }
+
+            .error core-icon {
+                width:32px;
+                height:32px;
+            }
+
             ::-webkit-scrollbar {
                 width: 12px;
             }
@@ -139,16 +162,24 @@
             }
 
             :host(.draggable) /deep/ .title span{
-                visibility: hidden;
+                display:none;
             }
 
             .editableTitle {
                 top:0;
                 left:0;
-                position: absolute;
                 z-index: 1;
                 color: #f1f1f1;
                 display:none;
+                width:100% !important;
+            }
+
+            :host /deep/ input[is='core-input'] {
+                margin:0 0 !important;
+            }
+
+            :host /deep/ .editableTitle /deep/ .unfocused-underline {
+                background-color:#fff;
             }
         </style>
 
@@ -159,7 +190,8 @@
                 </template>
                 <div class="title" flex>
                     <span>{{column.name}}</span>
-                    <input fill value="{{column.name}}" class="editableTitle" is="core-input">
+                    <!--<input fill value="{{column.name}}" class="editableTitle" is="core-input" on-change="{{sync}}">-->
+                    <paper-input fill value="{{column.name}}" class="editableTitle" on-change="{{sync}}">
                 </div>
                 <paper-icon-button icon="open-with" class="editable drag" hidden></paper-icon-button>
                 <paper-icon-button on-click="{{_delete}}" icon="delete" class="editable" hidden></paper-icon-button>
@@ -172,6 +204,13 @@
             <paper-spinner class="{{column.className}}" active></paper-spinner>
 
             <div class="holder">
+            </div>
+
+            <div class="error" hidden>
+                <div>
+                    <core-icon icon="cloud-off"></core-icon>
+                    <p>Unable to update {{column.name}}.<br>Is your internet down?</p>
+                </div>
             </div>
 
             <div class="handle">
@@ -190,6 +229,9 @@
             },
             refresh: function(e) {
                 this.fire("column-refresh", e.target.templateInstance.model.column);
+            },
+            sync: function() {
+                tabbie.syncAll()
             }
         });
     </script>

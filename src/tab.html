@@ -87,15 +87,14 @@
     <auto-suggestions></auto-suggestions>
 </fullscreen-dialog>
 
-<fullscreen-dialog heading="Tabbie 0.4 - 22 March 2015" id="update" style="font-size:14px;">
-    <p>Thanks for your support for Tabbie, most of these changes were based on user feedback.</p>
+<fullscreen-dialog heading="Tabbie 0.5 - ?? May 2015" id="update" style="font-size:14px;">
+    <p>Tabbie 0.5 is here, and it's probably the project has seen so far.</p>
     <ul>
-        <li>PushBullet column added!</li>
-        <li>Apps, Top sites, Bookmarks columns added</li>
-        <li>Logout button + configuration dialog added to gmail</li>
-        <li>Reddit can display frontpage, and multireddit</li>
-        <li>Tour added to guide user around the app.</li>
-        <li>Many bugfixes as usual.</li>
+        <li>Add (almost) any site you can imagine!<br>Click the <core-icon style="height: 14px;width: 14px;" icon="add"></core-icon> button on the column adding screen.</li>
+        <li>Edit column titles</li>
+        <li>Dragging now has it's own button rather than the entire toolbar.</li>
+        <li>Many, many bug fixes (positioning not saving, </li>
+        <li>Code cleanups, performance fixes</li>
     </ul>
 
     <paper-button style="float:right" class="hide-button">Don't show this anymore</paper-button>
@@ -118,7 +117,7 @@
             </paper-item>
             <h4>Made with</h4>
             <paper-item href="https://www.polymer-project.org/">
-                <h3><core-icon icon="polymer"></core-icon> Polymer</h3>
+                <h3><core-icon icon="polymer"></core-icon> Polymer {{polymerVersion}}</h3>
             </paper-item>
             <paper-item href="http://coffeescript.com">
                 <h3><core-icon icon="maps:local-cafe"></core-icon> CoffeeScript</h3>
@@ -143,8 +142,8 @@
                 <div class="logo">
                     <core-icon icon="tab"></core-icon> Tabbie {{version}}
                 </div>
-                <h5>Tabbie is opensource. Please consider contributing if you want to see more features.<br>
-                    Tabbie will never contain ads. Tabbie is a product of pure <core-icon class="luv" icon="favorite"></core-icon>. Tabbie is still in active development.</h5>
+                <h5>Tabbie is opensource and will never contain ads. Please consider contributing if you want to see more features.<br>
+                    Tabbie is a product of pure <core-icon class="luv" icon="favorite"></core-icon>.</h5>
             </div>
         </div>
     </template>

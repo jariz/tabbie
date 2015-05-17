@@ -241,7 +241,9 @@ class Tabbie
 
     document.querySelector(".fab-about").addEventListener "click", =>
       aboutdialog = document.querySelector "#about"
-      aboutdialog.querySelector("html /deep/ template").version = @version
+      templ = aboutdialog.querySelector("html /deep/ template")
+      templ.version = @version
+      templ.polymerVersion = Polymer.version
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-about"
       fabanim.addEventListener "webkitTransitionEnd", ->
@@ -334,16 +336,23 @@ class Tabbie
           search.toggle()
           searchBar.focus()
 
-    #once again, there's no way to check if templates have loaded, so settimeout it is
     setTimeout =>
-      columnchooser.shadowRoot.addEventListener "click", (e) =>
-        column = e.target.templateInstance.model.column
-        column.attemptAdd =>
-          adddialog.toggle()
-          newcolumn = new Columns[column.className](column)
-          @addColumn newcolumn
-          @packery.layout()
+      for columnEl in columnchooser.shadowRoot.querySelectorAll(".column paper-ripple")
+        columnEl.addEventListener "click", (e) =>
+          column = e.target.templateInstance.model.column
+          column.attemptAdd =>
+            adddialog.toggle()
+            newcolumn = new Columns[column.className](column)
+            @addColumn newcolumn
+            @packery.layout()
     , 100
+
+    columnchooser.addEventListener "delete-column", (e) =>
+      columnchooser.packery.remove colEl for colEl in columnchooser.shadowRoot.querySelectorAll(".column") when colEl.templateInstance.model.column is e.detail
+#      @columns.splice @columns.indexOf(e.detail), 1
+      @customColumns.splice @customColumns.indexOf(e.detail), 1
+
+      @syncAll()
 
     document.querySelector(".fab-add").addEventListener "click", =>
       fabanim = document.createElement "fab-anim"
@@ -474,7 +483,8 @@ class Tabbie
       name: feedly.title
       link: feedly.website
       url: "https://feedly.com/v3/streams/contents?count=20&streamId=" + encodeURIComponent(feedly.feedId) + "&continuation={PAGENUM}"
-      thumb: thumb
+      thumb: thumb,
+      custom: true
 
     @customColumns.push column
     @columns.push column

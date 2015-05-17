@@ -40,18 +40,16 @@ body {
     right:0;
     height: 210px;
     width: 80px;
-    z-index: 10;
+    z-index: 5;
 
     .fab-add {
         position: absolute;
         right:10px;
         bottom:20px;
-        z-index: 100;
     }
 
     .fab-update-wrapper {
         position: absolute;
-        z-index: 100;
         right: 19px;
         bottom: 211px;
         .fab-update {
@@ -62,7 +60,6 @@ body {
 
     .fab-edit-wrapper {
         position: absolute;
-        z-index: 100;
         right: 19px;
         bottom: 94px;
 
@@ -80,7 +77,6 @@ body {
 
     .fab-about-wrapper {
         position: absolute;
-        z-index: 100;
         right: 19px;
         bottom: 151px;
 
@@ -150,6 +146,10 @@ html /deep/ {
     paper-button.primary {
         background: #4285f4;
         color: #fff;
+    }
+
+    paper-button[autofocus] {
+        color: #03a9f4;
     }
 }
 
@@ -248,7 +248,7 @@ html /deep/ {
     position: fixed;
     right:0;
     top:0;
-    z-index:104;
+    z-index:9;
     transition: background 500ms, box-shadow 500ms, width 0ms 500ms;
     border-bottom-left-radius: 3px;
     padding:5px 9px;
