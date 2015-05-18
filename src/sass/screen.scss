@@ -142,7 +142,7 @@ html /deep/ {
 }
 
 .column-holder {
-    width: calc(100% - 10px);
+    width: calc(100% - 16px);
     height:100% !important; //<< packery does weird things with the height that i don't understand, so force the height
     margin: 0 auto;
 
