@@ -26,5 +26,8 @@
     "pushbullet-js": "https://github.com/alexschneider/pushbullet-js.git",
     "URIjs": "~1.15.0",
     "underscore": "~1.8.3"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.6.0"
   }
 }
