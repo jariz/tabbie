@@ -109,6 +109,9 @@ class Columns.Gmail extends Columns.Column
       @draw @cache, holderElement
     @refresh columnElement, holderElement
 
+  gapiLoaded: false
+  errored: false
+
   refresh: (columnElement, holderElement) ->
     if not @config.colors then @config.colors = {}
     
@@ -116,7 +119,17 @@ class Columns.Gmail extends Columns.Column
     gapiEl = document.createElement "google-client-api"
     columnElement.appendChild gapiEl
 
+    setTimeout =>
+      #google-client-api doesn't have a event for errors ;_; so just wait 5 secs and see if gapi is available
+      if not @gapiLoaded
+        @errored = true
+        @refreshing = false
+        @loading = false
+        @error holderElement
+    , 5000
+
     gapiEl.addEventListener "api-load", =>
+      @gapiLoaded = true
       console.info 'gapi loaded'
       chrome.identity.getAuthToken
         interactive: false

@@ -4,6 +4,7 @@ class Tabbie
   editMode: false
 
   constructor: ->
+    console.time("polymer-ready");
     window.addEventListener 'polymer-ready', @render
 
   renderColumns: ->
@@ -106,6 +107,11 @@ class Tabbie
 
     store.set "customColumns", @customColumns.map (column) -> column.toJSON()
 
+    store.set "lastRes", [
+      document.body.clientHeight,
+      document.body.clientWidth
+    ]
+
   renderBookmarkTree: (holder, tree, level) =>
     console.log "renderBookmarkTree level: ", level, " tree: ", tree
     for item in tree
@@ -167,6 +173,9 @@ class Tabbie
     , 1000
 
   render: =>
+    console.timeEnd('polymer-ready')
+    console.time('tabbie render')
+
     if not store.has "notour" then @tour()
 
     #load all default columns
@@ -183,7 +192,7 @@ class Tabbie
     @meta = document.getElementById "meta"
 
     #load default column definitions
-    @columns.push new Columns[column] for column in @columnNames when typeof Columns[column] isnt 'undefined'
+    @columns.push new Columns[column] {}, true for column in @columnNames when typeof Columns[column] isnt 'undefined'
 
     #load custom user made column definitions
     customColumns = store.get "customColumns", []
@@ -211,7 +220,8 @@ class Tabbie
     @noColumnsCheck()
     @autoRefresh()
 
-    @packery.layout()
+    res = store.get "lastRes", false
+    if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth) then @packery.layout()
 
     #about shiz
     #nasty, but i have no way to check if the autobinding template has loaded, and it's not yet loaded at run time...
@@ -437,6 +447,9 @@ class Tabbie
 
                 app.addEventListener "click", -> chrome.management.launchApp this.id
                 drawer.appendChild app
+
+
+    console.timeEnd('tabbie render')
 
     document.querySelector(".recently-drawer-button").addEventListener "click", ->
       settings = document.querySelector(".settings")

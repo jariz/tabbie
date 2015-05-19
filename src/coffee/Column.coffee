@@ -1,11 +1,11 @@
 window.Columns = window.Columns || {}
 window.Columns.Column = class Column
-  constructor: (properties) ->
+  constructor: (properties, dontCalculateColor) ->
     @className = @constructor.name
 
     if properties then @[key] = properties[key] for key of properties when typeof properties[key] isnt 'function'
 
-    if not @color
+    if not dontCalculateColor and not @color
       thmb = document.createElement "img"
       thmb.addEventListener "load", =>
         ct = new ColorThief thmb
@@ -17,6 +17,14 @@ window.Columns.Column = class Column
     @refreshing = false
     @reloading = true
     @_refreshing = false
+
+  error: (holderElement) ->
+    holderElement.setAttribute("hidden", "")
+    colEl = holderElement.parentElement;
+    error = colEl.querySelector(".error")
+    error.removeAttribute("hidden")
+    error.offsetTop #re-render hack
+    error.style.opacity = 1
 
   settings: (cb) ->
     if @dialog

@@ -94,14 +94,7 @@ class Columns.FeedColumn extends Columns.Column
       @loading = false
 
       #no cached data to display? show error
-      if not @cache or @cache.length is 0
-        holderElement.setAttribute("hidden", "")
-        colEl = holderElement.parentElement;
-        error = colEl.querySelector(".error")
-        error.removeAttribute("hidden")
-        error.offsetTop #re-render hack
-        error.style.opacity = 1
-        @offline = true
+      if not @cache or @cache.length is 0 then @error holderElement
 
   render: (columnElement, holderElement) ->
     super columnElement, holderElement

@@ -48,5 +48,7 @@ class Columns.ProductHunt extends Columns.FeedColumn
       @refreshing = false
       @loading = false
 
+      if not @cache or @cache.length is 0 then @error holderElement
+
 
 tabbie.register "ProductHunt"
