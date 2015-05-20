@@ -83,30 +83,34 @@
                 })
             },
 
-            replaceHeader: function(headerEl) {
+            replaceHeader: function(headerElements) {
                 var toolbar = this.shadowRoot.querySelector(".card-bar");
                 toolbar.innerHTML = "";
-                toolbar.appendChild(headerEl)
+                headerElements.forEach(function(headerElement) {
+                    toolbar.appendChild(headerElement)
+                });
             },
 
-            toggle: function(cb) {
+            toggle: function(afterFade, beforeFade) {
                 if(this.style.opacity == 0) {
                     this.style.display = "block"
                     var self = this;
-                    setTimeout(function() {
+                    this.async(function() {
                         self.style.opacity = 1;
-                    }, 100)
+                    })
                 }
                 else {
                     this.style.opacity = 0;
                 }
+
+                if (typeof beforeFade === 'function') beforeFade()
 
                 var event = this.addEventListener("webkitTransitionEnd", function(e) {
                     if(e.target.nodeName.toLowerCase() == "auto-suggestions") return;
 
                     if(this.style.opacity == 0) this.style.display = "none"
 
-                    if(typeof cb === 'function') cb()
+                    if(typeof afterFade === 'function') afterFade()
                 })
 
             }

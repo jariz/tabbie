@@ -50,7 +50,7 @@
                         </template>
                         <paper-ripple fit></paper-ripple>
                         <template if="{{column.thumb}}">
-                            <img src="{{column.thumb}}">
+                            <img width="150" height="150" src="{{column.thumb}}">
                         </template>
                         <h3>{{column.name}}</h3>
                     </div>
@@ -75,18 +75,26 @@
             deleteColumn: function() {
                 this.fire("delete-column", this.columnToBeDeleted)
             },
-            columnsChanged: function() {
+            columnsChanged: function(changes) {
+                console.log('columnsChanged', changes)
                 var self = this;
-
-                setTimeout(function() {
-                    if(!self.packery) self.packery = new Packery(self.shadowRoot.querySelector(".grid"), {
-                        itemSelector: ".column"
+                if(this.packery) {
+                    this.async(function() {
+                        self.packery.reloadItems();
+                        self.packery._resetLayout();
+                        self.packery.layoutItems(self.packery.items, true);
                     })
+                }
+            },
+            shown: function() {
+                var self = this;
+                if(!this.packery) this.packery = new Packery(this.shadowRoot.querySelector(".grid"), {
+                    itemSelector: ".column"
+                })
+                this.packery.layout()
+                this.packery.on("removeComplete", function() {
                     self.packery.layout()
-                    self.packery.on("removeComplete", function() {
-                        self.packery.layout()
-                    })
-                }, 500)
+                })
             },
             packery: undefined,
             columns: []

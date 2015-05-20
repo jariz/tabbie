@@ -151,25 +151,26 @@ class Tabbie
   tour: =>
     setTimeout ->
       steps = document.querySelectorAll("tour-step")
-      currStep = 0
-      tourEnded = false
-      tours = document.querySelector "#tours"
-      tours.endTour = endTour = ->
-        store.set "notour", true
-        tourEnded = true
-      tours.openFabs = (e) ->
-        if e.detail
-          document.querySelector(".fabs").dispatchEvent new MouseEvent 'mouseenter'
-        else document.querySelector(".fabs").dispatchEvent new MouseEvent 'mouseleave'
-      for step in steps
-        step.addEventListener "core-overlay-open", (e) ->
-          if e.detail or tourEnded then return
-          currStep++
-          step = steps[currStep]
-          if typeof step == 'undefined' then endTour()
-          else step.toggle()
+      steps[0].async =>
+        currStep = 0
+        tourEnded = false
+        tours = document.querySelector "#tours"
+        tours.endTour = endTour = ->
+          store.set "notour", true
+          tourEnded = true
+        tours.openFabs = (e) ->
+          if e.detail
+            document.querySelector(".fabs").dispatchEvent new MouseEvent 'mouseenter'
+          else document.querySelector(".fabs").dispatchEvent new MouseEvent 'mouseleave'
+        for step in steps
+          step.addEventListener "core-overlay-open", (e) ->
+            if e.detail or tourEnded then return
+            currStep++
+            step = steps[currStep]
+            if typeof step == 'undefined' then endTour()
+            else step.toggle()
 
-      steps[0].toggle()
+        steps[0].toggle()
     , 1000
 
   render: =>
@@ -223,12 +224,9 @@ class Tabbie
     res = store.get "lastRes", false
     if res and (res[0] isnt document.body.clientHeight or res[1] isnt document.body.clientWidth) then @packery.layout()
 
-    #about shiz
-    #nasty, but i have no way to check if the autobinding template has loaded, and it's not yet loaded at run time...
-    setTimeout ->
+    document.querySelector("#about").async =>
       for item in document.querySelectorAll("#about paper-item")
         item.addEventListener "click", -> if @getAttribute("href") then window.open @getAttribute("href")
-    , 100
 
     fabs = document.querySelector ".fabs"
     allFabs = [".fab-edit", ".fab-about", ".fab-update"]
@@ -289,24 +287,30 @@ class Tabbie
     search = document.querySelector "#searchdialog"
 
     searchBar = search.querySelector ".search-bar"
+    searchProgress = search.querySelector ".search-progress"
     searchSuggestions = search.querySelector "auto-suggestions"
 
-    search.replaceHeader searchBar
-    searchSuggestions.addEventListener "suggestion-chosen", (e) =>
-      @createColumnFromFeedly e.detail
+    search.replaceHeader [searchBar, searchProgress]
+
+    closeSearch = ->
       search.toggle ->
         searchBar.value = ""
         searchSuggestions.suggestions = []
+
+    searchSuggestions.addEventListener "suggestion-chosen", (e) =>
+      @createColumnFromFeedly e.detail
+      closeSearch()
 
     query = ""
     timeout = undefined
 
     searchBar.addEventListener "keydown", (e) =>
       prevent = true
-      switch e.keyIdentifier
-        when "Down" then searchSuggestions.highlightDown()
-        when "Up" then searchSuggestions.highlightUp()
-        when "Enter" then searchSuggestions.highlightChosen()
+      switch e.keyCode
+        when 40 then searchSuggestions.highlightDown()
+        when 38 then searchSuggestions.highlightUp()
+        when 13 then searchSuggestions.highlightChosen()
+        when 27 then closeSearch()
         else prevent = false
 
       if prevent then e.preventDefault()
@@ -323,7 +327,8 @@ class Tabbie
         if timeout then clearTimeout timeout
 
         timeout = setTimeout =>
-          fetch "https://feedly.com/v3/search/auto-complete?query="+query+"&sites=7&topics=0&libraries=0&locale=en-US"
+          searchProgress.setAttribute("active", "");
+          fetch "https://feedly.com/v3/search/auto-complete?query="+query+"&sites=10&topics=0&libraries=0&locale=en-US"
           .then (response) ->
             if response.status is 200 then Promise.resolve response
             else Promise.reject new Error response.statusText
@@ -332,7 +337,9 @@ class Tabbie
           .then (json) =>
             searchSuggestions.suggestions = json.sites
             searchSuggestions.error = false
+            searchProgress.removeAttribute("active");
           .catch (error) =>
+            searchProgress.removeAttribute("active");
             console.error error
             searchSuggestions.suggestions = []
             searchSuggestions.error = true
@@ -346,7 +353,7 @@ class Tabbie
           search.toggle()
           searchBar.focus()
 
-    setTimeout =>
+    columnchooser.async =>
       for columnEl in columnchooser.shadowRoot.querySelectorAll(".column paper-ripple")
         columnEl.addEventListener "click", (e) =>
           column = e.target.templateInstance.model.column
@@ -355,7 +362,6 @@ class Tabbie
             newcolumn = new Columns[column.className](column)
             @addColumn newcolumn
             @packery.layout()
-    , 100
 
     columnchooser.addEventListener "delete-column", (e) =>
       columnchooser.packery.remove colEl for colEl in columnchooser.shadowRoot.querySelectorAll(".column") when colEl.templateInstance.model.column is e.detail
@@ -368,8 +374,10 @@ class Tabbie
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-add"
       fabanim.addEventListener "webkitTransitionEnd", ->
-        adddialog.toggle ->
-          fabanim.remove()
+
+      adddialog.toggle ->
+        fabanim.remove()
+      , -> columnchooser.shown()
 
       document.body.appendChild fabanim
       fabanim.play()
@@ -489,7 +497,7 @@ class Tabbie
   createColumnFromFeedly: (feedly) =>
 
     #todo download and convert thumb to data url
-    if feedly.visualUrl then thumb = "http://proxy.boxresizer.com/convert?resize=150x150&source=" + encodeURIComponent(feedly.visualUrl)
+    if feedly.visualUrl then thumb = feedly.visualUrl
     else thumb = "img/column-unknown.png";
 
     column = new Columns.CustomColumn

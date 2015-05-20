@@ -134,6 +134,12 @@ body {
     color:#000;
 }
 
+#searchdialog /deep/ .card-bar .search-progress {
+    position: absolute;
+    top:15px;
+    right:15px;
+}
+
 #searchdialog /deep/ .card-bar .search-bar {
     width:100%;
 }
