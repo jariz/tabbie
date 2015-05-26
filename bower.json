@@ -24,5 +24,8 @@
     "google-signin": "~0.2.1",
     "pleasejs": "~0.4.2",
     "pushbullet-js": "https://github.com/alexschneider/pushbullet-js.git"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.6.0"
   }
 }
