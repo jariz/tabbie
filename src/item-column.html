@@ -69,12 +69,29 @@
             }
 
             .holder {
-                height:100%;
+               max-height:100%;
                 width:100%;
-                /*padding: 0px 10px 0px 0px;*/
                 box-sizing: border-box;
-                overflow-y:auto;
-                overflow-x:hidden;
+                padding-left: 14px;
+                transform: translateX(-14px) translateZ(0);
+            }
+
+            .holder0 {
+                overflow: hidden;
+            }
+            
+            .holder0:hover .holder1, .holder0:hover .holder, .holder0:focus .holder1, .holder0:focus .holder {
+                transform: translateX(0) translateZ(0);
+            }
+
+            .holder1, .holder {
+                transition: transform 400ms ease;
+            }
+
+            .holder1 {
+                overflow-y: scroll;
+                height: 100%;
+                transform: translateX(14px) translateZ(0);
             }
 
             .holder > * {
@@ -115,25 +132,6 @@
                 transform: rotate(-45deg);
             }
 
-            /* Let's get this party started */
-            ::-webkit-scrollbar {
-                /*width: 12px;*/
-            }
-
-            /* Track */
-            ::-webkit-scrollbar-track {
-                /*background:#eee;*/
-            }
-
-            /* Handle */
-            ::-webkit-scrollbar-thumb {
-                /*border-radius: 10px;*/
-                /*background: rgba(210, 210, 210, 0.80);*/
-            }
-            ::-webkit-scrollbar-thumb:window-inactive {
-                /*background: rgba(210, 210, 210, 0.40);*/
-            }
-
             /* Title link */
             .title a {
                 color: inherit;
@@ -161,8 +159,11 @@
             <paper-progress indeterminate></paper-progress>
 
             <paper-spinner class="{{column.className}}" active></paper-spinner>
-
+            <div class="holder0">
+            <div class="holder1">
             <div class="holder">
+            </div>
+            </div>
             </div>
 
             <div class="handle">
