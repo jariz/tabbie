@@ -4,9 +4,15 @@
 class Columns.CustomColumn extends Columns.FeedColumn
   element: "feedly-item"
   responseType: "json"
-  dataPath: "items"
   page: "",
   infiniteScroll: true,
+
+  draw: (data, holderElement) =>
+    if typeof data.length isnt 'number'
+      @page = data.continuation
+      data = data.items
+      @cache = data
+    super data, holderElement
 
   attemptAdd: (successCallback) =>
     chrome.permissions.request

@@ -101,7 +101,7 @@ class Columns.FeedColumn extends Columns.Column
 
     if @infiniteScroll then holderElement.addEventListener "scroll", =>
       if not @refreshing and holderElement.scrollTop + holderElement.clientHeight >= holderElement.scrollHeight - 100
-        @page++
+        if typeof @page is 'number' then @page++
         @refresh columnElement, holderElement, true
 
     if Object.keys(@cache).length

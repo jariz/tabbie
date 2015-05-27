@@ -91,7 +91,9 @@
             }
         </style>
 
-        <paper-ripple fit></paper-ripple>
+        <a fit target="_blank" href="{{item.alternate[0].href}}">
+            <paper-ripple fit></paper-ripple>
+        </a>
 
         <template if="{{item.visual.url | isValidUrl}}">
 
@@ -105,7 +107,7 @@
         <div class="info">
 
             <template if="{{item.visual.url | isInvalidUrl}}">
-                <h1><a target="_blank" href="{{item.alternate.href}}">{{item.title}}</a></h1>
+                <h1>{{item.title}}</h1>
             </template>
 
             <p>{{item.article | filterHtml | summarize}}</p>

@@ -354,14 +354,14 @@ class Tabbie
           searchBar.focus()
 
     columnchooser.async =>
-      for columnEl in columnchooser.shadowRoot.querySelectorAll(".column paper-ripple")
-        columnEl.addEventListener "click", (e) =>
-          column = e.target.templateInstance.model.column
-          column.attemptAdd =>
-            adddialog.toggle()
-            newcolumn = new Columns[column.className](column)
-            @addColumn newcolumn
-            @packery.layout()
+      columnchooser.shadowRoot.addEventListener "click", (e) =>
+        if not e.target.matches ".grid .column paper-ripple" then return
+        column = e.target.templateInstance.model.column
+        column.attemptAdd =>
+          adddialog.toggle()
+          newcolumn = new Columns[column.className](column)
+          @addColumn newcolumn
+          @packery.layout()
 
     columnchooser.addEventListener "delete-column", (e) =>
       columnchooser.packery.remove colEl for colEl in columnchooser.shadowRoot.querySelectorAll(".column") when colEl.templateInstance.model.column is e.detail

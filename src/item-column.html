@@ -10,7 +10,7 @@
         <style>
             :host {
                 display:block;
-                min-width:310px;
+                min-width:260px;
                 height:50%;
             }
 
@@ -56,7 +56,7 @@
                 width: 100%;
                 top: 0;
                 left: 0;
-                color: #f1f1f1;
+                color: #fff;
             }
 
             core-toolbar .drag {
@@ -162,15 +162,24 @@
                 display: block;
             }
 
-            :host(.draggable) /deep/ .title span{
+            :host(.draggable) /deep/ .title a {
                 display:none;
+            }
+
+            .title a {
+                color:#fff;
+                text-decoration: none;
+            }
+
+            core-toolbar.light, core-toolbar.light .title a, core-toolbar.light .editableTitle {
+                color:#000;
             }
 
             .editableTitle {
                 top:0;
                 left:0;
                 z-index: 1;
-                color: #f1f1f1;
+                color: #fff;
                 display:none;
                 width:100% !important;
             }
@@ -182,16 +191,19 @@
             :host /deep/ .editableTitle /deep/ .unfocused-underline {
                 background-color:#fff;
             }
+
+            :host /deep/ core-toolbar.light .editableTitle /deep/ .unfocused-underline {
+                background-color:#000;
+            }
         </style>
 
         <paper-shadow class="card" z="1">
-            <core-toolbar class="{{column.className}}">
+            <core-toolbar>
                 <template if="{{column.thumb}}">
                     <paper-icon-button style="background-image: url({{column.thumb}})" class="logo"></paper-icon-button>
                 </template>
                 <div class="title" flex>
-                    <span>{{column.name}}</span>
-                    <!--<input fill value="{{column.name}}" class="editableTitle" is="core-input" on-change="{{sync}}">-->
+                    <a target="_blank" href="{{column.link}}">{{column.name}}</a>
                     <paper-input fill value="{{column.name}}" class="editableTitle" on-change="{{sync}}">
                 </div>
                 <paper-icon-button icon="open-with" class="editable drag" hidden></paper-icon-button>
@@ -202,7 +214,7 @@
 
             <paper-progress indeterminate></paper-progress>
 
-            <paper-spinner class="{{column.className}}" active></paper-spinner>
+            <paper-spinner active></paper-spinner>
 
             <div class="holder">
             </div>
@@ -233,6 +245,17 @@
             },
             sync: function() {
                 tabbie.syncAll()
+            },
+            columnChanged: function(old, column) {
+                var self = this;
+                this.async(function() {
+                    var rgb = column.color,
+                            yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000,
+                            dark = yiq < 200;
+
+                    if (!dark)
+                        self.shadowRoot.querySelector("core-toolbar").classList.add("light")
+                })
             }
         });
     </script>
