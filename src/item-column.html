@@ -248,14 +248,14 @@
             },
             columnChanged: function(old, column) {
                 var self = this;
-                this.async(function() {
+                setTimeout(function() {
                     var rgb = column.color,
                             yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000,
                             dark = yiq < 200;
 
                     if (!dark)
                         self.shadowRoot.querySelector("core-toolbar").classList.add("light")
-                })
+                }, 100)
             }
         });
     </script>
