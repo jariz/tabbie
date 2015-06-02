@@ -5,7 +5,7 @@ class Columns.ProductHunt extends Columns.FeedColumn
   dataPath: "posts"
   link: "https://www.producthunt.com"
   dialog: "ph-dialog"
-  width: 2
+  width: 1
 
   attemptAdd: (successCallback) ->
     chrome.permissions.request

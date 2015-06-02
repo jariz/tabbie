@@ -1,6 +1,6 @@
 class Tabbie
 
-  version: "0.5"
+  version: "1.0"
   editMode: false
 
   constructor: ->
@@ -254,9 +254,9 @@ class Tabbie
       templ.polymerVersion = Polymer.version
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-about"
-      fabanim.addEventListener "webkitTransitionEnd", ->
-        aboutdialog.toggle ->
-          fabanim.remove()
+
+      aboutdialog.toggle ->
+        fabanim.remove()
 
       document.body.appendChild fabanim
       fabanim.play()
@@ -273,9 +273,8 @@ class Tabbie
     updateFab.addEventListener "click", =>
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-update"
-      fabanim.addEventListener "webkitTransitionEnd", ->
-        updatediag.toggle ->
-          fabanim.remove()
+      updatediag.toggle ->
+        fabanim.remove()
 
       document.body.appendChild fabanim
       fabanim.play()
@@ -373,7 +372,6 @@ class Tabbie
     document.querySelector(".fab-add").addEventListener "click", =>
       fabanim = document.createElement "fab-anim"
       fabanim.classList.add "fab-anim-add"
-      fabanim.addEventListener "webkitTransitionEnd", ->
 
       adddialog.toggle ->
         fabanim.remove()
