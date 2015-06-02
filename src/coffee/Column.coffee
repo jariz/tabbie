@@ -204,6 +204,7 @@ window.Columns.Column = class Column
     "height",
     "name",
     "url",
+    "baseUrl",
     "link",
     "thumb",
     "custom"

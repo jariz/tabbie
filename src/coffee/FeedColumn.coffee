@@ -66,13 +66,13 @@ class Columns.FeedColumn extends Columns.Column
   refresh: (columnElement, holderElement, adding) ->
     @refreshing = true
 
-    if not @url
-      console.warn "Please define the 'url' property on your column class!"
-      return
-
     if @infiniteScroll
       @baseUrl = @url if not @baseUrl
       @url = @baseUrl.replace "{PAGENUM}", @page
+
+    if not @url
+      console.warn "Please define the 'url' property on your column class!"
+      return
 
     fetch(@url)
     .then (response) =>

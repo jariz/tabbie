@@ -2,7 +2,7 @@
   "name": "Tabbie - Material New Tab Page",
   "short_name": "Tabbie",
   "description": "A material, customizable, and hackable new tab extension.",
-  "version": "0.5",
+  "version": "1.0",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "tab.html"
@@ -19,8 +19,8 @@
     "https://www.reddit.com/",
     "https://oauth.reddit.com/",
     "https://api.producthunt.com/",
+    "http://storage.googleapis.com/",
     "https://feedly.com/",
-    "https://www.theverge.com/",
 
     "management",
     "bookmarks",

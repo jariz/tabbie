@@ -347,7 +347,7 @@ class Tabbie
 
     adddialog.addButton 'add', ->
       chrome.permissions.request
-        origins: ["https://feedly.com/"]
+        origins: ["https://feedly.com/", "http://storage.googleapis.com/"]
       , (granted) =>
         if granted
           search.toggle()
@@ -503,7 +503,7 @@ class Tabbie
     column = new Columns.CustomColumn
       name: feedly.title
       link: feedly.website
-      url: "https://feedly.com/v3/streams/contents?count=20&streamId=" + encodeURIComponent(feedly.feedId) + "&continuation={PAGENUM}"
+      baseUrl: "https://feedly.com/v3/streams/contents?count=20&streamId=" + encodeURIComponent(feedly.feedId) + "&continuation={PAGENUM}"
       thumb: thumb,
       custom: true
 
