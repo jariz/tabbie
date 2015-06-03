@@ -89,13 +89,13 @@
         </style>
         <div class="badge {{item.badge}}"></div>
         <div class="holder">
-            <h1><a href="{{item.url ? item.url : 'https://designernews.co/stories/'+item.id}}" target="_blank" >{{item.title}} <span class="domain">{{item.hostname}}</span> </a></h1>
+            <h1><a href="{{item.url ? item.url : 'https://www.designernews.co/stories/'+item.id}}" target="_blank" >{{item.title}} <span class="domain">{{item.hostname}}</span> </a></h1>
             <p>
                 <!--submitted by <a target="_blank" href="{{item.source.authorUrl}}">{{item.source.username}}</a> -->
                 <time-ago datetime="{{item.created_at}}" epoch="false"></time-ago>
             </p>
             <p>
-                <a target="_blank" href="https://designernews.co/stories/{{item.id}}">{{item.comment_count}} comments</a>, {{item.vote_count}} points
+                <a target="_blank" href="https://www.designernews.co/stories/{{item.id}}">{{item.comment_count}} comments</a>, {{item.vote_count}} points
             </p>
         </div>
     </template>
