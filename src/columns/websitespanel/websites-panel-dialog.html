@@ -1,0 +1,68 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-decorator.html">
+<!--<link href="../../../bower_components/core-menu/core-menu.html" rel="import">-->
+<!--<link href="../../../bower_components/paper-dropdown/paper-dropdown.html" rel="import">-->
+<!--<link href="../../../bower_components/paper-item/paper-item.html" rel="import">-->
+<!--<link href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">-->
+<!--<link href="../../../bower_components/paper-radio-button/paper-radio-button.html" rel="import">-->
+<!--<link href="../../../bower_components/paper-radio-group/paper-radio-group.html" rel="import">-->
+
+<polymer-element name="websites-panel-dialog" attributes="config">
+    <template>
+        <tabbie-dialog style="width:600px;">
+            <style>
+                paper-button.green {
+                    color:#4CAF50;
+                }
+
+                paper-button.red {
+                    color:#F44336;
+                }
+            </style>
+
+
+            <template repeat="{{website, index in config.websites}}">
+                <div>
+                    <paper-input label="Name" required value="{{website.name}}"></paper-input>
+                </div>
+
+                <div>
+                    <paper-input label="Icon URL" required value="{{website.icon.url}}"></paper-input>
+                </div>
+
+                <div>
+                    <paper-input label="URL" required value="{{website.url}}"></paper-input>
+                </div>
+
+                <div>
+                    <paper-button on-click="{{removeWebsite}}" data-index="{{index}}" class="red">
+                        Remove
+                    </paper-button>
+                </div>
+            </template>
+
+            <paper-button on-click="{{addWebsite}}" class="green">
+                Add new
+            </paper-button>
+
+        </tabbie-dialog>
+    </template>
+    <script>
+        Polymer({
+              removeWebsite: function(ev, detail, elem) {
+                  var index = elem.getAttribute("data-index");
+                  this.config.websites.splice(index, 1);
+              },
+              addWebsite: function() {
+                  this.config.websites.push({
+                    name: '',
+                    icon: {
+                        url: ''
+                    },
+                    url: ''
+                  });
+              },
+        })
+    </script>
+</polymer-element>
