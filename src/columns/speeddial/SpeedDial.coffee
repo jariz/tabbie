@@ -4,6 +4,7 @@ class Columns.SpeedDial extends Columns.Column
   thumb: "img/column-speeddial.png"
   flex: true
   element: "speed-dial-item"
+  link: ""
 
   refresh: (columnElement, holderElement) ->
     holderElement.innerHTML = ""
