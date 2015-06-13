@@ -1,7 +1,7 @@
 class Columns.SpeedDial extends Columns.Column
   name: "SpeedDial"
   dialog: "speed-dial-dialog"
-  thumb: "img/column-apps.png"
+  thumb: "img/column-speeddial.png"
   flex: true
   link: ""
   element: "speed-dial-item"
