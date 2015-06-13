@@ -3,7 +3,6 @@ class Columns.SpeedDial extends Columns.Column
   dialog: "speed-dial-dialog"
   thumb: "img/column-speeddial.png"
   flex: true
-  link: ""
   element: "speed-dial-item"
 
   refresh: (columnElement, holderElement) ->
