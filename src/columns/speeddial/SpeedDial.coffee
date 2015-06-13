@@ -1,10 +1,10 @@
-class Columns.WebsitesPanel extends Columns.Column
-  name: "WebsitesPanel"
-  dialog: "websites-panel-dialog"
+class Columns.SpeedDial extends Columns.Column
+  name: "SpeedDial"
+  dialog: "speed-dial-dialog"
   thumb: "img/column-apps.png"
   flex: true
   link: ""
-  element: "websites-panel-item"
+  element: "speed-dial-item"
 
   refresh: (columnElement, holderElement) ->
     holderElement.innerHTML = ""
@@ -16,7 +16,7 @@ class Columns.WebsitesPanel extends Columns.Column
 
     # create items
     for website in @config.websites
-      app = document.createElement "websites-panel-item"
+      app = document.createElement "speed-dial-item"
       try
         app.name = website.name
         app.icon = website.icon.url
@@ -28,7 +28,7 @@ class Columns.WebsitesPanel extends Columns.Column
 
     #needed for proper flex
     for num in [0..10] when @flex
-      hack = document.createElement "websites-panel-item"
+      hack = document.createElement "speed-dial-item"
       hack.className = "hack"
       holderElement.appendChild hack
 
@@ -39,4 +39,4 @@ class Columns.WebsitesPanel extends Columns.Column
 
     @refresh columnElement, holderElement
 
-tabbie.register "WebsitesPanel"
+tabbie.register "SpeedDial"
