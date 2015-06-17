@@ -28,7 +28,7 @@ sudo npm install -g gulp bower
 gem install compass
 npm install
 bower install
-gulp watch
+gulp watch # every time you run this commands will overwrite the 'dist' folder with the new changed updates if there're, you can re-run this command several times to test your changes.
 ```
 - **Load the extension into chrome**:  
 A new folder called 'dist' has appeared in your working directory. Everything in src/ will be compiled to dist/. Do not touch dist as it's all compiled files.  
