@@ -108,7 +108,66 @@ _Note_: Fields not marked as required are optional.
 Functions you can override:   
 
 **refresh** (columnElement, holderElement): Called when refreshing is needed. columnElement is a reference to the column element defined in 'element'. holderElement is the holder in which items will need to be added.  
-**draw** (data, holderElement): This is where FeedColumn appends children to the holder. data is an array with the server's response. holderElement is the element where items need to be appended to.  
+**draw** (data, holderElement): This is where FeedColumn appends children to the holder. data is an array with the server's response. holderElement is the element where items need to be appended to.
+
+
+###Configuring your **columnName.coffee** for RSS - XML BASED - feeds
+tabbie is configured by default to hadle JSON sources automatically, but you can tweak it to handle your xml based column with this little instructions:
+- Make a permission-request over the browser, because some browsers disable downloading data over domains
+- Modify fields to handle your XML source (Built-in, dont worry)
+- Go to your columnName-item.coffee and start coding
+
+first of all you have to make sure you are politely requesting the user to give you his permission over downloading this XML over his broswer by using this code:
+```
+  attemptAdd: (successCallback) ->
+    chrome.permissions.request
+      origins: ['http://feeds.feedburner.com/'] ## put here your rss domain
+    , (granted) =>
+      if granted and typeof successCallback is 'function' then successCallback()
+
+```
+Make sure to put your own RSS domain, in this example the XML url is `http://feeds.feedburner.com/scientificamerican?fmt=xml` so the RSS domain is `http://feeds.feedburner.com/`.
+**note**: post this requesting code below your fields section and over your `tabbie.register "columnName"` line, like so
+
+```
+class Columns.columnName extends Columns.FeedColumn
+  name: "Column Name"
+  width: 1
+  thumb: "img/column-columnName.png"
+  link: "https://www.columnWebsite.com/"
+
+  element: "columnName-item"
+  url: "http://feeds.feedburner.com/scientificamerican?fmt=xml"    ## your xml url instead of .JSON one
+  responseType: "xml"    ## it's dangerously important as it's our little magic tweak
+  xmlTag: "item"    ## put here your parent tag which contains " The full post style ", more detailed blow
+ 
+  attemptAdd: (successCallback) ->
+    chrome.permissions.request
+      origins: ['http://feeds.feedburner.com/']
+    , (granted) =>
+      if granted and typeof successCallback is 'function' then successCallback()
+
+tabbie.register "ScientificAmerican"
+```
+So, if your XML file was like this: 
+```
+<post>
+<title>The Most Momentous Year in the History of Paleoanthropology</title>
+<link>http://rss.sciam.com/~r/ScientificAmerican-News/~3/8Flz11GwMxs/</link>
+<pubDate>Sat, 13 Jun 2015 00:01:00 GMT</pubDate>
+<category>Evolutionary Biology</category>
+<description>In an excerpt from his new book Ian Tattersall lays out the story of how a scientific giant in the field of evolution put forth a spectacularly incorrect theory about the diversity of hominids:F7zBnMyn0Lo</description>
+</post>
+
+```
+Your **xmlTag** will be like that `xmlTag: "post"`
+
+Now your finished with the columnName.coffe, go to your columnName-item.html and start coding, nothing changes when you want to the `<title>` tag in your `<h1></h1>` just write down - as usual - :
+```
+<h1>{{item.title}}</h1>
+```
+and so on.
+
   
 ##Step 5: Your elements  
 - The **-dialog** element has 2 variables, 'config' and 'column'.
