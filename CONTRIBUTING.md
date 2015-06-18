@@ -118,7 +118,7 @@ tabbie is configured by default to hadle JSON sources automatically, but you can
 - Go to your columnName-item.coffee and start coding
 
 first of all you have to make sure you are politely requesting the user to give you his permission over downloading this XML over his broswer by using this code:
-```
+```coffee
   attemptAdd: (successCallback) ->
     chrome.permissions.request
       origins: ['http://feeds.feedburner.com/'] ## put here your rss domain
@@ -129,7 +129,7 @@ first of all you have to make sure you are politely requesting the user to give 
 Make sure to put your own RSS domain, in this example the XML url is `http://feeds.feedburner.com/scientificamerican?fmt=xml` so the RSS domain is `http://feeds.feedburner.com/`.
 **note**: post this requesting code below your fields section and over your `tabbie.register "columnName"` line, like so
 
-```
+```coffee
 class Columns.columnName extends Columns.FeedColumn
   name: "Column Name"
   width: 1
@@ -139,7 +139,7 @@ class Columns.columnName extends Columns.FeedColumn
   element: "columnName-item"
   url: "http://feeds.feedburner.com/scientificamerican?fmt=xml"    ## your xml url instead of .JSON one
   responseType: "xml"    ## it's dangerously important as it's our little magic tweak
-  xmlTag: "item"    ## put here your parent tag which contains " The full post style ", more detailed blow
+  xmlTag: "item"    ## put here your parent tag which contains " The full post style ", more detailed below
  
   attemptAdd: (successCallback) ->
     chrome.permissions.request
@@ -150,7 +150,7 @@ class Columns.columnName extends Columns.FeedColumn
 tabbie.register "ScientificAmerican"
 ```
 So, if your XML file was like this: 
-```
+```xml
 <post>
 <title>The Most Momentous Year in the History of Paleoanthropology</title>
 <link>http://rss.sciam.com/~r/ScientificAmerican-News/~3/8Flz11GwMxs/</link>
@@ -163,7 +163,7 @@ So, if your XML file was like this:
 Your **xmlTag** will be like that `xmlTag: "post"`
 
 Now your finished with the columnName.coffe, go to your columnName-item.html and start coding, nothing changes when you want to the `<title>` tag in your `<h1></h1>` just write down - as usual - :
-```
+```html
 <h1>{{item.title}}</h1>
 ```
 and so on.
