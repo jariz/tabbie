@@ -100,10 +100,52 @@
 
                 .settings {
                     background: white;
-                    z-index: 1;
                     box-shadow: 0 2px 4px -1px rgba(0,0,0,.14),0 4px 5px 0 rgba(0,0,0,.098),0 1px 10px 0 rgba(0,0,0,.084);
                 }
+
+
+                .preview-item {
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .preview-item > speed-dial-item {
+                    float: none;
+                }
+
+
+
+                .settings paper-input {
+                    width: 60%;
+                }
+
+                .settings .field > div {
+                    width: 100px;
+                    margin-right: 20px;
+                    display: inline-block;
+                }
+
+
+                .bottom-bar {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    padding: 20px;
+                    box-sizing: border-box;
+                }
+
+                .bottom-bar.middle {
+                    text-align: center;
+                    width: 100%;
+                }
+
+                .bottom-bar.middle > * {
+                    display: inline-block;
+                }
+
             </style>
+
+
 
             <div class="container">
 
@@ -162,23 +204,41 @@
 
                 <!-- Detailled settings page for selected website -->
                 <div class="page settings" style="left: {{settingsOffset}}px;">
-                        Hello!
-                        <paper-input label="Name" class="name" required value="{{settingsWebsite.name}}"></paper-input>
-                        <paper-input label="URL" class="url" required value="{{settingsWebsite.url}}"></paper-input>
-                        <paper-input label="Icon URL" class="url" required value="{{settingsWebsite.icon.url}}"></paper-input>
-                        <paper-button on-click="{{removeSettingsWebsite}}" class="red">
-                            Delete
-                        </paper-button>
+
+                    <div class="preview-item">
+                        <speed-dial-item name="{{settingsWebsite.name}}" url="#" icon="{{settingsWebsite.icon.url}}">
+                        </speed-dial-item>
+                    </div>
+
+                    <div class="field">
+                        <div> Dialname </div>
+                        <paper-input label="Name" required value="{{settingsWebsite.name}}"></paper-input>
+                    </div>
+
+                    <div class="field">
+                        <div> Website URL </div>
+                        <paper-input label="URL" required value="{{settingsWebsite.url}}"></paper-input>
+                    </div>
+
+                    <div class="field">
+                        <div> Icon URL </div>
+                        <paper-input label="Icon URL" required value="{{settingsWebsite.icon.url}}"></paper-input>
+                    </div>
+
                 </div>
             </div>
 
 
             <!-- Dialog bottom buttons -->
-            <div style="float: left;" hidden?="{{settingsOpen}}">
+            <div class="bottom-bar" hidden?="{{settingsOpen}}">
                 <paper-fab icon="add" class="fab-add" on-click="{{addWebsite}}"></paper-fab>
             </div>
 
-            <div style="float: left;" hidden?="{{!settingsOpen}}">
+            <div class="bottom-bar middle" hidden?="{{!settingsOpen}}">
+                <paper-fab icon="delete" class="fab-delete" on-click="{{removeSettingsWebsite}}"></paper-fab>
+            </div>
+
+            <div class="bottom-bar" hidden?="{{!settingsOpen}}">
                 <paper-fab icon="arrow-back" class="fab-arrow-back" on-click="{{closeSettings}}"></paper-fab>
             </div>
 
