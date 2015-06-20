@@ -186,12 +186,14 @@
                                 <paper-icon-button icon="arrow-drop-down" style="transform: rotate(180deg);"
                                     title="Move entry up" aria-label="Move entry up"
                                     role="button" tabindex="0"
-                                    on-click="{{moveUp}}" data-index="{{index}}">
+                                    on-click="{{moveUp}}" data-index="{{index}}"
+                                    disabled?="{{ index <= 0 }}">
                                 </paper-icon-button>
                                 <paper-icon-button icon="arrow-drop-down"
                                     title="Move entry down" aria-label="Move entry down"
                                     role="button" tabindex="0"
-                                    on-click="{{moveDown}}" data-index="{{index}}">
+                                    on-click="{{moveDown}}" data-index="{{index}}"
+                                    disabled?="{{ index >= config.websites.length - 1 }}">
                                 </paper-icon-button>
                             </div>
 
