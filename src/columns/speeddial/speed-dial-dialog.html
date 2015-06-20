@@ -1,6 +1,10 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input-decorator.html">
+<link rel="import" href="../../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-fab/paper-fab.html">
 
 <polymer-element name="speed-dial-dialog" attributes="config">
     <template>
@@ -18,50 +22,164 @@
                     color:#2196F3;
                 }
 
-                paper-input {
-                    width: 80%;
+
+                .container {
+                    height: 400px;
+                    overflow-y: auto;
+                    position: relative;
+                    overflow-x: hidden;
+                }
+
+                .page {
+                    position: absolute;
+                    top: 0;
+                    height: 100%;
+                    width: 100%;
+                    transition: 0.2s ease-out;
+                }
+
+
+                .list {
+
+                }
+
+                .list .entry {
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+                }
+
+                .list > .entry:last-child {
+                    border-bottom: 0;
+                }
+
+                .list .entry > * {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+
+                .order-buttons {
+                    width: 46px;
+                }
+
+                .preview-thumb {
+                    width: 64px;
+                    text-align: center;
+                }
+
+
+                .preview-thumb > img {
+                    display: inline-block;
+                    max-width: 64px;
+                    height: 64px;
+                    border: none;
+                }
+
+
+                .text {
+                    width: calc(100% - 52px - 52px - 66px);
+                }
+
+                .text .name {
+                    font-size: 20px;
+                    margin-left: 5px;
+                    color: rgba(0, 0, 0, 0.87);
+                }
+
+                .text .url {
+                    font-size: 14px;
+                    color: rgba(0, 0, 0, 0.54);
+                }
+
+                .text .url > span {
+                    vertical-align: middle;
+                }
+
+                .edit-button {
+                    width: 48px;
+                    color: rgba(0, 0, 0, 0.54);
+                }
+
+                .settings {
+                    background: white;
+                    z-index: 1;
+                    box-shadow: 0 2px 4px -1px rgba(0,0,0,.14),0 4px 5px 0 rgba(0,0,0,.098),0 1px 10px 0 rgba(0,0,0,.084);
                 }
             </style>
 
+            <div class="container">
 
-            <template repeat="{{website, index in config.websites}}">
-                <div>
-                    <paper-input label="Name" required value="{{website.name}}"></paper-input>
+
+
+                <!-- List of all websites -->
+                <div class="page list">
+                    <template repeat="{{ website, index in config.websites }}">
+
+                        <div class="entry">
+
+                            <!-- Icon -->
+                            <div class="preview-thumb">
+                                <img src="{{ website.icon.url }}">
+                            </div>
+
+                            <!-- Text -->
+                            <div class="text">
+                                <div class="name">
+                                    {{ website.name }}
+                                </div>
+                                <div class="url">
+                                    <core-icon icon="chevron-right"></core-icon>
+                                    <span> {{ website.url }} </span>
+                                </div>
+                            </div>
+
+
+                            <!-- Settings -->
+                            <div class="edit-button">
+                                <paper-icon-button icon="settings" on-click="{{openSettings}}" data-index={{index}}></paper-icon-button>
+                            </div>
+
+
+
+                            <!-- Reordering -->
+                            <div class="order-buttons">
+                                <paper-icon-button icon="arrow-drop-down" style="transform: rotate(180deg);"
+                                    title="Move entry up" aria-label="Move entry up"
+                                    role="button" tabindex="0"
+                                    on-click="{{moveUp}}" data-index="{{index}}">
+                                </paper-icon-button>
+                                <paper-icon-button icon="arrow-drop-down"
+                                    title="Move entry down" aria-label="Move entry down"
+                                    role="button" tabindex="0"
+                                    on-click="{{moveDown}}" data-index="{{index}}">
+                                </paper-icon-button>
+                            </div>
+
+                        </div>
+
+                    </template>
                 </div>
 
-                <div>
-                    <paper-input label="Icon URL" required value="{{website.icon.url}}"></paper-input>
+
+
+                <!-- Detailled settings page for selected website -->
+                <div class="page settings" style="left: {{settingsOffset}}px;">
+                        Hello!
+                        <paper-input label="Name" class="name" required value="{{settingsWebsite.name}}"></paper-input>
+                        <paper-input label="URL" class="url" required value="{{settingsWebsite.url}}"></paper-input>
+                        <paper-input label="Icon URL" class="url" required value="{{settingsWebsite.icon.url}}"></paper-input>
+                        <paper-button on-click="{{removeSettingsWebsite}}" class="red">
+                            Delete
+                        </paper-button>
                 </div>
+            </div>
 
-                <div>
-                    <paper-input label="URL" required value="{{website.url}}"></paper-input>
-                </div>
 
-                <paper-button on-click="{{removeWebsite}}" data-index="{{index}}" class="red">
-                    Remove
-                </paper-button>
+            <!-- Dialog bottom buttons -->
+            <div style="float: left;" hidden?="{{settingsOpen}}">
+                <paper-fab icon="add" class="fab-add" on-click="{{addWebsite}}"></paper-fab>
+            </div>
 
-                <template if="{{ index > 0 }}">
-                    <paper-button on-click="{{moveUp}}" data-index="{{index}}" class="blue">
-                        Move entry up
-                    </paper-button>
-                </template>
-
-                <template if="{{ index < config.websites.length - 1 }}">
-                    <paper-button on-click="{{moveDown}}" data-index="{{index}}" class="blue">
-                        Move entry down
-                    </paper-button>
-                </template>
-
-                <br/>
-                <hr/>
-
-            </template>
-
-            <div>
-                <paper-button on-click="{{addWebsite}}" class="green">
-                    Add new website
-                </paper-button>
+            <div style="float: left;" hidden?="{{!settingsOpen}}">
+                <paper-fab icon="arrow-back" class="fab-arrow-back" on-click="{{closeSettings}}"></paper-fab>
             </div>
 
         </tabbie-dialog>
@@ -73,34 +191,61 @@
         }
 
         Polymer({
-              removeWebsite: function(ev, detail, elem) {
-                  var index = elem.getAttribute("data-index");
-                  this.config.websites.splice(index, 1);
-              },
+            removeSettingsWebsite: function() {
+                var index = this.config.websites.indexOf(this.settingsWebsite);
+                this.config.websites.splice(index, 1);
+                this.closeSettings();
+            },
+
+            addWebsite: function() {
+                var website = {
+                  name: 'Unconfigured',
+                  icon: {
+                      url: ''
+                  },
+                  url: ''
+                };
+
+                this.config.websites.push(website);
+                this.openSettingsDialog(website);
+            },
 
 
-              addWebsite: function() {
-                  this.config.websites.push({
-                    name: '',
-                    icon: {
-                        url: ''
-                    },
-                    url: ''
-                  });
-              },
+            moveDown: function(ev, detail, elem) {
+                var index = elem.getAttribute("data-index");
+                var websites = this.config.websites;
+                moveArrayElem(websites, index, Math.min(index + 1, websites.length - 1));
+            },
 
 
-              moveDown: function(ev, detail, elem) {
-                  var index = elem.getAttribute("data-index");
-                  var websites = this.config.websites;
-                  moveArrayElem(websites, index, Math.min(index + 1, websites.length - 1));
-              },
+            moveUp: function(ev, detail, elem) {
+                var index = elem.getAttribute("data-index");
+                moveArrayElem(this.config.websites, index, Math.max(index - 1, 0));
+            },
 
 
-              moveUp: function(ev, detail, elem) {
-                  var index = elem.getAttribute("data-index");
-                  moveArrayElem(this.config.websites, index, Math.max(index - 1, 0));
-              }
+
+
+            openSettings: function(ev, detail, elem) {
+                var index = elem.getAttribute("data-index");
+                this.openSettingsDialog(this.config.websites[index]);
+            },
+
+            openSettingsDialog: function(website) {
+                this.settingsOpen = true;
+                this.settingsOffset = 0;
+                this.settingsWebsite = website;
+            },
+
+            closeSettings: function() {
+                this.settingsOffset = 600;
+                this.settingsOpen = false;
+                /* TODO validation! */
+            },
+
+            settingsOffset: 600,
+            settingsOpen: false,
+            settingsWebsite: {}
         })
     </script>
 </polymer-element>
