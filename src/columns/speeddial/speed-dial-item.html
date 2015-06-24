@@ -1,0 +1,35 @@
+<polymer-element name="speed-dial-item" attributes="name icon url" noscript>
+    <template>
+        <style>
+            :host {
+                width:50%;
+                float:left;
+                position: relative;
+                padding:10px;
+                cursor:pointer;
+                flex: 1 0 150px;
+            }
+            h5 {
+                width:100%;
+                text-align: center;
+            }
+            img {
+                width:64px;
+                height:64px;
+                display:block;
+                margin:0 auto;
+            }
+
+            a, a:visited, a:hover, a:focus {
+                text-decoration: none;
+                color: black;
+            }
+        </style>
+
+        <a href="{{url}}">
+            <paper-ripple fit></paper-ripple>
+            <img src="{{icon}}">
+            <h5>{{name}}</h5>
+        </a>
+    </template>
+</polymer-element>

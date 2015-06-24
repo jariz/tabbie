@@ -1,0 +1,313 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-decorator.html">
+<link rel="import" href="../../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-fab/paper-fab.html">
+
+<polymer-element name="speed-dial-dialog" attributes="config">
+    <template>
+        <tabbie-dialog style="width:600px; top:0;">
+            <style>
+                paper-button.green {
+                    color:#4CAF50;
+                }
+
+                paper-button.red {
+                    color:#F44336;
+                }
+
+                paper-button.blue {
+                    color:#2196F3;
+                }
+
+
+                .container {
+                    height: 400px;
+                    overflow-y: auto;
+                    position: relative;
+                    overflow-x: hidden;
+                }
+
+                .page {
+                    position: absolute;
+                    top: 0;
+                    height: 100%;
+                    width: 100%;
+                    transition: 0.2s ease-out;
+                }
+
+
+                .list {
+
+                }
+
+                .list .entry {
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+                }
+
+                .list > .entry:last-child {
+                    border-bottom: 0;
+                }
+
+                .list .entry > * {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+
+                .order-buttons {
+                    width: 46px;
+                }
+
+                .preview-thumb {
+                    width: 64px;
+                    text-align: center;
+                }
+
+
+                .preview-thumb > img {
+                    display: inline-block;
+                    max-width: 64px;
+                    height: 64px;
+                    border: none;
+                }
+
+
+                .text {
+                    width: calc(100% - 52px - 52px - 66px);
+                }
+
+                .text .name {
+                    font-size: 20px;
+                    margin-left: 5px;
+                    color: rgba(0, 0, 0, 0.87);
+                }
+
+                .text .url {
+                    font-size: 14px;
+                    color: rgba(0, 0, 0, 0.54);
+                }
+
+                .text .url > span {
+                    vertical-align: middle;
+                }
+
+                .edit-button {
+                    width: 48px;
+                    color: rgba(0, 0, 0, 0.54);
+                }
+
+                .settings {
+                    background: white;
+                    box-shadow: 0 2px 4px -1px rgba(0,0,0,.14),0 4px 5px 0 rgba(0,0,0,.098),0 1px 10px 0 rgba(0,0,0,.084);
+                }
+
+
+                .preview-item {
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .preview-item > speed-dial-item {
+                    float: none;
+                }
+
+
+
+                .settings paper-input {
+                    width: 60%;
+                }
+
+                .settings .field > div {
+                    width: 100px;
+                    margin-right: 20px;
+                    display: inline-block;
+                }
+
+
+                .bottom-bar {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    padding: 20px;
+                    box-sizing: border-box;
+                }
+
+                .bottom-bar.middle {
+                    text-align: center;
+                    width: 100%;
+                }
+
+                .bottom-bar.middle > * {
+                    display: inline-block;
+                }
+
+            </style>
+
+
+
+            <div class="container">
+
+
+
+                <!-- List of all websites -->
+                <div class="page list">
+                    <template repeat="{{ website, index in config.websites }}">
+
+                        <div class="entry">
+
+                            <!-- Icon -->
+                            <div class="preview-thumb">
+                                <img src="{{ website.icon.url }}">
+                            </div>
+
+                            <!-- Text -->
+                            <div class="text">
+                                <div class="name">
+                                    {{ website.name }}
+                                </div>
+                                <div class="url">
+                                    <core-icon icon="chevron-right"></core-icon>
+                                    <span> {{ website.url }} </span>
+                                </div>
+                            </div>
+
+
+                            <!-- Settings -->
+                            <div class="edit-button">
+                                <paper-icon-button icon="settings" on-click="{{openSettings}}" data-index={{index}}></paper-icon-button>
+                            </div>
+
+
+
+                            <!-- Reordering -->
+                            <div class="order-buttons">
+                                <paper-icon-button icon="arrow-drop-down" style="transform: rotate(180deg);"
+                                    title="Move entry up" aria-label="Move entry up"
+                                    role="button" tabindex="0"
+                                    on-click="{{moveUp}}" data-index="{{index}}"
+                                    disabled?="{{ index <= 0 }}">
+                                </paper-icon-button>
+                                <paper-icon-button icon="arrow-drop-down"
+                                    title="Move entry down" aria-label="Move entry down"
+                                    role="button" tabindex="0"
+                                    on-click="{{moveDown}}" data-index="{{index}}"
+                                    disabled?="{{ index >= config.websites.length - 1 }}">
+                                </paper-icon-button>
+                            </div>
+
+                        </div>
+
+                    </template>
+                </div>
+
+
+
+                <!-- Detailled settings page for selected website -->
+                <div class="page settings" style="left: {{settingsOffset}}px;">
+
+                    <div class="preview-item">
+                        <speed-dial-item name="{{settingsWebsite.name}}" url="#" icon="{{settingsWebsite.icon.url}}">
+                        </speed-dial-item>
+                    </div>
+
+                    <div class="field">
+                        <div> Dialname </div>
+                        <paper-input label="Name" required value="{{settingsWebsite.name}}"></paper-input>
+                    </div>
+
+                    <div class="field">
+                        <div> Website URL </div>
+                        <paper-input label="URL" required value="{{settingsWebsite.url}}"></paper-input>
+                    </div>
+
+                    <div class="field">
+                        <div> Icon URL </div>
+                        <paper-input label="Icon URL" required value="{{settingsWebsite.icon.url}}"></paper-input>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Dialog bottom buttons -->
+            <div class="bottom-bar" hidden?="{{settingsOpen}}">
+                <paper-fab icon="add" class="fab-add" on-click="{{addWebsite}}"></paper-fab>
+            </div>
+
+            <div class="bottom-bar middle" hidden?="{{!settingsOpen}}">
+                <paper-fab icon="delete" class="fab-delete" on-click="{{removeSettingsWebsite}}"></paper-fab>
+            </div>
+
+            <div class="bottom-bar" hidden?="{{!settingsOpen}}">
+                <paper-fab icon="arrow-back" class="fab-arrow-back" on-click="{{closeSettings}}"></paper-fab>
+            </div>
+
+        </tabbie-dialog>
+    </template>
+    <script>
+
+        function moveArrayElem(array, from, to) {
+            array.splice(to, 0, array.splice(from, 1)[0]);
+        }
+
+        Polymer({
+            removeSettingsWebsite: function() {
+                var index = this.config.websites.indexOf(this.settingsWebsite);
+                this.config.websites.splice(index, 1);
+                this.closeSettings();
+            },
+
+            addWebsite: function() {
+                var website = {
+                  name: 'Unconfigured',
+                  icon: {
+                      url: ''
+                  },
+                  url: ''
+                };
+
+                this.config.websites.push(website);
+                this.openSettingsDialog(website);
+            },
+
+
+            moveDown: function(ev, detail, elem) {
+                var index = elem.getAttribute("data-index");
+                var websites = this.config.websites;
+                moveArrayElem(websites, index, Math.min(index + 1, websites.length - 1));
+            },
+
+
+            moveUp: function(ev, detail, elem) {
+                var index = elem.getAttribute("data-index");
+                moveArrayElem(this.config.websites, index, Math.max(index - 1, 0));
+            },
+
+
+
+
+            openSettings: function(ev, detail, elem) {
+                var index = elem.getAttribute("data-index");
+                this.openSettingsDialog(this.config.websites[index]);
+            },
+
+            openSettingsDialog: function(website) {
+                this.settingsOpen = true;
+                this.settingsOffset = 0;
+                this.settingsWebsite = website;
+            },
+
+            closeSettings: function() {
+                this.settingsOffset = 600;
+                this.settingsOpen = false;
+                /* TODO validation! */
+            },
+
+            settingsOffset: 600,
+            settingsOpen: false,
+            settingsWebsite: {}
+        })
+    </script>
+</polymer-element>
