@@ -6,38 +6,58 @@
 <link rel="import" href="../../time-ago.html">
 
 <polymer-element name="ph-thumb" attributes="item" noscript>
-    <template>
+    <template center-justified layout>
          <style>
             :host {
-                flex: 1 0 200px;
+                flex: 1 0 180px;
+                height: 340px;
+                max-width: 280px;
                 font-size: 10px;
                 color: black;
                 display: inline-block;
-                margin: 10px 0 0 10px;
+                margin: 10px;
+                padding: 10px;
                 position: relative;
                 overflow: hidden;
+                background: #eceae9;
                 box-sizing: border-box;
+                border-radius: 4px;
             }
-
+            :host(:hover) {
+                background: #fcf5e2;
+                -webkit-transition: background,.1s;
+                -moz-transition: background,.1s;
+                transition: background,.1s;
+            }
             h1 {
                 font-size: 24px;
-                font-family: 'Roboto Slab', 'Roboto', sans-serif;
+                font-family: Verdana, Arial, sans-serif;
                 font-weight: bold;
-                text-align: center;
-                padding-top: 50%;
-                transform:translateY(-50%);
+                text-align: left;
             }
-
+            h3 {
+                color: #534540;
+                font-size: 16px;
+                margin: 0 23px 5px 0;
+                padding: 0 5px 0 0;
+            }
+            img {
+                width: 100%;
+            }
             .img {
                 width: 100%;
-                transition: transform 250ms;
+                padding-bottom: 10px;
             }
-
+            .img:hover {
+                opacity: .8;
+                -webkit-transition: opacity,.2s;
+                transition: opacity,.2s;
+                -moz-transition: opacity,.2s;
+            }
             a {
                 color: rgba(0, 0, 0, 0.87);
                 text-decoration: none;
             }
-
             .overlay {
                 position: absolute;
                 opacity: 0;
@@ -49,97 +69,81 @@
                 z-index: 1;
                 box-sizing:border-box;
             }
-
-            paper-ripple {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                z-index: 2;
-            }
-
-            a:hover > .overlay {
-                opacity: 1;
-            }
-
-            a:hover > .img {
-                transform: scale(1.2)
-            }
-
             .minigrid {
-                position: absolute;
-                bottom: 30px;
-                left:0px;
+                position: relative;
                 width: 100%;
                 margin: 0 auto;
-                display: flex;
+                /*display: flex;*/
             }
-            .minigrid div {
-                width: auto;
-                float: left;
-                text-align: center;
-                color: #484848;
-            }
-            .minigrid div:first-child {
-                margin-left: auto;
-                margin-right: 8px;
-            }
-            .minigrid div:last-child {
-                margin-right: auto;
-                margin-left: 8px;
-            }
-            .minigrid div span {
-
-            }
-
             .minigrid div core-icon {
                 width: 15px;
                 height: 15px;
             }
-
-            .author {
+            .votes {
+                background-image: url(../../../img/arrow_up.svg);
+                background-position: center 2px;
+                background-repeat: no-repeat;
+                border-radius: 3px;
+                color: #534540;
+                font-size: 13px;
+                height: 44px;
+                left: 0;
+                margin-right: 10px;
+                padding-top: 23px;
                 position: absolute;
-                bottom: 0px;
-                left:0px;
-                width: 100%;
-                box-sizing:border-box;
-                margin: 0 auto;
                 text-align: center;
+                top: 0;
+                width: 33px;
             }
-
-            .author img {
-                width: 25px;
-                height: 25px;
-                border-radius: 50%;
+            .details {
+                margin-left: 44px;
+                margin-right: 10px;
             }
-
-            .author span {
-                display: inline-block;
-                padding-top: 7px;
-                vertical-align: top;
+            .comments {
+                background-image: url(../../../img/comment.svg);
+                background-repeat: no-repeat;
+                color: #a9a29f;
+                height: 20px;
+                min-width: 30px;
+                /*padding-left: 20px;*/
+                position: absolute;
+                right: 0;
+                text-align: right;
+                top: 0;
             }
-
+            .comments:hover {
+                background-image: url(../../../img/comment_hover.svg);
+                background-repeat: no-repeat;
+                color: #da552f;
+            }
+            p {
+                color: #685f5c;
+                font-size: 16px;
+                margin: 0;
+                padding: 0;
+            }
         </style>
-
-        <a target="_blank" href="{{item.discussion_url}}">
-            <paper-ripple></paper-ripple>
-            <div class="overlay">
-                <h1>{{item.name}}</h1>
-                <div class="minigrid">
-                    <div>
-                        <core-icon icon="favorite"></core-icon>
-                        <span>{{item.votes_count}}</span>
-                    </div>
-                    <div>
-                        <core-icon icon="communication:comment"></core-icon>
-                        <span>{{item.comments_count}}</span>
-                    </div>
+        <a class="product" target="_blank" href="{{item.redirect_url}}">
+            <div class="product" center-justified layout>
+                <div class="img">
+                    <img src="{{item.screenshot_url['300px']}}">
                 </div>
-                <div class="author">
-                    <img src="{{item.user.image_url.original}}"> <span>{{item.user.name}}</span>
+
+                <div class="minigrid">
+                    <div class="votes">
+                        {{item.votes_count}}
+                    </div>
+                    <div class="details">
+                        <h3>{{item.name}}</h3>
+                        <p>{{item.tagline}}</p>
+                    </div>
+                    <a href="{{item.discussion_url}}" target="_blank">
+                        <div class="comments">
+                            {{item.comments_count}}
+                        </div>
+                    </a>
                 </div>
             </div>
-            <img src="{{item.screenshot_url['300px']}}" class="img">
         </a>
-
-    </template>
+    </template> 
 </polymer-element>
