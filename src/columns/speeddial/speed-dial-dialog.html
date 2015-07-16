@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input-decorator.html">
+<link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../../bower_components/core-icon-button/core-icon-button.html">
@@ -23,7 +24,7 @@
                 }
 
                 .container {
-                    height: 460px;
+                    height: 490px;
                     overflow-y: auto;
                     position: relative;
                     overflow-x: hidden;
@@ -208,8 +209,9 @@
 
                     <div class="field">
                         <paper-input-decorator label="Custom Icon URL" error="Invalid Image URL!" floatingLabel labelVisible isInvalid="{{!$.iconurl.validity.valid}}">
-                            <input id="iconurl" is="core-input" required value="{{settingsWebsite.icon.url}}" pattern="^https?:\/\/(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpg|gif|png|ico)$">
+                            <input id="iconurl" is="core-input" required value="{{settingsWebsite.icon.url}}" pattern="^https?:\/\/(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpg|gif|png|ico)$" disabled?="{{$.chkToggleDefaultIcon.checked}}">
                         </paper-input-decorator>
+                        <paper-checkbox id="chkToggleDefaultIcon" on-change="{{toggleDefaultIcon}}" checked?="{{isDefaultIcon}}" label="Default Icon"></paper-checkbox>
                     </div>
                 </div>
             </div>
@@ -277,16 +279,29 @@
                 this.settingsOpen = true;
                 this.settingsOffset = 0;
                 this.settingsWebsite = website;
+                if(website.icon.url.startsWith('chrome-extension://')) {
+                    this.isDefaultIcon = true;
+                }
             },
 
             closeSettings: function() {
                 this.settingsOffset = 600;
                 this.settingsOpen = false;
+                this.isDefaultIcon = false;
                 /* TODO validation! */
+            },
+
+            toggleDefaultIcon: function(ev, detail, elem) {
+                if(elem.checked) {
+                    this.settingsWebsite.icon.url = chrome.extension.getURL("img/default-speeddial-icon.png");
+                } else {
+                    this.settingsWebsite.icon.url = "";
+                }
             },
 
             settingsOffset: 600,
             settingsOpen: false,
+            isDefaultIcon: false,
             settingsWebsite: {}
         })
     </script>
