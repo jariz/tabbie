@@ -21,6 +21,15 @@
                 box-sizing: border-box;
                 padding: 24px;
             }
+
+            #btnOk {
+                float: right;
+                color: #3F51B5;
+            }
+
+            #btnOk[disabled] {
+                color: #A8A8A8;
+            }
         </style>
 
         <paper-shadow z="3" fit></paper-shadow>
@@ -34,7 +43,7 @@
             <content></content>
 
             <div>
-                <paper-button class="ok" style="float:right; color:#3F51B5;" affirmative default>OK</paper-button>
+                <paper-button class="ok" id="btnOk" disabled?="{{autoCloseDisabled}}" affirmative default>OK</paper-button>
             </div>
         </div>
     </template>
