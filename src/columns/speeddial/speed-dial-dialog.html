@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input-decorator.html">
+<link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../../bower_components/core-icon-button/core-icon-button.html">
@@ -8,7 +9,7 @@
 
 <polymer-element name="speed-dial-dialog" attributes="config">
     <template>
-        <tabbie-dialog style="width:600px; top:0;">
+        <tabbie-dialog id="speedDialSettingsDialog" style="width:600px; top:0;">
             <style>
                 paper-button.green {
                     color:#4CAF50;
@@ -22,9 +23,8 @@
                     color:#2196F3;
                 }
 
-
                 .container {
-                    height: 400px;
+                    height: 499px;
                     overflow-y: auto;
                     position: relative;
                     overflow-x: hidden;
@@ -37,7 +37,6 @@
                     width: 100%;
                     transition: 0.2s ease-out;
                 }
-
 
                 .list {
 
@@ -65,14 +64,12 @@
                     text-align: center;
                 }
 
-
                 .preview-thumb > img {
                     display: inline-block;
                     max-width: 64px;
                     height: 64px;
                     border: none;
                 }
-
 
                 .text {
                     width: calc(100% - 52px - 52px - 66px);
@@ -103,7 +100,6 @@
                     box-shadow: 0 2px 4px -1px rgba(0,0,0,.14),0 4px 5px 0 rgba(0,0,0,.098),0 1px 10px 0 rgba(0,0,0,.084);
                 }
 
-
                 .preview-item {
                     width: 100%;
                     text-align: center;
@@ -112,19 +108,6 @@
                 .preview-item > speed-dial-item {
                     float: none;
                 }
-
-
-
-                .settings paper-input {
-                    width: 60%;
-                }
-
-                .settings .field > div {
-                    width: 100px;
-                    margin-right: 20px;
-                    display: inline-block;
-                }
-
 
                 .bottom-bar {
                     position: absolute;
@@ -208,25 +191,28 @@
                 <div class="page settings" style="left: {{settingsOffset}}px;">
 
                     <div class="preview-item">
-                        <speed-dial-item name="{{settingsWebsite.name}}" url="#" icon="{{settingsWebsite.icon.url}}">
+                        <speed-dial-item name="{{editedWebsite.name}}" url="#" icon="{{editedWebsite.icon.url}}">
                         </speed-dial-item>
                     </div>
 
                     <div class="field">
-                        <div> Dialname </div>
-                        <paper-input label="Name" required value="{{settingsWebsite.name}}"></paper-input>
+                        <paper-input-decorator label="Dialname" error="Required!" floatingLabel labelVisible isInvalid="{{!$.dialname.validity.valid}}">
+                            <input id="dialname" is="core-input" required value="{{editedWebsite.name}}">
+                        </paper-input-decorator>
                     </div>
 
                     <div class="field">
-                        <div> Website URL </div>
-                        <paper-input label="URL" required value="{{settingsWebsite.url}}"></paper-input>
+                        <paper-input-decorator label="Website URL" error="Invalid URL! (http:// required)" floatingLabel labelVisible isInvalid="{{!$.url.validity.valid}}">
+                            <input id="url" is="core-input" required value="{{editedWebsite.url}}" pattern="((((ht|f)tp(s?))\:\/\/){1}\S+)">
+                        </paper-input-decorator>
                     </div>
 
                     <div class="field">
-                        <div> Icon URL </div>
-                        <paper-input label="Icon URL" required value="{{settingsWebsite.icon.url}}"></paper-input>
+                        <paper-input-decorator label="Custom Icon URL" error="Invalid Image URL!" floatingLabel labelVisible isInvalid="{{!$.iconurl.validity.valid}}">
+                            <input id="iconurl" is="core-input" required value="{{editedWebsite.icon.url}}" pattern="^https?:\/\/(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jp(e?)g|gif|png|ico)$" disabled?="{{$.chkToggleDefaultIcon.checked}}">
+                        </paper-input-decorator>
+                        <paper-checkbox id="chkToggleDefaultIcon" on-change="{{toggleDefaultIcon}}" checked="{{isDefaultIcon}}" label="Default Icon"></paper-checkbox>
                     </div>
-
                 </div>
             </div>
 
@@ -238,6 +224,7 @@
 
             <div class="bottom-bar middle" hidden?="{{!settingsOpen}}">
                 <paper-fab icon="delete" class="fab-delete" on-click="{{removeSettingsWebsite}}"></paper-fab>
+                <paper-fab icon="save" class="fab-save" style="background-color: #8BC34A;" on-click="{{saveSettingsWebsite}}"></paper-fab>
             </div>
 
             <div class="bottom-bar" hidden?="{{!settingsOpen}}">
@@ -252,6 +239,19 @@
             array.splice(to, 0, array.splice(from, 1)[0]);
         }
 
+        function existsWebsite(array, website) {
+            var result = false;
+
+            for(var item in array) {
+                if(array[item].id == website.id) {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+        
         Polymer({
             removeSettingsWebsite: function() {
                 var index = this.config.websites.indexOf(this.settingsWebsite);
@@ -261,17 +261,29 @@
 
             addWebsite: function() {
                 var website = {
-                  name: 'Unconfigured',
+                  id: Math.floor(Math.random() * 1000000),
+                  name: '',
                   icon: {
                       url: ''
                   },
                   url: ''
                 };
 
-                this.config.websites.push(website);
                 this.openSettingsDialog(website);
             },
 
+            saveSettingsWebsite: function(){
+                if(this.$.dialname.validity.valid && this.$.iconurl.validity.valid && this.$.url.validity.valid) {
+                    if(!existsWebsite(this.config.websites, this.settingsWebsite)) { // if this is new dial
+                        this.config.websites.push(this.editedWebsite);
+                    }
+                    this.settingsWebsite.name = this.editedWebsite.name;
+                    this.settingsWebsite.icon.url = this.editedWebsite.icon.url;
+                    this.settingsWebsite.url = this.editedWebsite.url;
+                } else {
+                    alert("Please check the validity of the inputs!");
+                }
+            },
 
             moveDown: function(ev, detail, elem) {
                 var index = elem.getAttribute("data-index");
@@ -279,14 +291,10 @@
                 moveArrayElem(websites, index, Math.min(index + 1, websites.length - 1));
             },
 
-
             moveUp: function(ev, detail, elem) {
                 var index = elem.getAttribute("data-index");
                 moveArrayElem(this.config.websites, index, Math.max(index - 1, 0));
             },
-
-
-
 
             openSettings: function(ev, detail, elem) {
                 var index = elem.getAttribute("data-index");
@@ -297,17 +305,39 @@
                 this.settingsOpen = true;
                 this.settingsOffset = 0;
                 this.settingsWebsite = website;
+                this.editedWebsite = JSON.parse(JSON.stringify(website));
+                if(website.icon.url.startsWith('chrome-extension://')) {
+                    this.isDefaultIcon = true;
+                }
+                this.$.speedDialSettingsDialog.setAttribute('autoCloseDisabled', '');
             },
 
             closeSettings: function() {
+                if(JSON.stringify(this.settingsWebsite) != JSON.stringify(this.editedWebsite)) {
+                    if(!confirm("Unsaved changes. Are you sure you want to quit?")) {
+                        return 0;
+                    }
+                }
+
                 this.settingsOffset = 600;
                 this.settingsOpen = false;
-                /* TODO validation! */
+                this.isDefaultIcon = false;
+                this.$.speedDialSettingsDialog.removeAttribute('autoCloseDisabled');
+            },
+
+            toggleDefaultIcon: function(ev, detail, elem) {
+                if(elem.checked) {
+                    this.editedWebsite.icon.url = chrome.extension.getURL("img/default-speeddialitem-icon.png");
+                } else {
+                    this.editedWebsite.icon.url = "";
+                }
             },
 
             settingsOffset: 600,
             settingsOpen: false,
-            settingsWebsite: {}
+            isDefaultIcon: false,
+            settingsWebsite: {},
+            editedWebsite: {}
         })
     </script>
 </polymer-element>
