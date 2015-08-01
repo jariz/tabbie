@@ -126,6 +126,22 @@
                     display: inline-block;
                 }
 
+                .placeholder {
+                    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    padding-top: 200px;
+                    color:#646464;
+                }
+
+                .placeholder p {
+                    font-size: .9em;
+                    margin: 0.2em 0 0;
+                }
+
+                .placeholder core-icon {
+                    width:64px;
+                    height:64px;
+                }
             </style>
 
 
@@ -183,11 +199,18 @@
                         </div>
 
                     </template>
+
+                    <template if="{{ config.websites.length == 0 }}">
+                        <div class="placeholder">
+                            <core-icon icon="explore"></core-icon>
+                            <p>Create your first entry by clicking the button on the bottom right corner.</p>
+                        </div>
+                    </template>
                 </div>
 
 
 
-                <!-- Detailled settings page for selected website -->
+                <!-- Detailed settings page for selected website -->
                 <div class="page settings" style="left: {{settingsOffset}}px;">
 
                     <div class="preview-item">
