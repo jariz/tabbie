@@ -68,10 +68,11 @@
         <h2>Make yourself at home.</h2>
         <p>You can modify columns to fit your needs as well.</p>
         <ul>
-            <li>Move a column by dragging its toolbar.</li>
+            <li>Move a column by holding down your mouse button on the move icon.</li>
             <li>Resize a column by dragging its bottom right handle.</li>
             <li>Customize a column by clicking on the settings icon.</li>
             <li>Remove a column by clicking on its delete icon.</li>
+            <li>Rename a column by clicking on it's name while editing.</li>
         </ul>
         <paper-button affirmative>Got it</paper-button>
         <paper-button affirmative on-click="{{endTour}}">End tour</paper-button>
@@ -88,22 +89,19 @@
     <auto-suggestions></auto-suggestions>
 </fullscreen-dialog>
 
-<fullscreen-dialog heading="Tabbie 1.0 - The beginning and the end." id="update" style="font-size:14px;">
-    <p>After 4 months, I've decided that Tabbie is finished, <a href="http://jari.io/tabbie-v1/" target="_blank">and I will cease active development.</a><br>Fear not, as this is the biggest update Tabbie has seen so far.</p>
-    <p><strong>Why the beginning?</strong> because this update allows you to add basically any article-based website that <em>exists</em>.</p>
-    <h3>Changes:</h3>
+<fullscreen-dialog heading="Tabbie 1.1" id="update" style="font-size:14px;">
+    <p>We're back with Tabbie 1.1, introducing the new speed dial, producthunt grid redesign and a whole bunch of bug fixes<br>Full changelog:</p>
+
     <ul>
-        <li><strong>Custom columns</strong>: Add pretty much any article-based website through the new custom columns. <br>
-            Search is powered by <a target="_blank" href="https://feedly.com">Feedly</a> and anything you can add to Feedly, you can add to Tabbie.  </li>
-        <li><strong>Rename columns</strong>: Hit edit and click the name of a column to rename it!</li>
-        <li>Bugfixes:
-            <ul><li>Fixed column order not being saved</li>
-                <li>Improved performance of float action button animations</li>
-                <li>Titles adjust to their background color</li>
-                <li>Display an error message in columns that fail to load</li>
-                <li>Moving a column is now done through a button on a column's toolbar because of lack of space.</li>
-                <li>Designer News url changed</li></ul></li>
+        <li>(finally) fixed problem with custom columns going to the next page instead of refreshing</li>
+        <li>The often requested speeddial is added! Add your favorite websites to this column.</li>
+        <li>Fixed designernews domain related issues</li>
+        <li>Redesigned ProductHunt's grid (enable in column settings)</li>
+        <li>Temporarily disabled animations on menu drawer because of it not showing anymore after opening it the 2nd time.</li>
     </ul>
+
+    <p>Huge shoutout to opensource contributors <a href="https://github.com/SebiH">SebiH</a>, <a href="https://github.com/erenhatirnaz">erenhatirnaz</a> and <a href="https://github.com/runofthemill">runofthemill</a> </p>
+
 
     <paper-button autofocus style="float:right" class="hide-button">Don't show this anymore</paper-button>
 </fullscreen-dialog>
