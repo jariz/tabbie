@@ -1,0 +1,92 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../../bower_components/core-icons/communication-icons.html">
+<link rel="import" href="../../../bower_components/core-icons/image-icons.html">
+<link rel="import" href="../../time-ago.html">
+
+<polymer-element name="codepen-item" attributes="item">
+    <template>
+        <style>
+            :host {
+                flex: 1 0 200px;
+                font-size:10px;
+                color:black;
+                display:inline-block;
+                margin: 10px 0 0 10px;
+                position: relative;
+                overflow:hidden;
+                box-sizing:border-box;
+            }
+
+            h1 {
+                font-size:14px;
+                font-family: 'Roboto Slab', 'Roboto', sans-serif;
+            }
+
+            .img {
+                width:100%;
+                transition: transform 250ms;
+            }
+
+            a {
+                color: rgba(0, 0, 0, 0.87);
+                text-decoration: none;
+            }
+
+            .overlay {
+                position: absolute;
+                opacity:0;
+                height: 100%;
+                width:100%;
+                padding:10px;
+                background-color: rgba(255, 255, 255, .5);
+                transition:opacity 250ms;
+                z-index: 1;
+                text-shadow:0 0 1px #fff;
+            }
+
+            paper-ripple {
+                position: absolute;
+                width: 100%;
+                height:100%;
+                z-index: 2;
+            }
+
+            a:hover > .overlay {
+                opacity:1;
+            }
+
+            a:hover > .img {
+                transform: scale(1.2)
+            }
+
+            .author {
+                display:inline-block;
+            }
+
+        </style>
+
+        <template if="{{item.title}}">
+            <a target="_blank" href="{{item.link}}">
+                <paper-ripple></paper-ripple>
+                <div class="overlay">
+                    <h1>{{item.title}}</h1>
+                    <div class="author">{{item['dc:creator']}}</div>
+                </div>
+                <img src="{{item.description | getSrc}}" class="img">
+            </a>
+        </template>
+
+    </template>
+    <script>
+        Polymer({
+            getSrc: function(description) {
+                var elem = document.createElement("div");
+                elem.innerHTML = description;
+                var images = elem.getElementsByTagName("img");
+                return images[0].src;
+            }
+        });
+    </script>
+</polymer-element>
