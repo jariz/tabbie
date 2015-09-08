@@ -25,6 +25,7 @@ Tabbie by default comes with the following services / sites;
 - ProductHunt
 - Gmail
 - PushBullet
+- Codepen
 - Chrome Apps, Bookmarks, and Top sites.
 
 ###Features
