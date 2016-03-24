@@ -6,17 +6,34 @@
 
 <polymer-element name="github-dialog" attributes="config">
     <template>
-        <tabbie-dialog style="width:400px; height: 260px;">
-            <p style="display:inline-block; float:left;">Show most popular this</p>
-            <paper-dropdown-menu label="???" style="float:left; margin-bottom:20px;width: 150px;margin-left: 10px;position: relative;top: -7px;">
-                <paper-dropdown class="dropdown">
-                    <core-menu class="menu" selected="{{config.period}}">
-                        <paper-item>Month</paper-item>
-                        <paper-item>Week</paper-item>
-                        <paper-item>Day</paper-item>
-                    </core-menu>
-                </paper-dropdown>
-            </paper-dropdown-menu>
+        <tabbie-dialog style="width:400px; height: 600px;">
+            <div flex>
+                <div style="padding-top: 20px; font-weight: bold;">Show language</div>
+                <paper-dropdown-menu label="???" style="margin: 0">
+                    <paper-dropdown class="dropdown">
+                        <core-menu class="menu" selected="{{config.language}}">
+                            <paper-item>All</paper-item>
+                            <paper-item>CSS</paper-item>
+                            <paper-item>HTML</paper-item>
+                            <paper-item>Java</paper-item>
+                            <paper-item>JavaScript</paper-item>
+                            <paper-item>PHP</paper-item>
+                            <paper-item>Python</paper-item>
+                            <paper-item>Ruby</paper-item>
+                        </core-menu>
+                    </paper-dropdown>
+                </paper-dropdown-menu>
+                <div style="padding-top: 30px; font-weight: bold">Show most popular this</div>
+                <paper-dropdown-menu label="???" style="margin:0">
+                    <paper-dropdown class="dropdown">
+                        <core-menu class="menu" selected="{{config.period}}">
+                            <paper-item>Month</paper-item>
+                            <paper-item>Week</paper-item>
+                            <paper-item>Day</paper-item>
+                        </core-menu>
+                    </paper-dropdown>
+                </paper-dropdown-menu>
+            </div>
         </tabbie-dialog>
     </template>
     <script>
