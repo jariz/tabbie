@@ -5,7 +5,7 @@ class Columns.Codepen extends Columns.FeedColumn
   link: "https://codepen.io"
 
   element: "codepen-item"
-  url: "http://codepen.io/popular/feed/"
+  url: "http://codepen.io/picks/feed/"
   responseType: "xml"
   xmlTag: "item"
   flex: true
