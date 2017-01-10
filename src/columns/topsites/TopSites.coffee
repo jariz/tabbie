@@ -12,7 +12,6 @@ class Columns.TopSites extends Columns.Column
 
   refresh: (columnElement, holderElement) ->
     chrome.topSites.get (sites) =>
-      console.log sites
       holderElement.innerHTML = ""
       for site in sites
         paper = document.createElement "bookmark-item"
