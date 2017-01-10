@@ -65,7 +65,7 @@ class Columns.FeedColumn extends Columns.Column
 
   refresh: (columnElement, holderElement, adding) ->
     @refreshing = true
-    console.log @baseUrl,@url,@page
+    
     if @infiniteScroll and adding
       @baseUrl = @url if not @baseUrl
       @url = @baseUrl.replace "{PAGENUM}", @page
