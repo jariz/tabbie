@@ -44,6 +44,7 @@
     <script>
         Polymer({
             attached: function() {
+                this.item.url = this.item.url.replace(/&amp;/g, '&');
                 if(!this.item.thumbnail || this.item.thumbnail == "default" || this.item.thumbnail == "self" || this.item.thumbnail == "nsfw") {
                     this.item.nothumb = true
                     this.classList.add("nothumb");
