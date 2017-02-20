@@ -65,12 +65,31 @@
             }
 
             .holder {
-                height:100%;
+                height:auto;
                 width:100%;
-                /*padding: 0px 10px 0px 0px;*/
                 box-sizing: border-box;
-                overflow-y:auto;
-                overflow-x:hidden;
+                padding-left: 4px;
+                transform: translateX(-14px) translateZ(0);
+                overflow-x: hidden;
+            }
+
+            .holder0 {
+                overflow: hidden;
+            }
+            
+            .holder0:hover .holder1, .holder0:hover .holder, .holder0:focus .holder1, .holder0:focus .holder {
+                transform: translateX(0) translateZ(0);
+            }
+
+            .holder1, .holder {
+                transition: transform 400ms ease;
+            }
+
+            .holder1 {
+                overflow-y: scroll;
+                height: 100%;
+                transform: translateX(14px) translateZ(0);
+                padding-right: 14px;
             }
 
             .holder > * {
@@ -82,6 +101,7 @@
                 display:flex;
                 flex-wrap: wrap;
                 align-content: flex-start;
+                justify-content: center;
             }
 
             .holder .hack {
@@ -196,8 +216,10 @@
             <paper-progress indeterminate></paper-progress>
 
             <paper-spinner active></paper-spinner>
-
+            <div class="holder0">
+            <div class="holder1">
             <div class="holder">
+            </div>
             </div>
 
             <div class="error" hidden>
