@@ -1,4 +1,4 @@
-#Your first column
+# Your first column
 Making columns for Tabbie is extremely easy, and fun!  
 This guide will show you how to make a basic column that gets some data from a external source (like pratically any column)  
 We won't care if your column is not in that format. A column doesn't necessarily need to be in the above said format, but for the sake of simplicity we'll use FeedColumn in this guide. You are free to extend from Column as well, however, that won't be explained here.   
@@ -6,7 +6,7 @@ Feeds can be from a JSON or a RSS source.
 I assume you have at least a little bit of understanding of polymer and coffeescript, and of course, frontend development in general.  
 This guide is still WIP and a more in-depth, 'real' documentation page is planned.
 
-##Step 1: Setting up your development environment.
+## Step 1: Setting up your development environment.
 
 - Make sure you've installed 
   - [node](http://nodejs.org)
@@ -34,7 +34,7 @@ gulp watch # every time you run this commands will overwrite the 'dist' folder w
 A new folder called 'dist' has appeared in your working directory. Everything in src/ will be compiled to dist/. Do not touch dist as it's all compiled files.  
 Load the dist folder into chrome by going to settings > extensions. Enable developer mode if you haven't already and choose 'Load unpacked extension...' and choose the dist folder.  
 
-##Step 2: File structure
+## Step 2: File structure
 Start up by creating said files. It is easiest to copy a existing column and go from there.  
 The average column looks like this:
 ```
@@ -51,7 +51,7 @@ The average column looks like this:
 Start by renaming all files to your column (Reddit.coffee > Myservice.coffee, reddit-dialog.html > myservice-dialog.html), etc.  
 Also rename the class file and the register call (`tabbie.register "Myservice"`) at the bottom of the class
 
-##Step 3: Column image
+## Step 3: Column image
 A column image exists of a 150x150 png in the src/img directory.
 Column image can be defined with the 'thumb' property within a column's class. (more on that below)  
 Files should be in column-\*.png.
@@ -60,7 +60,7 @@ It is very important that column images have a background on them, as tabbie aut
 The logo itself on the column image must be white (#FFFFF), and a width of 75% of the total image, centered within the image itself.
 Preferably vector (check out [font-awesome](http://fontawesome.io), or google's [material icons](https://google.github.io/material-design-icons/))  
   
-##Step 4: [Get coding](http://media.giphy.com/media/6OrCT1jVbonHG/giphy.gif)  
+## Step 4: [Get coding](http://media.giphy.com/media/6OrCT1jVbonHG/giphy.gif)  
 At this point I mostly assume you've got enough to get going, the existing columns are perfect examples of what is possible and how things need to be defined, I'll try to get into some more detail on everything down here below.
   
 Here's an example of a column that uses all properties available (some are optional, see below)  
@@ -111,7 +111,7 @@ Functions you can override:
 **draw** (data, holderElement): This is where FeedColumn appends children to the holder. data is an array with the server's response. holderElement is the element where items need to be appended to.
 
 
-###Configuring your **columnName.coffee** for RSS - XML BASED - feeds
+### Configuring your **columnName.coffee** for RSS - XML BASED - feeds
 tabbie is configured by default to hadle JSON sources automatically, but you can tweak it to handle your xml based column with this little instructions:
 - Make a permission-request over the browser, because some browsers disable downloading data over domains
 - Modify fields to handle your XML source (Built-in, dont worry)
@@ -169,13 +169,13 @@ Now your finished with the columnName.coffe, go to your columnName-item.html and
 and so on.
 
   
-##Step 5: Your elements  
+## Step 5: Your elements  
 - The **-dialog** element has 2 variables, 'config' and 'column'.
 You can add controls that use the the config's values as vlue (for example `<input type='text' value='{{config.username}}>`)
 `column` is a reference to your column class (for example `Column name: <input type='text' value='{{column.name}}>`
 - The **-item** element has a single variable, called 'item', item represents one of the values in the server's response.
 
-##Step 6: Pull request  
+## Step 6: Pull request  
 When you're satisfied with your work, you can file a pull request to the main tabbie repo, this is needed for your column to appear in the official extension.  
 You can send us a pull request straight from github itself, [just hit the 'compare & review' button on your repo's page.](https://help.github.com/articles/using-pull-requests/)  
 We will then review your work, and if it's all good, it'll get added, yay!
