@@ -5,7 +5,7 @@
     <template>
         <link rel="stylesheet" href="../../../dist/css/feeditem.css">
         <div>
-            <h1><a href="{{item.source.sourceUrl}}" target="_blank" >{{item.title}} <span class="domain">{{item.hostname}}</span> </a></h1>
+            <h1><a href="{{item.source.targetUrl}}" target="_blank" >{{item.title}} <span class="domain">{{item.hostname}}</span> </a></h1>
             <p>
                 submitted by <a target="_blank" href="{{item.source.authorUrl}}">{{item.source.username}}</a> <time-ago datetime="{{item.source.createdAt}}" epoch="false"></time-ago>
             </p>
