@@ -1,3 +1,14 @@
+## RIP Tabbie
+
+Hi there,
+Tabbie is now officially deprecated.  
+It does not function anymore because of it's reliance of [rather experimental features in chrome](https://www.polymer-project.org/blog/2015-12-01-deprecating-deep), that have now been completely removed.
+
+We're working on a rewrite over on [quarryapp/app](https://github.com/quaryapp/app).  
+Follow me [on twitter](https://twitter.com/JariZwarts) to stay up to date on it's progress.  
+
+----
+
 # Tabbie <span style='float:right'>[![Join the chat at https://gitter.im/jariz/tabbie](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jariz/tabbie?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/jariz/tabbie.svg?branch=master&style=flat-square)](https://travis-ci.org/jariz/tabbie) [![](https://img.shields.io/badge/Chrome-Extension-yellow.svg?style=flat-square)](https://chrome.google.com/webstore/detail/tabbie/kckhddfnffeofnfjcpdffpeiljicclbd)
 
 ![](https://cloud.githubusercontent.com/assets/1415847/7947591/5ebce982-097e-11e5-99b8-2ceb979dfda7.png)
