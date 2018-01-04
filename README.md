@@ -4,7 +4,7 @@ Hi there,
 Tabbie is now officially deprecated.  
 It does not function anymore because of it's reliance of [rather experimental features in chrome](https://www.polymer-project.org/blog/2015-12-01-deprecating-deep), that have now been completely removed.
 
-We're working on a rewrite over on [quarryapp/app](https://github.com/quaryapp/app).  
+We're working on a rewrite over on [quarryapp/app](https://github.com/quarryapp/app).  
 Follow me [on twitter](https://twitter.com/JariZwarts) to stay up to date on it's progress.  
 
 ----
